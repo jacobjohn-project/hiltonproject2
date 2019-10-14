@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="Job Completion"
+            android:text="Material Issue"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />

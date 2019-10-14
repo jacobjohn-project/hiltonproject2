@@ -74,7 +74,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_po_tracking);
+        setContentView(R.layout.activity_material_issue);
 
         activity =this;
 

@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:550990873611:android:b8280aa5e41a0fd8d7730e",
+        "android_client_info": {
+          "package_name": "com.futurearts.hiltonnewproj"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "550990873611-4vlv5609t30lp3ji5si0tv8nh64bal3h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.futurearts.hiltonnewproj",
+            "certificate_hash": "e364d8fbae2dcf07292f3bc4f6cf9210b8128b33"
+          }
+        },
+        {
+          "client_id": "550990873611-ce8krdg2ii9opceoodo2s2nousm90tqc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfzgjKAgDWoQ-BM9RN_AXiIAhJ1IIDRos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "550990873611-ce8krdg2ii9opceoodo2s2nousm90tqc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:550990873611:android:1cc073f3cd127bb7",
         "android_client_info": {
           "package_name": "com.futurearts.saveimagedb"
