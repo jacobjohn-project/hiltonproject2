@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.futurearts.hiltonnewproj">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.futurearts.hiltonnewproj.AppClass"
+        android:allowBackup="true"
+        android:hardwareAccelerated="false"
+        android:icon="@mipmap/ic_hilton"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name="com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity"></activity>
+        <activity android:name="com.futurearts.hiltonnewproj.activities.SearchResultActivity" />
+        <activity android:name="com.futurearts.hiltonnewproj.activities.SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.JobCompletionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.MaterialIssueActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.ScannerActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.PortraitCaptureActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.futurearts.hiltonnewproj.activities.CameraActivity" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.PictureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.futurearts.hiltonnewproj.activities.BarcodeSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
+        <activity
+            android:name="com.afollestad.materialcamera.CaptureActivity2"
+            android:theme="@style/MaterialCamera.CaptureActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

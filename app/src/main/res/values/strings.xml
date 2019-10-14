@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Hilton</string>
+    <string name="log_out_message">Your session has been expired . Please Login to continue.</string>
+    <string name="ok_text">OK</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="logout">Logout</string>
+    <string name="log_out_confirm">Are you sure you want to logout?</string>
+    <string name="cancel_text">Cancel</string>
+</resources>
