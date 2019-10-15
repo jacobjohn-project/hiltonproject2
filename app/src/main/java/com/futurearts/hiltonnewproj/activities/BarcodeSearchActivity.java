@@ -34,7 +34,7 @@ public class BarcodeSearchActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_barcode_search);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.PURCHASE_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
 
         initViews();
 

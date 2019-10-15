@@ -31,7 +31,8 @@ import androidx.core.content.ContextCompat;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.modelclasses.ProductTable;
+import com.futurearts.hiltonnewproj.modelclasses.JobCompletionDetails;
+import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,16 +55,17 @@ import java.util.Calendar;
 public class JobCompletionActivity extends AppCompatActivity {
 
 
-    LinearLayout mCameraLayout,btnScanOrderNo;
-    EditText etSignedBy,etLocFrom,/*etLocTo,*/etPartName,etOrderNum/*,recieveDate,movingDate*/;
+    LinearLayout mCameraLayout, btnScanOrderNo;
+    EditText etSignedBy, etLocFrom, etPartName, etOrderNum;
     Button btnSubmit;
-    ImageView imageView,btnBack;
+    ImageView imageView, btnBack;
     ProgressBar progressBar;
-    String filePathNew="",fileName="";
-    String signedBy,orderNum,locFrom,locTo,partName,recDate,movDate;
+    String filePathNew = "", fileName = "";
+    String signedBy, orderNum, locTo, recDate, movDate;
+    int locFrom;
 
     Activity activity;
-    Calendar myCalendar ;
+    Calendar myCalendar;
     public final static int MY_PERMISSIONS_REQUEST_READ_STORAGE = 100;
     private final static int CAMERA_RQ = 6969;
     DatabaseReference mDatabase;
@@ -76,64 +78,12 @@ public class JobCompletionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_completion);
 
-        activity =this;
+        activity = this;
 
         initViews();
 
         myCalendar = Calendar.getInstance();
 
-
-       /* final DatePickerDialog.OnDateSetListener date1 = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel1();
-            }
-
-        };
-*/
-        /*recieveDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(JobCompletionActivity.this, date1, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });*/
-
-
-       /* final DatePickerDialog.OnDateSetListener date2 = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel2();
-            }
-
-        };*/
-
-       /* movingDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(JobCompletionActivity.this, date2, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-*/
 
         mCameraLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +97,7 @@ public class JobCompletionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(JobCompletionActivity.this,ScannerActivity.class);
+                Intent intent = new Intent(JobCompletionActivity.this, ScannerActivity.class);
                 startActivityForResult(intent, 3);
             }
         });
@@ -164,123 +114,64 @@ public class JobCompletionActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-
-                signedBy = etSignedBy.getText().toString();
-                locFrom = etLocFrom.getText().toString();
-               /* locTo = etLocTo.getText().toString();*/
-                partName = etPartName.getText().toString();
                 orderNum = etOrderNum.getText().toString();
-               /* recDate = recieveDate.getText().toString();
-                movDate = movingDate.getText().toString();*/
-
-                /*if(!signedBy.equals("")){
-
-                    if(!locFrom.equals("")){
-
-                        if(!locTo.equals("")){
-
-                            if(!partName.equals("")){
-
-                                if(!orderNum.equals("")){
-
-                                    if(!recDate.equals("")){
-
-                                        if(!movDate.equals("")){
-
-                                            if(!fileName.equals("")&&!filePathNew.equals("")){
-
-                                                ProductTable productTable=new ProductTable(orderNum,partName,1,recDate,movDate,locFrom,locTo,signedBy,true,true);
-                                                uploadImage(filePathNew,fileName,productTable);
-                                            }else{
-                                                Toast.makeText(activity, "Select an Image", Toast.LENGTH_SHORT).show();
-                                            }
-
-
-                                        }else {
-
-                                            Toast.makeText(activity, "Enter Moving date field", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }else {
-
-                                        Toast.makeText(activity, "Enter Receiving Date field", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }else {
-
-                                    Toast.makeText(activity, "Enter Order Number field", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }else {
-
-                                Toast.makeText(activity, "Enter Part NAme field", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }else {
-
-                            Toast.makeText(activity, "Enter Location To field", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }else {
-
-                        Toast.makeText(activity, "Enter Location From field", Toast.LENGTH_SHORT).show();
-                    }
-
-                }else {
-
-                    Toast.makeText(activity, "Enter Signed By field", Toast.LENGTH_SHORT).show();
-                }*/
-
-                if(!orderNum.equals("")) {
-                    if (!fileName.equals("") && !filePathNew.equals("")) {
-
-                        ProductTable productTable = new ProductTable(orderNum, partName, 1, recDate, movDate, locFrom, locTo, signedBy, true, true);
-                        uploadImage(filePathNew, fileName, productTable);
-                    } else {
-                        ProductTable productTable = new ProductTable(orderNum, partName, 1, recDate, movDate, locFrom, locTo, signedBy, true, true);
-                        updateDb(productTable);
-                    }
-                }else{
-                    Toast.makeText(activity, "Enter Order Number field", Toast.LENGTH_SHORT).show();
+                if (etLocFrom.getText().toString().trim().length() != 0) {
+                    locFrom = Integer.parseInt(etLocFrom.getText().toString());
+                } else {
+                    locFrom = 0;
                 }
 
+                signedBy = etSignedBy.getText().toString();
 
+
+                if (!orderNum.equals("")) {
+                    if (locFrom != 0) {
+                        if (signedBy.length() != 0) {
+                            if (!fileName.equals("") && !filePathNew.equals("")) {
+                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
+                                uploadImage(filePathNew, fileName, productTable);
+                            } else {
+                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
+                                updateDb(productTable);
+                            }
+                        } else {
+                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(activity, "Enter a valid Quantity", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity, "Enter Job Number field", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
         });
 
 
-
     }
 
     private void initViews() {
 
-        mCameraLayout =findViewById(R.id.linearLayout);
-        btnScanOrderNo =findViewById(R.id.btnScanOrderNo);
+        mCameraLayout = findViewById(R.id.linearLayout);
+        btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
         etOrderNum = findViewById(R.id.etOrderNo);
         etPartName = findViewById(R.id.editText);
         etSignedBy = findViewById(R.id.orderNo8);
         etLocFrom = findViewById(R.id.orderNo7);
-       /* etLocTo = findViewById(R.id.orderNo3);*/
         btnSubmit = findViewById(R.id.button2);
         imageView = findViewById(R.id.imageView);
-        /*recieveDate = findViewById(R.id.orderNo2);
-        movingDate = findViewById(R.id.orderNo5);*/
         progressBar = findViewById(R.id.progressBar);
-        btnBack=findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
 
-       /* recieveDate.setFocusable(false);
-        recieveDate.setClickable(true);
-        movingDate.setFocusable(false);
-        movingDate.setClickable(true);
-*/
 
         pref = new SharedPref(this);
+
+        etSignedBy.setText(pref.getUserName());
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
-        mDatabase= FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.PURCHASE_TABLE);
-        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.PURCHASE_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
+        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
 
     }
 
@@ -299,14 +190,13 @@ public class JobCompletionActivity extends AppCompatActivity {
     }*/
 
     private void selectImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(JobCompletionActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
+                if (options[item].equals("Take Photo")) {
                     //Default android camera
 
                     /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -323,8 +213,8 @@ public class JobCompletionActivity extends AppCompatActivity {
 
                     File mFile = new File(getExternalFilesDir(null), "uploads");
                     if (!mFile.exists())
-                        if(!mFile.mkdir())
-                        throw new RuntimeException("Unable to create save directory, make sure WRITE_EXTERNAL_STORAGE permission is granted.");
+                        if (!mFile.mkdir())
+                            throw new RuntimeException("Unable to create save directory, make sure WRITE_EXTERNAL_STORAGE permission is granted.");
 
                     new MaterialCamera(JobCompletionActivity.this)
                             /** all the previous methods can be called, but video ones would be ignored */
@@ -334,13 +224,10 @@ public class JobCompletionActivity extends AppCompatActivity {
                             .stillShot() // launches the Camera in stillshot mode
                             .start(CAMERA_RQ);
 
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
-                }
-                else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -348,7 +235,7 @@ public class JobCompletionActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void uploadImage(String filePath, String fileName, final ProductTable productTable){
+    public void uploadImage(String filePath, String fileName, final JobCompletionDetails productTable) {
 
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -367,9 +254,9 @@ public class JobCompletionActivity extends AppCompatActivity {
                             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Log.d("DOWNLOAD PATH", "onSuccess: uri= "+ uri.toString());
+                                    Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
-                                    productTable.PO_image=(outputurl);
+                                    productTable.setJob_image(outputurl);
                                     updateDb(productTable);
                                 }
                             });
@@ -406,18 +293,17 @@ public class JobCompletionActivity extends AppCompatActivity {
 
     }
 
-    public void updateDb(ProductTable productTable){
+    public void updateDb(JobCompletionDetails productTable) {
         mDatabase.push().setValue(productTable);
 
-        fileName ="";
+        fileName = "";
         filePathNew = "";
-        locFrom= "";
-        locTo="";
+        locFrom = 0;
+        locTo = "";
         movDate = "";
         recDate = "";
         orderNum = "";
         signedBy = "";
-        partName = "";
 
         imageView.setImageDrawable(null);
         Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
@@ -453,7 +339,7 @@ public class JobCompletionActivity extends AppCompatActivity {
 
 //                fileName = "pic.jp";
                 filePathNew = data.getDataString();
-                fileName=filePathNew.substring(filePathNew.lastIndexOf("/")+1);
+                fileName = filePathNew.substring(filePathNew.lastIndexOf("/") + 1);
                 //Custom camera and default camera
 
                    /* File f = new File(Environment.getExternalStorageDirectory().toString());
@@ -515,8 +401,8 @@ public class JobCompletionActivity extends AppCompatActivity {
                     }*/
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
@@ -530,18 +416,17 @@ public class JobCompletionActivity extends AppCompatActivity {
                 Picasso.get().load(selectedImage).resize(120, 120).centerCrop().placeholder(R.drawable.ic_camera).into(imageView);
 
 
-            }else if(requestCode==3) {
-                String message=data.getStringExtra("MESSAGE");
+            } else if (requestCode == 3) {
+                String message = data.getStringExtra("MESSAGE");
                 etOrderNum.setText(message);
             }
         }
 
 
-
     }
 
 
-    public void saveFile(Bitmap bmp){
+    public void saveFile(Bitmap bmp) {
         try {
 
 
@@ -560,7 +445,7 @@ public class JobCompletionActivity extends AppCompatActivity {
             fOut.flush(); // Not really required
             fOut.close(); // do not forget to close the stream
 
-            MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
 
 
         } catch (FileNotFoundException e) {
@@ -585,14 +470,14 @@ public class JobCompletionActivity extends AppCompatActivity {
                     ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
                             ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE)&&
+                                    Manifest.permission.READ_EXTERNAL_STORAGE) &&
                             ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
                                     Manifest.permission.CAMERA)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 ActivityCompat.requestPermissions(JobCompletionActivity.this,
-                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_READ_STORAGE);
             } else {
                 // No explanation needed; request the permission

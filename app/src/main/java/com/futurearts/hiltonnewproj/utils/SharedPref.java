@@ -16,6 +16,7 @@ public class SharedPref {
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_USER_REGISTERED = "is_user_registered";
     private static final String USER_ID = "user_id";
+    private static final String USER_NAME = "user_name";
     private static final String LAST_UPDATED_TIME="last_updated_time";
 
     public SharedPref(Context context) {
@@ -43,6 +44,11 @@ public class SharedPref {
         editor.putString(USER_ID, setvalue);
         editor.commit();
     }
+    public void setUserName(String setvalue) {
+        editor.putString(USER_NAME, setvalue);
+        editor.commit();
+    }
+
 
     public void setLastUpdatedTime(long setvalue) {
         editor.putLong(LAST_UPDATED_TIME, setvalue);
@@ -63,6 +69,10 @@ public class SharedPref {
 
     public String getUserId(){
         return pref.getString(USER_ID,"");
+    }
+
+    public String getUserName(){
+        return pref.getString(USER_NAME,"");
     }
 
     public long getLastUpdatedTime(){

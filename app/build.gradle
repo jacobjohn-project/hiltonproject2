@@ -22,14 +22,15 @@ android {
         sample {
             buildConfigField "String", "BASE_TABLE", "\"TEST\""
             buildConfigField "String", "AUTH_TABLE", "\"AUTH\""
-            buildConfigField "String", "PURCHASE_TABLE", "\"PURCHASE_ORDER\""
-
+            buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
+            buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
         }
 
         product {
             buildConfigField "String", "BASE_TABLE", "\"PRODUCT\""
             buildConfigField "String", "AUTH_TABLE", "\"AUTH\""
-            buildConfigField "String", "PURCHASE_TABLE", "\"PURCHASE_ORDER\""
+            buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
+            buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
         }
     }
 }

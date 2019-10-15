@@ -3,7 +3,6 @@ package com.futurearts.hiltonnewproj.activities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,16 +29,13 @@ import androidx.core.content.ContextCompat;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.modelclasses.ProductTable;
+import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
+import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -55,15 +49,17 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
 
     LinearLayout /*mCameraLayout,*/btnScanOrderNo;
-    EditText etSignedBy,etLocFrom,/*etLocTo,*/etPartName,etOrderNum,etPartNum/*,recieveDate,movingDate*/;
+    EditText etSignedBy, etQtyShortage,/*etLocTo,*/
+            etPartName, etOrderNum, etPartNum/*,recieveDate,movingDate*/;
     Button btnSubmit;
-    ImageView imageView,btnBack;
+    ImageView imageView, btnBack;
     ProgressBar progressBar;
-    String filePathNew="",fileName="";
-    String signedBy,orderNum,locFrom,locTo,partName,recDate,movDate;
+    String filePathNew = "", fileName = "";
+    String signedBy, orderNum, locFrom, locTo, recDate, movDate;
+    int partNum, qtyShortage;
 
     Activity activity;
-    Calendar myCalendar ;
+    Calendar myCalendar;
     public final static int MY_PERMISSIONS_REQUEST_READ_STORAGE = 100;
     private final static int CAMERA_RQ = 6969;
     DatabaseReference mDatabase;
@@ -76,78 +72,18 @@ public class MaterialIssueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_issue);
 
-        activity =this;
+        activity = this;
 
         initViews();
 
         myCalendar = Calendar.getInstance();
 
 
-       /* final DatePickerDialog.OnDateSetListener date1 = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel1();
-            }
-
-        };
-*/
-        /*recieveDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(JobCompletionActivity.this, date1, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });*/
-
-
-       /* final DatePickerDialog.OnDateSetListener date2 = new DatePickerDialog.OnDateSetListener() {
-
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
-                // TODO Auto-generated method stub
-                myCalendar.set(Calendar.YEAR, year);
-                myCalendar.set(Calendar.MONTH, monthOfYear);
-                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                updateLabel2();
-            }
-
-        };*/
-
-       /* movingDate.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(JobCompletionActivity.this, date2, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
-*/
-
-      /*  mCameraLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckPermission();
-            }
-        });*/
-
-
         btnScanOrderNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(MaterialIssueActivity.this,ScannerActivity.class);
+                Intent intent = new Intent(MaterialIssueActivity.this, ScannerActivity.class);
                 startActivityForResult(intent, 3);
             }
         });
@@ -164,114 +100,63 @@ public class MaterialIssueActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-
                 signedBy = etSignedBy.getText().toString();
-                locFrom = etLocFrom.getText().toString();
-                /* locTo = etLocTo.getText().toString();*/
-                partName = etPartName.getText().toString();
+                locFrom = etQtyShortage.getText().toString();
                 orderNum = etOrderNum.getText().toString();
-               /* recDate = recieveDate.getText().toString();
-                movDate = movingDate.getText().toString();*/
 
-                /*if(!signedBy.equals("")){
-
-                    if(!locFrom.equals("")){
-
-                        if(!locTo.equals("")){
-
-                            if(!partName.equals("")){
-
-                                if(!orderNum.equals("")){
-
-                                    if(!recDate.equals("")){
-
-                                        if(!movDate.equals("")){
-
-                                            if(!fileName.equals("")&&!filePathNew.equals("")){
-
-                                                ProductTable productTable=new ProductTable(orderNum,partName,1,recDate,movDate,locFrom,locTo,signedBy,true,true);
-                                                uploadImage(filePathNew,fileName,productTable);
-                                            }else{
-                                                Toast.makeText(activity, "Select an Image", Toast.LENGTH_SHORT).show();
-                                            }
-
-
-                                        }else {
-
-                                            Toast.makeText(activity, "Enter Moving date field", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }else {
-
-                                        Toast.makeText(activity, "Enter Receiving Date field", Toast.LENGTH_SHORT).show();
-                                    }
-
-                                }else {
-
-                                    Toast.makeText(activity, "Enter Order Number field", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }else {
-
-                                Toast.makeText(activity, "Enter Part NAme field", Toast.LENGTH_SHORT).show();
+                if (etOrderNum.getText().toString().trim().length() != 0) {
+                    if (etPartNum.getText().toString().length() != 0) {
+                        if (etQtyShortage.getText().toString().length() != 0) {
+                            if (etSignedBy.getText().toString().trim().length() != 0) {
+                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                        Integer.parseInt(etPartNum.getText().toString()),
+                                        Integer.parseInt(etQtyShortage.getText().toString()),
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                                updateDb(productTable);
+                            } else {
+                                Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
                             }
 
-                        }else {
-
-                            Toast.makeText(activity, "Enter Location To field", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
                         }
 
-                    }else {
-
-                        Toast.makeText(activity, "Enter Location From field", Toast.LENGTH_SHORT).show();
-                    }
-
-                }else {
-
-                    Toast.makeText(activity, "Enter Signed By field", Toast.LENGTH_SHORT).show();
-                }*/
-
-                if(!orderNum.equals("")) {
-                    if (!fileName.equals("") && !filePathNew.equals("")) {
-
-                        ProductTable productTable = new ProductTable(orderNum, partName, 1, recDate, movDate, locFrom, locTo, signedBy, true, true);
-                        uploadImage(filePathNew, fileName, productTable);
-                    } else {
-                        ProductTable productTable = new ProductTable(orderNum, partName, 1, recDate, movDate, locFrom, locTo, signedBy, true, true);
-                        updateDb(productTable);
-                    }
-                }else{
-                    Toast.makeText(activity, "Enter Order Number field", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(activity, "Enter Part Number", Toast.LENGTH_SHORT).show();
                 }
 
 
 
+            } else
 
+            {
+                Toast.makeText(activity, "Enter job Number", Toast.LENGTH_SHORT).show();
             }
-        });
 
 
+        }
+    });
 
-    }
+
+}
+
 
     private void initViews() {
 
 /*
         mCameraLayout =findViewById(R.id.linearLayout);
 */
-        btnScanOrderNo =findViewById(R.id.btnScanOrderNo);
+        btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
         etOrderNum = findViewById(R.id.etOrderNo);
-        etPartName = findViewById(R.id.editText);
         etSignedBy = findViewById(R.id.orderNo8);
-        etLocFrom = findViewById(R.id.orderNo7);
+        etQtyShortage = findViewById(R.id.orderNo7);
         etPartNum = findViewById(R.id.partNumber);
-        /* etLocTo = findViewById(R.id.orderNo3);*/
         btnSubmit = findViewById(R.id.button2);
         imageView = findViewById(R.id.imageView);
-        /*recieveDate = findViewById(R.id.orderNo2);
-        movingDate = findViewById(R.id.orderNo5);*/
         progressBar = findViewById(R.id.progressBar);
-        btnBack=findViewById(R.id.btnBack);
+        btnBack = findViewById(R.id.btnBack);
+
+
 
        /* recieveDate.setFocusable(false);
         recieveDate.setClickable(true);
@@ -280,10 +165,12 @@ public class MaterialIssueActivity extends AppCompatActivity {
 */
 
         pref = new SharedPref(this);
+
+        etSignedBy.setText(pref.getUserName());
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
-        mDatabase= FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.PURCHASE_TABLE);
-        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.PURCHASE_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.MATERIAL_ISSUE_TABLE);
+        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.MATERIAL_ISSUE_TABLE);
 
     }
 
@@ -302,14 +189,13 @@ public class MaterialIssueActivity extends AppCompatActivity {
     }*/
 
     private void selectImage() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MaterialIssueActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
+                if (options[item].equals("Take Photo")) {
                     //Default android camera
 
                     /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -326,7 +212,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
                     File mFile = new File(getExternalFilesDir(null), "uploads");
                     if (!mFile.exists())
-                        if(!mFile.mkdir())
+                        if (!mFile.mkdir())
                             throw new RuntimeException("Unable to create save directory, make sure WRITE_EXTERNAL_STORAGE permission is granted.");
 
                     new MaterialCamera(MaterialIssueActivity.this)
@@ -337,13 +223,10 @@ public class MaterialIssueActivity extends AppCompatActivity {
                             .stillShot() // launches the Camera in stillshot mode
                             .start(CAMERA_RQ);
 
-                }
-                else if (options[item].equals("Choose from Gallery"))
-                {
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                } else if (options[item].equals("Choose from Gallery")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
-                }
-                else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
@@ -351,7 +234,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void uploadImage(String filePath, String fileName, final ProductTable productTable){
+   /* public void uploadImage(String filePath, String fileName, final MaterialIssueDetails productTable){
 
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -407,23 +290,22 @@ public class MaterialIssueActivity extends AppCompatActivity {
             //you can display an error toast
         }
 
-    }
+    }*/
 
-    public void updateDb(ProductTable productTable){
+    public void updateDb(MaterialIssueDetails productTable) {
         mDatabase.push().setValue(productTable);
 
-        fileName ="";
+        fileName = "";
         filePathNew = "";
-        locFrom= "";
-        locTo="";
+        locFrom = "";
+        locTo = "";
         movDate = "";
         recDate = "";
         orderNum = "";
         signedBy = "";
-        partName = "";
 
-        imageView.setImageDrawable(null);
-        Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+//        imageView.setImageDrawable(null);
+        Toast.makeText(activity, "Successfully Added", Toast.LENGTH_SHORT).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
         finish();
 
@@ -456,7 +338,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
 //                fileName = "pic.jp";
                 filePathNew = data.getDataString();
-                fileName=filePathNew.substring(filePathNew.lastIndexOf("/")+1);
+                fileName = filePathNew.substring(filePathNew.lastIndexOf("/") + 1);
                 //Custom camera and default camera
 
                    /* File f = new File(Environment.getExternalStorageDirectory().toString());
@@ -518,8 +400,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     }*/
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
-                String[] filePath = { MediaStore.Images.Media.DATA };
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
@@ -533,18 +415,17 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 Picasso.get().load(selectedImage).resize(120, 120).centerCrop().placeholder(R.drawable.ic_camera).into(imageView);
 
 
-            }else if(requestCode==3) {
-                String message=data.getStringExtra("MESSAGE");
+            } else if (requestCode == 3) {
+                String message = data.getStringExtra("MESSAGE");
                 etOrderNum.setText(message);
             }
         }
 
 
-
     }
 
 
-    public void saveFile(Bitmap bmp){
+    public void saveFile(Bitmap bmp) {
         try {
 
 
@@ -563,7 +444,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
             fOut.flush(); // Not really required
             fOut.close(); // do not forget to close the stream
 
-            MediaStore.Images.Media.insertImage(getContentResolver(),file.getAbsolutePath(),file.getName(),file.getName());
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
 
 
         } catch (FileNotFoundException e) {
@@ -588,14 +469,14 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     ActivityCompat.shouldShowRequestPermissionRationale(MaterialIssueActivity.this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
                             ActivityCompat.shouldShowRequestPermissionRationale(MaterialIssueActivity.this,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE)&&
+                                    Manifest.permission.READ_EXTERNAL_STORAGE) &&
                             ActivityCompat.shouldShowRequestPermissionRationale(MaterialIssueActivity.this,
                                     Manifest.permission.CAMERA)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 ActivityCompat.requestPermissions(MaterialIssueActivity.this,
-                        new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_READ_STORAGE);
             } else {
                 // No explanation needed; request the permission

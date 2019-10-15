@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.modelclasses.LoginDetails;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (dataSnapshot.getChildrenCount() > 0) {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
                         pref.setUserId(post.getKey());
+                        LoginDetails loginDetails=post.getValue(LoginDetails.class);
+                        pref.setUserName(loginDetails.getUserName());
                         //pref.setLastUpdatedTime(System.currentTimeMillis());
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(i);
