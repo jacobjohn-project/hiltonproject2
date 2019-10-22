@@ -167,7 +167,8 @@ public class JobCompletionActivity extends AppCompatActivity {
 
         pref = new SharedPref(this);
 
-        etSignedBy.setText(pref.getUserName());
+        etSignedBy.setText("Signed By: "+pref.getUserName());
+        etOrderNum.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);

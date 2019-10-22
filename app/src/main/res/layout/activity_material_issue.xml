@@ -68,7 +68,10 @@
         android:ems="10"
         android:fontFamily="@font/montserrat"
         android:hint="Signed By"
-        android:inputType="textPersonName"
+        android:inputType="none"
+        android:focusable="false"
+        android:editable="false"
+        android:clickable="false"
         android:padding="7dp"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
@@ -90,7 +93,7 @@
         android:ems="10"
         android:fontFamily="@font/montserrat"
         android:hint="Part Number"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:padding="7dp"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
@@ -99,7 +102,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderNo"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:nextFocusDown="@id/orderNo7"/>
 
 
     <EditText
@@ -115,6 +119,7 @@
         android:hint="Quantity Shortage"
         android:inputType="numberDecimal"
         android:padding="7dp"
+        android:imeOptions="actionDone"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -160,6 +165,8 @@
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:layout_weight="4"
+            android:nextFocusDown="@id/partNumber"
+            android:focusedByDefault="true"
             />
 
         <LinearLayout

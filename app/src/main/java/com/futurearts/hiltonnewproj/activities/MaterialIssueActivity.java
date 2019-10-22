@@ -166,7 +166,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         pref = new SharedPref(this);
 
-        etSignedBy.setText(pref.getUserName());
+        etSignedBy.setText("Signed By: "+pref.getUserName());
+        etOrderNum.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.MATERIAL_ISSUE_TABLE);
