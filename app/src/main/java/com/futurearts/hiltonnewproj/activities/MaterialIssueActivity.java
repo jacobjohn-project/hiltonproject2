@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -57,6 +59,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     String filePathNew = "", fileName = "";
     String signedBy, orderNum, locFrom, locTo, recDate, movDate;
     int partNum, qtyShortage;
+    RadioGroup radioGroup;
 
     Activity activity;
     Calendar myCalendar;
@@ -103,16 +106,25 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 signedBy = etSignedBy.getText().toString();
                 locFrom = etQtyShortage.getText().toString();
                 orderNum = etOrderNum.getText().toString();
+                int selectedId = radioGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radioSexButton = (RadioButton) findViewById(selectedId);
+                String reqLoc = radioSexButton.getText().toString();
 
                 if (etOrderNum.getText().toString().trim().length() != 0) {
-
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
-                            MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                    Integer.parseInt(etPartNum.getText().toString()),
-                                    Integer.parseInt(etQtyShortage.getText().toString()),
-                                    etSignedBy.getText().toString(), DateUtils.getSystemDate());
-                            updateDb(productTable);
+                            if(!reqLoc.equals("")){
+                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                        Integer.parseInt(etPartNum.getText().toString()),
+                                        Integer.parseInt(etQtyShortage.getText().toString()),
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                                updateDb(productTable);
+                            }else{
+                                Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                            }
+
                         } else {
                             Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
                         }
@@ -124,11 +136,15 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 } else if (etPartNum.getText().toString().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
-                            MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                    Integer.parseInt(etPartNum.getText().toString()),
-                                    Integer.parseInt(etQtyShortage.getText().toString()),
-                                    etSignedBy.getText().toString(), DateUtils.getSystemDate());
-                            updateDb(productTable);
+                            if(!reqLoc.equals("")){
+                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                        Integer.parseInt(etPartNum.getText().toString()),
+                                        Integer.parseInt(etQtyShortage.getText().toString()),
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                                updateDb(productTable);
+                            }else{
+                                Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
                         }
@@ -144,6 +160,10 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         }
     });
+
+
+        radioGroup.clearCheck();
+
 
 
 }
@@ -163,6 +183,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
+        radioGroup = findViewById(R.id.radioGrpLoc);
 
 
 
