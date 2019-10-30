@@ -94,6 +94,7 @@
             android:buttonTint="@color/white"
             android:layout_marginStart="5dp"
             />
+
         <RadioButton
             android:id="@+id/two_sets"
             android:layout_width="wrap_content"
@@ -104,6 +105,7 @@
             android:textColor="@android:color/white"
             android:layout_marginStart="5dp"
             />
+
         <RadioButton
             android:id="@+id/three_sets"
             android:layout_width="wrap_content"
