@@ -420,6 +420,8 @@ public class JobCompletionActivity extends AppCompatActivity {
             } else if (requestCode == 3) {
                 String message = data.getStringExtra("MESSAGE");
                 etOrderNum.setText(message);
+
+                etLocFrom.requestFocus();
             }
         }
 

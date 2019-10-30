@@ -105,33 +105,41 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 orderNum = etOrderNum.getText().toString();
 
                 if (etOrderNum.getText().toString().trim().length() != 0) {
-                    if (etPartNum.getText().toString().length() != 0) {
-                        if (etQtyShortage.getText().toString().length() != 0) {
-                            if (etSignedBy.getText().toString().trim().length() != 0) {
-                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                        Integer.parseInt(etPartNum.getText().toString()),
-                                        Integer.parseInt(etQtyShortage.getText().toString()),
-                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
-                                updateDb(productTable);
-                            } else {
-                                Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
-                            }
 
+                    if (etQtyShortage.getText().toString().length() != 0) {
+                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                            MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                    Integer.parseInt(etPartNum.getText().toString()),
+                                    Integer.parseInt(etQtyShortage.getText().toString()),
+                                    etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                            updateDb(productTable);
                         } else {
-                            Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
                         }
 
+                    } else {
+                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else if (etPartNum.getText().toString().length() != 0) {
+                    if (etQtyShortage.getText().toString().length() != 0) {
+                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                            MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                    Integer.parseInt(etPartNum.getText().toString()),
+                                    Integer.parseInt(etQtyShortage.getText().toString()),
+                                    etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                            updateDb(productTable);
+                        } else {
+                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(activity, "Enter Part Number", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Enter Job Number/Part Number", Toast.LENGTH_SHORT).show();
                 }
 
-
-
-            } else
-
-            {
-                Toast.makeText(activity, "Enter job Number", Toast.LENGTH_SHORT).show();
-            }
 
 
         }
@@ -419,6 +427,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
             } else if (requestCode == 3) {
                 String message = data.getStringExtra("MESSAGE");
                 etOrderNum.setText(message);
+
+                etPartNum.requestFocus();
             }
         }
 
