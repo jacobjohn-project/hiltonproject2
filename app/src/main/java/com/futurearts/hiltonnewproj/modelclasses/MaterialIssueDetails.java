@@ -8,6 +8,7 @@ public class MaterialIssueDetails {
     public String saved_date;
     public String requiredLocation;
     public boolean urgent;
+    public String materialJobImage;
 
     public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent) {
         this.job_Num = job_Num;
@@ -76,5 +77,13 @@ public class MaterialIssueDetails {
 
     public void setUrgent(boolean urgent) {
         this.urgent = urgent;
+    }
+
+    public String getMaterialJobImage() {
+        return materialJobImage;
+    }
+
+    public void setMaterialJobImage(String materialJobImage) {
+        this.materialJobImage = materialJobImage;
     }
 }

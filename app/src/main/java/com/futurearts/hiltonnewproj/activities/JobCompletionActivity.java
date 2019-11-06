@@ -324,82 +324,12 @@ public class JobCompletionActivity extends AppCompatActivity {
             if (requestCode == CAMERA_RQ) {
 
 
-                //Material Camera libarry
-
-//                    Toast.makeText(this, "Saved to: " + data.getDataString(), Toast.LENGTH_LONG).show();
-
-//                    File f = new File(data.getDataString());
-//                    Bitmap bitmap;
-//                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-//                            bitmapOptions);
-//                    imageView.setImageBitmap(bitmap);
-//                    imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-
                 Picasso.get().load(data.getDataString()).resize(120, 120).centerCrop().placeholder(R.drawable.ic_camera).into(imageView);
 
 //                fileName = "pic.jp";
                 filePathNew = data.getDataString();
                 fileName = filePathNew.substring(filePathNew.lastIndexOf("/") + 1);
-                //Custom camera and default camera
 
-                   /* File f = new File(Environment.getExternalStorageDirectory().toString());
-                    for (File temp : f.listFiles()) {
-                        if (temp.getName().equals("temp.jpg")) {
-                            f = temp;
-                            break;
-                        }
-                    }
-                    try {
-                        Bitmap bitmap;
-                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                                bitmapOptions);
-                        imageView.setImageBitmap(bitmap);
-                        imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-
-
-                        saveFile(bitmap);
-
-                        *//*String path = Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_PICTURES)+ File.separator
-                                + "Phoenix" + File.separator + "default";
-                        File newFile=new File(path);
-                        if(!newFile.exists()){
-                            newFile.mkdir();
-                        }
-                                *//**//*android.os.Environment
-                                .getExternalStorageDirectory()
-                                + File.separator
-                                + "Phoenix" + File.separator + "default";*//**//*
-                        //f.delete();
-                        OutputStream outFile = null;
-                        fileName = String.valueOf(System.currentTimeMillis()) + ".jpg";
-                        File file = new File(path, fileName);
-                        filePathNew = file.getAbsolutePath();
-
-
-                            file.mkdir();
-
-                        System.out.println("Filepath:: "+filePathNew);
-                        try {
-                             outFile = new FileOutputStream(f);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                            outFile.flush();
-                            outFile.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }*//*
-
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};

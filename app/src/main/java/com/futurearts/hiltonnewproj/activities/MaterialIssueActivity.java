@@ -3,6 +3,7 @@ package com.futurearts.hiltonnewproj.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -23,6 +25,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,10 +38,14 @@ import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -62,6 +69,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     int partNum, qtyShortage;
     RadioGroup radioGroup;
     CheckBox checkBox;
+    LinearLayout mCameraLayout;
 
     Activity activity;
     Calendar myCalendar;
@@ -83,6 +91,12 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         myCalendar = Calendar.getInstance();
 
+        mCameraLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckPermission();
+            }
+        });
 
         btnScanOrderNo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,22 +126,27 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
                 // find the radiobutton by returned id
                 RadioButton radioSexButton = (RadioButton) radioGroup.findViewById(selectedId);
-                String reqLoc="";
-                if(selectedId!=-1) {
+                String reqLoc = "";
+                if (selectedId != -1) {
                     reqLoc = radioSexButton.getText().toString();
                 }
 
                 if (etOrderNum.getText().toString().trim().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
-                            if(!reqLoc.equals("")){
+                            if (!reqLoc.equals("")) {
                                 MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
                                         "",
                                         Integer.parseInt(etQtyShortage.getText().toString()),
                                         etSignedBy.getText().toString(), DateUtils.getSystemDate(),
-                                        reqLoc,checkBox.isChecked());
-                                updateDb(productTable);
-                            }else{
+                                        reqLoc, checkBox.isChecked());
+                                if (!fileName.equals("") && !filePathNew.equals("")) {
+                                    uploadImage(filePathNew, fileName, productTable);
+                                } else {
+                                    updateDb(productTable);
+                                }
+
+                            } else {
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
                             }
 
@@ -142,14 +161,18 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 } else if (etPartNum.getText().toString().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
-                            if(!reqLoc.equals("")){
+                            if (!reqLoc.equals("")) {
                                 MaterialIssueDetails productTable = new MaterialIssueDetails("",
                                         etPartNum.getText().toString(),
                                         Integer.parseInt(etQtyShortage.getText().toString()),
                                         etSignedBy.getText().toString(), DateUtils.getSystemDate(),
-                                        reqLoc,checkBox.isChecked());
-                                updateDb(productTable);
-                            }else{
+                                        reqLoc, checkBox.isChecked());
+                                if (!fileName.equals("") && !filePathNew.equals("")) {
+                                    uploadImage(filePathNew, fileName, productTable);
+                                } else {
+                                    updateDb(productTable);
+                                }
+                            } else {
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
                             }
                         } else {
@@ -164,23 +187,20 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 }
 
 
-
-        }
-    });
+            }
+        });
 
 
         radioGroup.clearCheck();
 
 
-
-}
+    }
 
 
     private void initViews() {
 
-/*
-        mCameraLayout =findViewById(R.id.linearLayout);
-*/
+
+        mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
         etOrderNum = findViewById(R.id.etOrderNo);
         etSignedBy = findViewById(R.id.orderNo8);
@@ -191,7 +211,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
         radioGroup = findViewById(R.id.radioGrpLoc);
-        checkBox=findViewById(R.id.checkBox);
+        checkBox = findViewById(R.id.checkBox);
 
 
 
@@ -203,7 +223,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         pref = new SharedPref(this);
 
-        etSignedBy.setText("Signed By: "+pref.getUserName());
+        etSignedBy.setText("Signed By: " + pref.getUserName());
         etOrderNum.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
@@ -272,7 +292,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
         builder.show();
     }
 
-   /* public void uploadImage(String filePath, String fileName, final MaterialIssueDetails productTable){
+
+    public void uploadImage(String filePath, String fileName, final MaterialIssueDetails productTable) {
 
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -291,9 +312,9 @@ public class MaterialIssueActivity extends AppCompatActivity {
                             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Log.d("DOWNLOAD PATH", "onSuccess: uri= "+ uri.toString());
+                                    Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
-                                    productTable.PO_image=(outputurl);
+                                    productTable.setMaterialJobImage(outputurl);
                                     updateDb(productTable);
                                 }
                             });
@@ -328,7 +349,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
             //you can display an error toast
         }
 
-    }*/
+    }
+
 
     public void updateDb(MaterialIssueDetails productTable) {
         mDatabase.push().setValue(productTable);
@@ -360,82 +382,12 @@ public class MaterialIssueActivity extends AppCompatActivity {
             if (requestCode == CAMERA_RQ) {
 
 
-                //Material Camera libarry
-
-//                    Toast.makeText(this, "Saved to: " + data.getDataString(), Toast.LENGTH_LONG).show();
-
-//                    File f = new File(data.getDataString());
-//                    Bitmap bitmap;
-//                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-//                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-//                            bitmapOptions);
-//                    imageView.setImageBitmap(bitmap);
-//                    imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-
                 Picasso.get().load(data.getDataString()).resize(120, 120).centerCrop().placeholder(R.drawable.ic_camera).into(imageView);
 
 //                fileName = "pic.jp";
                 filePathNew = data.getDataString();
                 fileName = filePathNew.substring(filePathNew.lastIndexOf("/") + 1);
-                //Custom camera and default camera
 
-                   /* File f = new File(Environment.getExternalStorageDirectory().toString());
-                    for (File temp : f.listFiles()) {
-                        if (temp.getName().equals("temp.jpg")) {
-                            f = temp;
-                            break;
-                        }
-                    }
-                    try {
-                        Bitmap bitmap;
-                        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                        bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                                bitmapOptions);
-                        imageView.setImageBitmap(bitmap);
-                        imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
-
-
-                        saveFile(bitmap);
-
-                        *//*String path = Environment.getExternalStoragePublicDirectory(
-                                Environment.DIRECTORY_PICTURES)+ File.separator
-                                + "Phoenix" + File.separator + "default";
-                        File newFile=new File(path);
-                        if(!newFile.exists()){
-                            newFile.mkdir();
-                        }
-                                *//**//*android.os.Environment
-                                .getExternalStorageDirectory()
-                                + File.separator
-                                + "Phoenix" + File.separator + "default";*//**//*
-                        //f.delete();
-                        OutputStream outFile = null;
-                        fileName = String.valueOf(System.currentTimeMillis()) + ".jpg";
-                        File file = new File(path, fileName);
-                        filePathNew = file.getAbsolutePath();
-
-
-                            file.mkdir();
-
-                        System.out.println("Filepath:: "+filePathNew);
-                        try {
-                             outFile = new FileOutputStream(f);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                            outFile.flush();
-                            outFile.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }*//*
-
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }*/
             } else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
@@ -447,9 +399,6 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 File newFile = new File(picturePath);
                 fileName = newFile.getName();
                 filePathNew = selectedImage.toString();
-/*                    Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-                    Log.w("HiltonLog", picturePath+"");
-                    imageView.setImageBitmap(thumbnail);   */
                 Picasso.get().load(selectedImage).resize(120, 120).centerCrop().placeholder(R.drawable.ic_camera).into(imageView);
 
 
