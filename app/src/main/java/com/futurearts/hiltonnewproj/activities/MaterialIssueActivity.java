@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,6 +61,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     String signedBy, orderNum, locFrom, locTo, recDate, movDate;
     int partNum, qtyShortage;
     RadioGroup radioGroup;
+    CheckBox checkBox;
 
     Activity activity;
     Calendar myCalendar;
@@ -109,17 +111,21 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
-                RadioButton radioSexButton = (RadioButton) findViewById(selectedId);
-                String reqLoc = radioSexButton.getText().toString();
+                RadioButton radioSexButton = (RadioButton) radioGroup.findViewById(selectedId);
+                String reqLoc="";
+                if(selectedId!=-1) {
+                    reqLoc = radioSexButton.getText().toString();
+                }
 
                 if (etOrderNum.getText().toString().trim().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
                             if(!reqLoc.equals("")){
                                 MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                        Integer.parseInt(etPartNum.getText().toString()),
+                                        "",
                                         Integer.parseInt(etQtyShortage.getText().toString()),
-                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                        reqLoc,checkBox.isChecked());
                                 updateDb(productTable);
                             }else{
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
@@ -137,10 +143,11 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
                             if(!reqLoc.equals("")){
-                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                        Integer.parseInt(etPartNum.getText().toString()),
+                                MaterialIssueDetails productTable = new MaterialIssueDetails("",
+                                        etPartNum.getText().toString(),
                                         Integer.parseInt(etQtyShortage.getText().toString()),
-                                        etSignedBy.getText().toString(), DateUtils.getSystemDate());
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                        reqLoc,checkBox.isChecked());
                                 updateDb(productTable);
                             }else{
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
@@ -184,6 +191,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
         radioGroup = findViewById(R.id.radioGrpLoc);
+        checkBox=findViewById(R.id.checkBox);
 
 
 
