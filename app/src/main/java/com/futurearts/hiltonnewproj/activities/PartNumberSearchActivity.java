@@ -90,7 +90,7 @@ public class PartNumberSearchActivity extends AppCompatActivity {
 
     public void checkDb(String scanCode) {
         Intent i=new Intent(PartNumberSearchActivity.this,SearchResultActivity.class);
-        i.putExtra("product_code",scanCode);
+        i.putExtra("part_Num",scanCode);
         startActivity(i);
 
         /*progressBar.setVisibility(View.VISIBLE);

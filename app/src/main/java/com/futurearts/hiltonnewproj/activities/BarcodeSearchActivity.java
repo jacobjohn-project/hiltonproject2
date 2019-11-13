@@ -90,7 +90,7 @@ public class BarcodeSearchActivity extends AppCompatActivity {
 
     public void checkDb(String scanCode) {
         Intent i=new Intent(BarcodeSearchActivity.this,SearchResultActivity.class);
-        i.putExtra("product_code",scanCode);
+        i.putExtra("job_Num",scanCode);
         startActivity(i);
 
         /*progressBar.setVisibility(View.VISIBLE);

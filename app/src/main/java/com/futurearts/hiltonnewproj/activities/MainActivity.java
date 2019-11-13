@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(MainActivity.this, MaterialIssueActivity.class);
+                Intent i = new Intent(MainActivity.this, PartNumberSearchActivity.class);
                 startActivity(i);
             }
         });

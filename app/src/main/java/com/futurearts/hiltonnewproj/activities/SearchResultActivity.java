@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.futurearts.hiltonnewproj.modelclasses.ProductTable;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,7 +30,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtPartName,txtRecDate,txtMovDate,txtLocFrom,txtLocTo,txtSignBy;
+    TextView txtJoborPartNumber,txtRecDate,txtMovDate,txtLocFrom,txtLocTo,txtSignBy;
+    TextView tvJobOrPart;
     ProgressBar progressBar,imgProgBar;
     DatabaseReference mDatabase;
 
@@ -36,12 +39,16 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.MATERIAL_ISSUE_TABLE);
 
         initViews();
-        String scanCode=getIntent().getStringExtra("product_code");
-        if(scanCode!=null){
-            checkDb(scanCode);
+        String jobNumber=getIntent().getStringExtra("job_Num");
+        if(jobNumber!=null){
+            checkDbUsingJobNumber(jobNumber);
+        }
+        String partNumber=getIntent().getStringExtra("part_Num");
+        if(partNumber!=null){
+            checkDbUsingPartNumber(partNumber);
         }
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +64,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        txtPartName = findViewById(R.id.txtPartName);
+        txtJoborPartNumber = findViewById(R.id.txtJoborPartNumber);
         txtRecDate = findViewById(R.id.txtRecDate);
         txtMovDate = findViewById(R.id.txtMovDate);
         txtLocFrom = findViewById(R.id.txtLocFrom);
@@ -68,13 +75,14 @@ public class SearchResultActivity extends AppCompatActivity {
         scrollView=findViewById(R.id.scrollView);
         imgProgBar=findViewById(R.id.img_progBar);
         btnBack=findViewById(R.id.btnBack);
+        tvJobOrPart=findViewById(R.id.tvJobOrPart);
     }
 
 
-    public void checkDb(String scanCode) {
+    public void checkDbUsingJobNumber(String scanCode) {
         progressBar.setVisibility(View.VISIBLE);
         mDatabase.keepSynced(true);
-        mDatabase.orderByChild("PO_Num").equalTo(scanCode).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild("job_Num").equalTo(scanCode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 progressBar.setVisibility(View.GONE);
@@ -83,72 +91,8 @@ public class SearchResultActivity extends AppCompatActivity {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
 
                         imgProgBar.setVisibility(View.VISIBLE);
-                        final ProductTable productTable =  post.getValue(ProductTable.class);
-
-                        txtPartName.setText(productTable.PO_Part);
-                        txtRecDate.setText(productTable.PO_Rec_date);
-                        txtMovDate.setText(productTable.PO_Mv_date);
-                        txtLocFrom.setText(productTable.PO_Loc_from);
-                        txtLocTo.setText(productTable.PO_Loc_to);
-                        txtSignBy.setText(productTable.PO_sign_by);
-
-                        imgProduct.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(productTable.PO_image!=null){
-                                    Intent i=new Intent(SearchResultActivity.this,ZoomImageViewActivity.class);
-                                    i.putExtra("product_image",productTable.PO_image);
-                                    startActivity(i);
-                                }
-                            }
-                        });
-
-                        Picasso.get()
-                                .load(productTable.PO_image)
-                                .placeholder(R.drawable.img_placeholder)
-                                .networkPolicy(NetworkPolicy.OFFLINE)//user this for offline support
-                                .into(imgProduct, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Exception e) {
-                                        Picasso.get()
-                                                .load(productTable.PO_image)
-                                                .placeholder(R.drawable.img_placeholder)
-                                                .error(R.drawable.img_placeholder)//user this for offline support
-                                                .into(imgProduct, new Callback() {
-                                                    @Override
-                                                    public void onSuccess() {
-
-                                                    }
-
-                                                    @Override
-                                                    public void onError(Exception e) {
-
-                                                    }
-
-
-                                                });
-                                    }
-
-                                });
-
-                        /*Picasso.get().load(productTable.PO_image).placeholder(R.drawable.img_placeholder).into(imgProduct ,new com.squareup.picasso.Callback() {
-                            @Override
-                            public void onSuccess() {
-                                //do smth when picture is loaded successfully
-                                imgProgBar.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onError(Exception ex) {
-                                //do smth when there is picture loading error
-                                imgProgBar.setVisibility(View.GONE);
-                            }
-                        });*/
+                        final MaterialIssueDetails materialIssueDetails =  post.getValue(MaterialIssueDetails.class);
+                        populateViews(materialIssueDetails,true);
 
 
                     }
@@ -169,4 +113,103 @@ public class SearchResultActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void checkDbUsingPartNumber(String scanCode) {
+        progressBar.setVisibility(View.VISIBLE);
+        mDatabase.keepSynced(true);
+        mDatabase.orderByChild("part_Num").equalTo(scanCode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressBar.setVisibility(View.GONE);
+                scrollView.setVisibility(View.VISIBLE);
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (DataSnapshot post : dataSnapshot.getChildren()) {
+
+                        imgProgBar.setVisibility(View.VISIBLE);
+                        final MaterialIssueDetails materialIssueDetails =  post.getValue(MaterialIssueDetails.class);
+
+                        populateViews(materialIssueDetails,false);
+
+
+                    }
+                } else {
+                    scrollView.setVisibility(View.GONE);
+                    Toast.makeText(SearchResultActivity.this, "No data found.", Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressBar.setVisibility(View.GONE);
+                scrollView.setVisibility(View.GONE);
+                Toast.makeText(SearchResultActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public void populateViews(final MaterialIssueDetails materialIssueDetails,boolean isJob){
+        if(isJob){
+            tvJobOrPart.setText("Job Number");
+            txtJoborPartNumber.setText(materialIssueDetails.getJob_Num());
+        }else{
+            tvJobOrPart.setText("Part Number");
+            txtJoborPartNumber.setText(materialIssueDetails.getPart_Num());
+        }
+
+        /*txtPartName.setText(materialIssueDetails.PO_Part);
+        txtRecDate.setText(materialIssueDetails.PO_Rec_date);
+        txtMovDate.setText(materialIssueDetails.PO_Mv_date);
+        txtLocFrom.setText(materialIssueDetails.PO_Loc_from);
+        txtLocTo.setText(materialIssueDetails.PO_Loc_to);
+        txtSignBy.setText(materialIssueDetails.PO_sign_by);*/
+
+        imgProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(materialIssueDetails.materialJobImage!=null){
+                    Intent i=new Intent(SearchResultActivity.this,ZoomImageViewActivity.class);
+                    i.putExtra("product_image",materialIssueDetails.materialJobImage);
+                    startActivity(i);
+                }
+            }
+        });
+
+
+        Picasso.get()
+                .load(materialIssueDetails.getMaterialJobImage())
+                .placeholder(R.drawable.img_placeholder)
+                .networkPolicy(NetworkPolicy.OFFLINE)//user this for offline support
+                .into(imgProduct, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Picasso.get()
+                                .load(materialIssueDetails.materialJobImage)
+                                .placeholder(R.drawable.img_placeholder)
+                                .error(R.drawable.img_placeholder)//user this for offline support
+                                .into(imgProduct, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+
+                                    }
+
+
+                                });
+                    }
+
+                });
+    }
+
 }

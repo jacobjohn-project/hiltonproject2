@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:id="@+id/etSearch"
-            android:hint="Order Number"
+            android:hint="Part Number"
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat"
             android:textColorHint="@color/white"
