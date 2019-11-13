@@ -138,12 +138,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:fontFamily="@font/montserrat"
-                    android:text="Rec Date : "
+                    android:text="Quantity Shortage"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/txtRecDate"
+                    android:id="@+id/txtQtyShortage"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -168,12 +168,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:fontFamily="@font/montserrat"
-                    android:text="Moving Date : "
+                    android:text="Required Location : "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/txtMovDate"
+                    android:id="@+id/txtReqLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -198,12 +198,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:fontFamily="@font/montserrat"
-                    android:text="Location From : "
+                    android:text="Is Urgent?  : "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/txtLocFrom"
+                    android:id="@+id/txtIsUrgent"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -228,12 +228,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:fontFamily="@font/montserrat"
-                    android:text="Location To : "
+                    android:text="Saved Date : "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/txtLocTo"
+                    android:id="@+id/txtSavedDate"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"

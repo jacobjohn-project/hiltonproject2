@@ -30,7 +30,7 @@ public class SearchResultActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtJoborPartNumber,txtRecDate,txtMovDate,txtLocFrom,txtLocTo,txtSignBy;
+    TextView txtJoborPartNumber,txtQtyShortage,txtReqLocation,txtIsUrgent,txtSavedDate,txtSignBy;
     TextView tvJobOrPart;
     ProgressBar progressBar,imgProgBar;
     DatabaseReference mDatabase;
@@ -65,10 +65,10 @@ public class SearchResultActivity extends AppCompatActivity {
     private void initViews() {
 
         txtJoborPartNumber = findViewById(R.id.txtJoborPartNumber);
-        txtRecDate = findViewById(R.id.txtRecDate);
-        txtMovDate = findViewById(R.id.txtMovDate);
-        txtLocFrom = findViewById(R.id.txtLocFrom);
-        txtLocTo = findViewById(R.id.txtLocTo);
+        txtQtyShortage = findViewById(R.id.txtQtyShortage);
+        txtReqLocation = findViewById(R.id.txtReqLocation);
+        txtIsUrgent = findViewById(R.id.txtIsUrgent);
+        txtSavedDate = findViewById(R.id.txtSavedDate);
         txtSignBy = findViewById(R.id.txtSignBy);
         imgProduct = findViewById(R.id.imgProduct);
         progressBar = findViewById(R.id.progressBar);
@@ -159,8 +159,16 @@ public class SearchResultActivity extends AppCompatActivity {
             txtJoborPartNumber.setText(materialIssueDetails.getPart_Num());
         }
 
-        /*txtPartName.setText(materialIssueDetails.PO_Part);
-        txtRecDate.setText(materialIssueDetails.PO_Rec_date);
+        txtQtyShortage.setText(materialIssueDetails.getQty_shortage()+"");
+        txtReqLocation.setText(materialIssueDetails.getRequiredLocation());
+        if(materialIssueDetails.isUrgent()){
+            txtIsUrgent.setText("YES");
+        }else{
+            txtIsUrgent.setText("NO");
+        }
+        txtSavedDate.setText(materialIssueDetails.getSaved_date());
+        txtSignBy.setText(materialIssueDetails.getWho());
+        /*txtRecDate.setText(materialIssueDetails.PO_Rec_date);
         txtMovDate.setText(materialIssueDetails.PO_Mv_date);
         txtLocFrom.setText(materialIssueDetails.PO_Loc_from);
         txtLocTo.setText(materialIssueDetails.PO_Loc_to);
