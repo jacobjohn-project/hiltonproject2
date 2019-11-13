@@ -18,7 +18,7 @@ import com.futurearts.hiltonnewproj.utils.SharedPref;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
-    LinearLayout laySearch, layPoTracking;
+    LinearLayout laySearch, layPoTracking,laySearch1,laySearch2;
     SharedPref pref;
     ImageView btnMenu;
 
@@ -39,6 +39,24 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
 
         laySearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MainActivity.this, MaterialIssueActivity.class);
+                startActivity(i);
+            }
+        });
+
+        laySearch1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MainActivity.this, BarcodeSearchActivity.class);
+                startActivity(i);
+            }
+        });
+
+        laySearch2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -93,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         layPoTracking = findViewById(R.id.layPoTracking);
         laySearch = findViewById(R.id.laySearch);
+        laySearch1 = findViewById(R.id.laySearch1);
+        laySearch2 = findViewById(R.id.laySearch2);
         btnMenu = findViewById(R.id.btnMenu);
         pref = new SharedPref(this);
     }

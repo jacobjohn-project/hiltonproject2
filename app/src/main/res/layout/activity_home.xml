@@ -71,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_marginTop="50dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -102,7 +102,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
@@ -130,6 +130,66 @@
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/bg_home_items"
+            android:orientation="vertical"
+            android:id="@+id/laySearch1"
+            >
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="24sp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/white"
+                android:text="SEARCH BY JOB NUMBER"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:background="@drawable/bg_home_items"
+            android:orientation="vertical"
+            android:id="@+id/laySearch2"
+            >
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="24sp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@color/white"
+                android:text="SEARCH BY PART NUMBER"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
