@@ -131,7 +131,32 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     reqLoc = radioSexButton.getText().toString();
                 }
 
-                if (etOrderNum.getText().toString().trim().length() != 0) {
+
+                if (etPartNum.getText().toString().length() != 0 && etOrderNum.getText().toString().length() != 0 ) {
+                    if (etQtyShortage.getText().toString().length() != 0) {
+                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                            if (!reqLoc.equals("")) {
+                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
+                                        etPartNum.getText().toString(),
+                                        Integer.parseInt(etQtyShortage.getText().toString()),
+                                        etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                        reqLoc, checkBox.isChecked());
+                                if (!fileName.equals("") && !filePathNew.equals("")) {
+                                    uploadImage(filePathNew, fileName, productTable);
+                                } else {
+                                    updateDb(productTable);
+                                }
+                            } else {
+                                Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                    }
+                } else if (etOrderNum.getText().toString().trim().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
                             if (!reqLoc.equals("")) {
