@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.os.UserHandle;
 import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.View;
@@ -55,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // Declaring connectivity credentials
-        ip = "192.168.0.200/manorama_new/";
+//        ip = "192.168.2.80";
+        ip = "12.0.2269.0";
         db = "JJAppDev";
         un = "HILTONMFG\\JacobJ";
         password = "$uperTwist73";
@@ -86,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    checkDb(userNamePassword);
 
 //                    SQLServerConnect();
-                    new UploadImage().execute();
+                    new UploadImage(userName,password).execute();
                 }
 
             }
@@ -135,47 +137,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void SQLServerConnect(){
-
-        Log.i("Android"," MySQL Connect Example.");
-        Connection conn = null;
-        try {
-            String driver = "net.sourceforge.jtds.jdbc.Driver";
-            Class.forName(driver).newInstance();
-//test = com.microsoft.sqlserver.jdbc.SQLServerDriver.class;
-            String connString = "jdbc:jtds:sqlserver://192.168.2.80/JJAppDev;encrypt=false;user=HILTONMFG\\JacobJ;password=$uperTwist73;instance=VS004\\SIGNONGLASS;";
-            String username = "HILTONMFG\\JacobJ";
-            String password = "$uperTwist73";
-            conn = DriverManager.getConnection(connString);
-            Log.w("Connection","open");
-            Statement stmt = conn.createStatement();
-            ResultSet reset = stmt.executeQuery("select * from dbo.Account");
-
-
-            while(reset.next()){
-                Log.w("Data:",reset.getString(3));
-                Log.w("Data",reset.getString(2));
-            }
-            conn.close();
-
-        } catch (Exception e)
-        {
-            Log.w("Error connection","" + e.getMessage());
-            e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
 
     public class UploadImage extends AsyncTask<String,String,String>
     {
+        String userName, passWord;
+        public UploadImage(String userName, String password) {
+
+            this.userName = userName;
+            this.passWord = password;
+
+        }
+
         @Override
         protected void onPostExecute(String r)
         {
             // After successful insertion of image
             progressBar.setVisibility(View.GONE);
-            Toast.makeText(LoginActivity.this , "Image Inserted Succesfully" , Toast.LENGTH_LONG).show();
+            Toast.makeText(LoginActivity.this , r , Toast.LENGTH_LONG).show();
             // End After successful insertion of image
         }
         @Override
@@ -186,7 +165,9 @@ public class LoginActivity extends AppCompatActivity {
             try
             {
                 con = connectionclass(un,password,db,ip);
-                String commands = "select * from dbo.Users";
+//                String commands = "select * from dbo.Users";
+                String commands = "insert into dbo.Users (Username,Password) values ('"+ userName+"','"+passWord +"');";
+                System.out.println("Command:: "+commands);
                 PreparedStatement preStmt = con.prepareStatement(commands);
                 preStmt.executeUpdate();
                 msg = "Inserted Successfully";
@@ -223,7 +204,7 @@ public class LoginActivity extends AppCompatActivity {
             }
             System.out.println(msg);
 
-            return "";
+            return msg;
             //End Inserting in the database
         }
     }
@@ -240,7 +221,9 @@ public class LoginActivity extends AppCompatActivity {
         try
         {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            ConnectionURL = "jdbc:jtds:sqlserver://" + server+ database + ";user=" + user + ";password=" + password + ";"+"instance=VS004\\SIGNONGLASS;";
+//            ConnectionURL = "jdbc:jtds:sqlserver://" + server+ database + ";user=" + user + ";password=" + password + ";"+"instance=VS004\\SIGNONGLASS;";
+//            ConnectionURL = "jdbc:jtds:sqlserver://"+ip+":1433;databaseName="+database+";user=" + user + ";password=" + password + ";"+"instance=VS004\\SIGNONGLASS";
+            ConnectionURL = "jdbc:jtds:sqlserver://192.168.1.52\\JJAppDev;user=HILTONMFG\\JacobJ;password=**;instance=VS004\\SIGNONGLASS;";
             connection = DriverManager.getConnection(ConnectionURL);
         }
         catch (SQLException se)
