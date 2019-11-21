@@ -24,6 +24,7 @@ android {
             buildConfigField "String", "AUTH_TABLE", "\"AUTH\""
             buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
             buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
+            buildConfigField "String", "BATCH_CONTROL_TABLE", "\"BATCH_CONTROL\""
         }
 
         product {
@@ -31,6 +32,7 @@ android {
             buildConfigField "String", "AUTH_TABLE", "\"AUTH\""
             buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
             buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
+            buildConfigField "String", "BATCH_CONTROL_TABLE", "\"BATCH_CONTROL\""
         }
     }
 }

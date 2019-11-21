@@ -79,11 +79,11 @@
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintHorizontal_bias="0.0"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/orderNo7"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/etQuantity"-->
 <!--        app:layout_constraintVertical_bias="0.0" />-->
 
     <EditText
-        android:id="@+id/orderNo7"
+        android:id="@+id/etQuantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -101,12 +101,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/batchNumber"
+        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
         app:layout_constraintVertical_bias="0.0" />
 
 
     <EditText
-        android:id="@+id/partNumber"
+        android:id="@+id/etPartNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -116,9 +116,9 @@
         android:ems="10"
         android:fontFamily="@font/montserrat"
         android:hint="Part Number"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         android:padding="7dp"
-        android:nextFocusDown="@id/batchNumber"
+        android:nextFocusDown="@id/etBatchNumber"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -129,7 +129,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/batchNumber"
+        android:id="@+id/etBatchNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -141,14 +141,14 @@
         android:hint="Batch Number"
         android:inputType="text"
         android:padding="7dp"
-        android:nextFocusDown="@id/orderNo7"
+        android:nextFocusDown="@id/etQuantity"
         android:textColor="@android:color/white"
         android:textColorHint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/partNumber"
+        app:layout_constraintTop_toBottomOf="@+id/etPartNumber"
         app:layout_constraintVertical_bias="0.0" />
 
 
@@ -170,14 +170,14 @@
         >
 
         <EditText
-            android:id="@+id/etOrderNo"
+            android:id="@+id/etJobNumber"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
             android:fontFamily="@font/montserrat"
             android:hint="Job Number"
             android:inputType="textPersonName"
-            android:nextFocusDown="@id/partNumber"
+            android:nextFocusDown="@id/etPartNumber"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:layout_weight="4"
@@ -215,7 +215,7 @@
 
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnSubmit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -244,7 +244,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo7"
+        app:layout_constraintTop_toBottomOf="@+id/etQuantity"
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView

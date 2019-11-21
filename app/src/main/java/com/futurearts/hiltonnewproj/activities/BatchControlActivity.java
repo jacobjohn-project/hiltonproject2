@@ -31,9 +31,9 @@ import androidx.core.content.ContextCompat;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.modelclasses.JobCompletionDetails;
-import com.futurearts.hiltonnewproj.utils.SharedPref;
+import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
+import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -52,12 +52,11 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 
-
 public class BatchControlActivity extends AppCompatActivity {
 
 
     LinearLayout mCameraLayout, btnScanOrderNo;
-    EditText etJobNumber,etPartNumber,etBatchNumber,etQty;
+    EditText etJobNumber, etPartNumber, etBatchNumber, etQty;
     Button btnSubmit;
     ImageView imageView, btnBack;
     ProgressBar progressBar;
@@ -115,37 +114,10 @@ public class BatchControlActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                jobNumber = etJobNumber.getText().toString();
-                partNumber = etPartNumber.getText().toString();
-                batchNumber = etBatchNumber.getText().toString();
-                quantity = etQty.getText().toString();
-//                if (etLocFrom.getText().toString().trim().length() != 0) {
-//                    locFrom = Integer.parseInt(etLocFrom.getText().toString());
-//                } else {
-//                    locFrom = 0;
-//                }
-
-
-
-//                if (!jobNumber.equals("")) {
-//                    if (locFrom != 0) {
-//                        if (signedBy.length() != 0) {
-//                            if (!fileName.equals("") && !filePathNew.equals("")) {
-//                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
-//                                uploadImage(filePathNew, fileName, productTable);
-//                            } else {
-//                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
-//                                updateDb(productTable);
-//                            }
-//                        } else {
-//                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
-//                        }
-//                    } else {
-//                        Toast.makeText(activity, "Enter a valid Quantity", Toast.LENGTH_SHORT).show();
-//                    }
-//                } else {
-//                    Toast.makeText(activity, "Enter Job Number field", Toast.LENGTH_SHORT).show();
-//                }
+                if (!isValidationFailed()) {
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(),Integer.parseInt(etQty.getText().toString()));
+                    uploadImage(filePathNew, fileName, productTable);
+                }
 
 
             }
@@ -154,15 +126,46 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
+    private boolean isValidationFailed() {
+        boolean failFlag = false;
+        if (etJobNumber.getText().toString().length() == 0) {
+            failFlag = true;
+            Toast.makeText(activity, "Enter Job Number", Toast.LENGTH_SHORT).show();
+        } else if (etBatchNumber.getText().toString().length() == 0) {
+            failFlag = true;
+            Toast.makeText(activity, "Enter Batch Number", Toast.LENGTH_SHORT).show();
+        } else if (etQty.getText().toString().length() == 0) {
+            failFlag = true;
+            Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
+        } else if (etQty.getText().toString().length() != 0) {
+            try {
+                int num = Integer.parseInt(etQty.getText().toString());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                failFlag = true;
+                Toast.makeText(activity, "Enter valid Quantity", Toast.LENGTH_SHORT).show();
+            }
+            if (!failFlag) {
+                if (fileName.equals("") && filePathNew.equals("")) {
+                    failFlag = true;
+                    Toast.makeText(activity, "Add image", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+
+        return failFlag;
+    }
+
     private void initViews() {
 
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
-        etJobNumber = findViewById(R.id.etOrderNo);
-        etPartNumber = findViewById(R.id.partNumber);
-        etBatchNumber = findViewById(R.id.batchNumber);
-        etQty = findViewById(R.id.orderNo7);
-        btnSubmit = findViewById(R.id.button2);
+        etJobNumber = findViewById(R.id.etJobNumber);
+        etPartNumber = findViewById(R.id.etPartNumber);
+        etBatchNumber = findViewById(R.id.etBatchNumber);
+        etQty = findViewById(R.id.etQuantity);
+        btnSubmit = findViewById(R.id.btnSubmit);
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
@@ -174,8 +177,8 @@ public class BatchControlActivity extends AppCompatActivity {
         etJobNumber.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
-        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.BATCH_CONTROL_TABLE);
+        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.BATCH_CONTROL_TABLE);
 
     }
 
@@ -239,7 +242,7 @@ public class BatchControlActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void uploadImage(String filePath, String fileName, final JobCompletionDetails productTable) {
+    public void uploadImage(String filePath, String fileName, final BatchContraolDetails productTable) {
 
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -260,7 +263,7 @@ public class BatchControlActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
-                                    productTable.setJob_image(outputurl);
+                                    productTable.setImage_url(outputurl);
                                     updateDb(productTable);
                                 }
                             });
@@ -297,13 +300,13 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
-    public void updateDb(JobCompletionDetails productTable) {
+    public void updateDb(BatchContraolDetails productTable) {
         mDatabase.push().setValue(productTable);
 
         fileName = "";
         filePathNew = "";
-        jobNumber="";
-        partNumber="";
+        jobNumber = "";
+        partNumber = "";
         batchNumber = "";
         quantity = "";
 //        locFrom = 0;
