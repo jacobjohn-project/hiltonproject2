@@ -85,10 +85,10 @@ public class LoginActivity extends AppCompatActivity {
                     String userNamePassword = userName + "_" + password;
 
                     progressBar.setVisibility(View.VISIBLE);
-//                    checkDb(userNamePassword);
+                    checkDb(userNamePassword);
 
 //                    SQLServerConnect();
-                    new UploadImage(userName,password).execute();
+//                    new UploadImage(userName,password).execute();
                 }
 
             }
@@ -223,23 +223,42 @@ public class LoginActivity extends AppCompatActivity {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
 //            ConnectionURL = "jdbc:jtds:sqlserver://" + server+ database + ";user=" + user + ";password=" + password + ";"+"instance=VS004\\SIGNONGLASS;";
 //            ConnectionURL = "jdbc:jtds:sqlserver://"+ip+":1433;databaseName="+database+";user=" + user + ";password=" + password + ";"+"instance=VS004\\SIGNONGLASS";
-            ConnectionURL = "jdbc:jtds:sqlserver://192.168.1.52\\JJAppDev;user=HILTONMFG\\JacobJ;password=**;instance=VS004\\SIGNONGLASS;";
+            ConnectionURL = "jdbc:jtds:sqlserver://192.168.1.52\\JJAppDev;user=HILTONMFG\\JacobJ;password=$uperTwist73;instance=VS004\\SIGNONGLASS;";
             connection = DriverManager.getConnection(ConnectionURL);
         }
-        catch (SQLException se)
+        catch (final SQLException se)
         {
             Log.e("error no 1", se.getMessage());
+            
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(LoginActivity.this, se.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
-        catch (ClassNotFoundException e)
+        catch (final ClassNotFoundException e)
         {
             Log.e("error no 2", e.getMessage());
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             Log.e("error no 3", e.getMessage());
 
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         return connection;
     }
