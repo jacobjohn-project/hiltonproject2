@@ -18,7 +18,7 @@ import com.futurearts.hiltonnewproj.utils.SharedPref;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
-    LinearLayout laySearch, layPoTracking,laySearch1,laySearch2,layBatch;
+    LinearLayout laySearch, layPoTracking,/*laySearch1,laySearch2,*/layBatch;
     SharedPref pref;
     ImageView btnMenu;
 
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         layPoTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, JobCompletionActivity.class);
+                Intent i = new Intent(MainActivity.this, JobCompletionMenu.class);
                 startActivity(i);
             }
         });
@@ -42,34 +42,34 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(MainActivity.this, MaterialIssueActivity.class);
+                Intent i = new Intent(MainActivity.this, MaterialIssueMenu.class);
                 startActivity(i);
             }
         });
 
-        laySearch1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        laySearch1.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent i = new Intent(MainActivity.this, BarcodeSearchActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
-                Intent i = new Intent(MainActivity.this, BarcodeSearchActivity.class);
-                startActivity(i);
-            }
-        });
-
-        laySearch2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(MainActivity.this, PartNumberSearchActivity.class);
-                startActivity(i);
-            }
-        });
+//        laySearch2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent i = new Intent(MainActivity.this, PartNumberSearchActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         layBatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(MainActivity.this, BatchControlActivity.class);
+                Intent i = new Intent(MainActivity.this, BatchControlMenu.class);
                 startActivity(i);
             }
         });
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         layPoTracking = findViewById(R.id.layPoTracking);
         laySearch = findViewById(R.id.laySearch);
-        laySearch1 = findViewById(R.id.laySearch1);
-        laySearch2 = findViewById(R.id.laySearch2);
+//        laySearch1 = findViewById(R.id.laySearch1);
+//        laySearch2 = findViewById(R.id.laySearch2);
         layBatch = findViewById(R.id.layBatch);
         btnMenu = findViewById(R.id.btnMenu);
         pref = new SharedPref(this);

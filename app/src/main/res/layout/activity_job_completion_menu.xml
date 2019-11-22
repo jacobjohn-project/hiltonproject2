@@ -12,45 +12,49 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_top_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="5dp"
-            android:src="@mipmap/ic_hilton" />
-
+        android:layout_alignParentTop="true"
+        >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignStart="@+id/btnBack"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-5dp"
+            android:layout_marginEnd="-5dp"
+            android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="Hilton Manufacturing"
+            android:text="JOB COMPLETION"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
         <ImageView
-            android:id="@+id/btnMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/ic_hilton"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:padding="10dp"
-            android:src="@drawable/ic_menu" />
+            android:id="@+id/btnBack"
+            android:src="@drawable/ic_go_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white" />
+            android:background="@color/white"
+            />
 
     </RelativeLayout>
 
@@ -91,14 +95,14 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_job_completion" />
+                        android:src="@drawable/ic_insert_data" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="24sp"
                         android:layout_marginTop="25dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="JOB COMPLETION"
+                        android:text="INSERT DATA"
                         android:textSize="12dp"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
@@ -107,22 +111,11 @@
                 </LinearLayout>
 
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                >
-
                 <LinearLayout
-                    android:id="@+id/laySearch"
+                    android:id="@+id/laySearch1"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
+                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_home_items"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -132,61 +125,23 @@
                         android:layout_height="60dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_material_issue" />
+                        android:src="@drawable/ic_search" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="24sp"
                         android:layout_marginTop="25dp"
+                        android:textSize="12dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="MATERIAL ISSUE"
-                        android:textSize="12sp"
+                        android:text="SEARCH BY JOB NUMBER"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            >
-
-            <LinearLayout
-                android:id="@+id/layBatch"
-                android:layout_width="0dp"
-                android:layout_height="120dp"
-                android:background="@drawable/bg_home_items"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_batch" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="24sp"
-                    android:layout_marginTop="25dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="BATCH CONTROL"
-                    android:textSize="12sp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
