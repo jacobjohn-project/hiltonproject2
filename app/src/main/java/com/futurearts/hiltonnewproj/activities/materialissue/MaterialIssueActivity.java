@@ -162,7 +162,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
                             if (!reqLoc.equals("")) {
                                 MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
-                                        "",
+                                        etPartNum.getText().toString(),
                                         Integer.parseInt(etQtyShortage.getText().toString()),
                                         etSignedBy.getText().toString(), DateUtils.getSystemDate(),
                                         reqLoc, checkBox.isChecked());
@@ -188,7 +188,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     if (etQtyShortage.getText().toString().length() != 0) {
                         if (etSignedBy.getText().toString().trim().length() != 0) {
                             if (!reqLoc.equals("")) {
-                                MaterialIssueDetails productTable = new MaterialIssueDetails("",
+                                MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
                                         etPartNum.getText().toString(),
                                         Integer.parseInt(etQtyShortage.getText().toString()),
                                         etSignedBy.getText().toString(), DateUtils.getSystemDate(),

@@ -30,8 +30,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtJoborPartNumber,txtQtyShortage,txtReqLocation,txtIsUrgent,txtSavedDate,txtSignBy;
-    TextView tvJobOrPart;
+    TextView txtJobNumber,txtQtyShortage,txtReqLocation,txtIsUrgent,txtSavedDate,txtSignBy,txtPartNumber;
+    //TextView tvJobOrPart;
     ProgressBar progressBar,imgProgBar;
     DatabaseReference mDatabase;
 
@@ -64,7 +64,8 @@ public class SearchResultActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        txtJoborPartNumber = findViewById(R.id.txtJoborPartNumber);
+        txtJobNumber = findViewById(R.id.txtJobNumber);
+        txtPartNumber=findViewById(R.id.txtPartNumber);
         txtQtyShortage = findViewById(R.id.txtQtyShortage);
         txtReqLocation = findViewById(R.id.txtReqLocation);
         txtIsUrgent = findViewById(R.id.txtIsUrgent);
@@ -75,7 +76,7 @@ public class SearchResultActivity extends AppCompatActivity {
         scrollView=findViewById(R.id.scrollView);
         imgProgBar=findViewById(R.id.img_progBar);
         btnBack=findViewById(R.id.btnBack);
-        tvJobOrPart=findViewById(R.id.tvJobOrPart);
+        //tvJobOrPart=findViewById(R.id.tvJobOrPart);
     }
 
 
@@ -152,12 +153,15 @@ public class SearchResultActivity extends AppCompatActivity {
 
     public void populateViews(final MaterialIssueDetails materialIssueDetails,boolean isJob){
         if(isJob){
-            tvJobOrPart.setText("Job Number");
-            txtJoborPartNumber.setText(materialIssueDetails.getJob_Num());
+            //tvJobOrPart.setText("Job Number");
+            txtJobNumber.setText(materialIssueDetails.getJob_Num());
         }else{
-            tvJobOrPart.setText("Part Number");
-            txtJoborPartNumber.setText(materialIssueDetails.getPart_Num());
+            //tvJobOrPart.setText("Part Number");
+            txtPartNumber.setText(materialIssueDetails.getPart_Num());
         }
+
+        txtJobNumber.setText(materialIssueDetails.getJob_Num());
+        txtPartNumber.setText(materialIssueDetails.getPart_Num());
 
         txtQtyShortage.setText(materialIssueDetails.getQty_shortage()+"");
         txtReqLocation.setText(materialIssueDetails.getRequiredLocation());
