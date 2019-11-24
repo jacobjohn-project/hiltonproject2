@@ -1,4 +1,4 @@
-package com.futurearts.hiltonnewproj.activities;
+package com.futurearts.hiltonnewproj.activities.materialissue;
 
 
 import android.Manifest;
@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.ScannerActivity;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;

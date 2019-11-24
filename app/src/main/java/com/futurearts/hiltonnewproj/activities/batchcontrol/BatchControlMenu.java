@@ -1,4 +1,4 @@
-package com.futurearts.hiltonnewproj.activities;
+package com.futurearts.hiltonnewproj.activities.batchcontrol;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -14,6 +14,9 @@ import android.widget.PopupMenu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.batchcontrol.BatchControlMenu;
+import com.futurearts.hiltonnewproj.activities.jobcompletion.JobCompletionMenu;
+import com.futurearts.hiltonnewproj.activities.materialissue.MaterialIssueMenu;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {

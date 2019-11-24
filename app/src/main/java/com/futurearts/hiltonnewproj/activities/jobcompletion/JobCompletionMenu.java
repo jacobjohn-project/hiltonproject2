@@ -1,4 +1,4 @@
-package com.futurearts.hiltonnewproj.activities;
+package com.futurearts.hiltonnewproj.activities.jobcompletion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.BarcodeSearchActivity;
+import com.futurearts.hiltonnewproj.utils.Constants;
 
 public class JobCompletionMenu extends AppCompatActivity {
 
@@ -38,6 +40,7 @@ public class JobCompletionMenu extends AppCompatActivity {
             public void onClick(View v) {
 
                 Intent i = new Intent(JobCompletionMenu.this, BarcodeSearchActivity.class);
+                i.putExtra(Constants.EXTRA_FROM_ACTIVITY,Constants.FROM_JOB_COMPLETION_MENU);
                 startActivity(i);
 
             }

@@ -33,10 +33,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.JobCompletionActivity"
+            android:name="com.futurearts.hiltonnewproj.activities.jobcompletion.JobCompletionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.MaterialIssueActivity"
+            android:name="com.futurearts.hiltonnewproj.activities.materialissue.MaterialIssueActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.futurearts.hiltonnewproj.activities.LoginActivity"
@@ -69,16 +69,16 @@
         <activity android:name=".activities.PartNumberSearchActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.BatchControlActivity"
+        <activity android:name=".activities.batchcontrol.BatchControlActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.JobCompletionMenu"
+        <activity android:name=".activities.jobcompletion.JobCompletionMenu"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.BatchControlMenu"
+        <activity android:name=".activities.batchcontrol.BatchControlMenu"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".activities.MaterialIssueMenu"
+        <activity android:name=".activities.materialissue.MaterialIssueMenu"
             android:screenOrientation="portrait"/>
 
         <meta-data

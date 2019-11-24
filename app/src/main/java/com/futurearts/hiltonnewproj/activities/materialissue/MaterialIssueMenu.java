@@ -1,4 +1,4 @@
-package com.futurearts.hiltonnewproj.activities;
+package com.futurearts.hiltonnewproj.activities.materialissue;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.BarcodeSearchActivity;
+import com.futurearts.hiltonnewproj.activities.PartNumberSearchActivity;
+import com.futurearts.hiltonnewproj.utils.Constants;
 
 public class MaterialIssueMenu extends AppCompatActivity {
 
-    LinearLayout layoutInsert,layoutSearch;
+    LinearLayout layoutInsert, layoutSearchByPartNumber,laySearchByJobNumber;
     ImageView btnBack;
 
 
@@ -33,10 +36,20 @@ public class MaterialIssueMenu extends AppCompatActivity {
         });
 
 
-        layoutSearch.setOnClickListener(new View.OnClickListener() {
+        layoutSearchByPartNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MaterialIssueMenu.this, PartNumberSearchActivity.class);
+                startActivity(i);
+
+            }
+        });
+
+        laySearchByJobNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MaterialIssueMenu.this, BarcodeSearchActivity.class);
+                i.putExtra(Constants.EXTRA_FROM_ACTIVITY,Constants.FROM_MATERIAL_ISSUE_MENU);
                 startActivity(i);
 
             }
@@ -54,7 +67,8 @@ public class MaterialIssueMenu extends AppCompatActivity {
 
     private void initViews() {
         layoutInsert = findViewById(R.id.laySearch);
-        layoutSearch = findViewById(R.id.laySearch2);
+        layoutSearchByPartNumber = findViewById(R.id.laySearch2);
+        laySearchByJobNumber=findViewById(R.id.laySearch3);
         btnBack=findViewById(R.id.btnBack);
     }
 }

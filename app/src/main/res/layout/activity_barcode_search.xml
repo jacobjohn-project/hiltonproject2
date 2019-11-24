@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Part Name : "
+                    android:text="Job Num"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -191,9 +191,9 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Rec Date : "
+                    android:text="Quantity Shortage"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -223,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Moving Date : "
+                    android:text="Saved Date :"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -240,65 +240,7 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:id="@+id/layout4"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout3">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:fontFamily="@font/montserrat"
-                    android:text="Location From : "
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/txtLocFrom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:fontFamily="@font/montserrat"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:id="@+id/layout5"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout4">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat"
-                    android:text="Location To : "
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/txtLocTo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:fontFamily="@font/montserrat"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -306,7 +248,7 @@
                 android:padding="5dp"
                 android:id="@+id/layout6"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout5">
+                android:layout_below="@+id/layout3">
 
                 <TextView
                     android:layout_width="0dp"
@@ -315,7 +257,8 @@
                     android:fontFamily="@font/montserrat"
                     android:text="Sign By : "
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/txtSignBy"

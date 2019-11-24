@@ -1,4 +1,4 @@
-package com.futurearts.hiltonnewproj.activities;
+package com.futurearts.hiltonnewproj.activities.jobcompletion;
 
 import android.Manifest;
 import android.app.Activity;
@@ -31,7 +31,8 @@ import androidx.core.content.ContextCompat;
 import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
+import com.futurearts.hiltonnewproj.activities.ScannerActivity;
+import com.futurearts.hiltonnewproj.modelclasses.JobCompletionDetails;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -52,17 +53,17 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 
-public class BatchControlActivity extends AppCompatActivity {
+public class JobCompletionActivity extends AppCompatActivity {
 
 
     LinearLayout mCameraLayout, btnScanOrderNo;
-    EditText etJobNumber, etPartNumber, etBatchNumber, etQty;
+    EditText etSignedBy, etLocFrom, etPartName, etOrderNum;
     Button btnSubmit;
     ImageView imageView, btnBack;
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
-    String jobNumber, partNumber, batchNumber, quantity;
-//    int locFrom;
+    String signedBy, orderNum, locTo, recDate, movDate;
+    int locFrom;
 
     Activity activity;
     Calendar myCalendar;
@@ -76,7 +77,7 @@ public class BatchControlActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_batch_control);
+        setContentView(R.layout.activity_job_completion);
 
         activity = this;
 
@@ -97,7 +98,7 @@ public class BatchControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                Intent intent = new Intent(JobCompletionActivity.this, ScannerActivity.class);
                 startActivityForResult(intent, 3);
             }
         });
@@ -114,9 +115,34 @@ public class BatchControlActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
-                if (!isValidationFailed()) {
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(),Integer.parseInt(etQty.getText().toString()));
-                    uploadImage(filePathNew, fileName, productTable);
+                orderNum = etOrderNum.getText().toString();
+                if (etLocFrom.getText().toString().trim().length() != 0) {
+                    locFrom = Integer.parseInt(etLocFrom.getText().toString());
+                } else {
+                    locFrom = 0;
+                }
+
+                signedBy = etSignedBy.getText().toString();
+
+
+                if (!orderNum.equals("")) {
+                    if (locFrom != 0) {
+                        if (signedBy.length() != 0) {
+                            if (!fileName.equals("") && !filePathNew.equals("")) {
+                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
+                                uploadImage(filePathNew, fileName, productTable);
+                            } else {
+                                JobCompletionDetails productTable = new JobCompletionDetails(orderNum, locFrom, signedBy, DateUtils.getSystemDate());
+                                updateDb(productTable);
+                            }
+                        } else {
+                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(activity, "Enter a valid Quantity", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(activity, "Enter Job Number field", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -126,46 +152,15 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
-    private boolean isValidationFailed() {
-        boolean failFlag = false;
-        if (etJobNumber.getText().toString().length() == 0) {
-            failFlag = true;
-            Toast.makeText(activity, "Enter Job Number", Toast.LENGTH_SHORT).show();
-        } else if (etBatchNumber.getText().toString().length() == 0) {
-            failFlag = true;
-            Toast.makeText(activity, "Enter Batch Number", Toast.LENGTH_SHORT).show();
-        } else if (etQty.getText().toString().length() == 0) {
-            failFlag = true;
-            Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
-        } else if (etQty.getText().toString().length() != 0) {
-            try {
-                int num = Integer.parseInt(etQty.getText().toString());
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                failFlag = true;
-                Toast.makeText(activity, "Enter valid Quantity", Toast.LENGTH_SHORT).show();
-            }
-            if (!failFlag) {
-                if (fileName.equals("") && filePathNew.equals("")) {
-                    failFlag = true;
-                    Toast.makeText(activity, "Add image", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-
-        return failFlag;
-    }
-
     private void initViews() {
 
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
-        etJobNumber = findViewById(R.id.etJobNumber);
-        etPartNumber = findViewById(R.id.etPartNumber);
-        etBatchNumber = findViewById(R.id.etBatchNumber);
-        etQty = findViewById(R.id.etQuantity);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        etOrderNum = findViewById(R.id.etOrderNo);
+        etPartName = findViewById(R.id.editText);
+        etSignedBy = findViewById(R.id.orderNo8);
+        etLocFrom = findViewById(R.id.orderNo7);
+        btnSubmit = findViewById(R.id.button2);
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
@@ -173,12 +168,12 @@ public class BatchControlActivity extends AppCompatActivity {
 
         pref = new SharedPref(this);
 
-//        etSignedBy.setText("Signed By: "+pref.getUserName());
-        etJobNumber.requestFocus();
+        etSignedBy.setText("Signed By: "+pref.getUserName());
+        etOrderNum.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.BATCH_CONTROL_TABLE);
-        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.BATCH_CONTROL_TABLE);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
+        mStorageRef = FirebaseStorage.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.JOB_COMPLETION_TABLE);
 
     }
 
@@ -198,7 +193,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(BatchControlActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(JobCompletionActivity.this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
@@ -213,7 +208,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
                     //Custom Camera
 
-                    /*Intent i = new Intent(BatchControlActivity.this,CameraActivity.class);
+                    /*Intent i = new Intent(JobCompletionActivity.this,CameraActivity.class);
                     startActivity(i);*/
 
                     //Material Camera Library
@@ -223,7 +218,7 @@ public class BatchControlActivity extends AppCompatActivity {
                         if (!mFile.mkdir())
                             throw new RuntimeException("Unable to create save directory, make sure WRITE_EXTERNAL_STORAGE permission is granted.");
 
-                    new MaterialCamera(BatchControlActivity.this)
+                    new MaterialCamera(JobCompletionActivity.this)
                             /** all the previous methods can be called, but video ones would be ignored */
                             .saveDir(mFile)
                             .primaryColorAttr(R.attr.colorPrimary)
@@ -232,7 +227,7 @@ public class BatchControlActivity extends AppCompatActivity {
                             .start(CAMERA_RQ);
 
                 } else if (options[item].equals("Choose from Gallery")) {
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
                 } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -242,7 +237,7 @@ public class BatchControlActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void uploadImage(String filePath, String fileName, final BatchContraolDetails productTable) {
+    public void uploadImage(String filePath, String fileName, final JobCompletionDetails productTable) {
 
         if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -263,7 +258,7 @@ public class BatchControlActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
-                                    productTable.setImage_url(outputurl);
+                                    productTable.setJob_image(outputurl);
                                     updateDb(productTable);
                                 }
                             });
@@ -300,21 +295,17 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
-    public void updateDb(BatchContraolDetails productTable) {
+    public void updateDb(JobCompletionDetails productTable) {
         mDatabase.push().setValue(productTable);
 
         fileName = "";
         filePathNew = "";
-        jobNumber = "";
-        partNumber = "";
-        batchNumber = "";
-        quantity = "";
-//        locFrom = 0;
-//        locTo = "";
-//        movDate = "";
-//        recDate = "";
-//        orderNum = "";
-//        signedBy = "";
+        locFrom = 0;
+        locTo = "";
+        movDate = "";
+        recDate = "";
+        orderNum = "";
+        signedBy = "";
 
         imageView.setImageDrawable(null);
         Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
@@ -359,9 +350,9 @@ public class BatchControlActivity extends AppCompatActivity {
 
             } else if (requestCode == 3) {
                 String message = data.getStringExtra("MESSAGE");
-                etJobNumber.setText(message);
+                etOrderNum.setText(message);
 
-                etPartNumber.requestFocus();
+                etLocFrom.requestFocus();
             }
         }
 
@@ -410,21 +401,21 @@ public class BatchControlActivity extends AppCompatActivity {
             // Permission is not granted
             // Should we show an explanation?
             if (
-                    ActivityCompat.shouldShowRequestPermissionRationale(BatchControlActivity.this,
+                    ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
-                            ActivityCompat.shouldShowRequestPermissionRationale(BatchControlActivity.this,
+                            ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
                                     Manifest.permission.READ_EXTERNAL_STORAGE) &&
-                            ActivityCompat.shouldShowRequestPermissionRationale(BatchControlActivity.this,
+                            ActivityCompat.shouldShowRequestPermissionRationale(JobCompletionActivity.this,
                                     Manifest.permission.CAMERA)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                ActivityCompat.requestPermissions(BatchControlActivity.this,
+                ActivityCompat.requestPermissions(JobCompletionActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_READ_STORAGE);
             } else {
                 // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(BatchControlActivity.this,
+                ActivityCompat.requestPermissions(JobCompletionActivity.this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                         MY_PERMISSIONS_REQUEST_READ_STORAGE);
 
