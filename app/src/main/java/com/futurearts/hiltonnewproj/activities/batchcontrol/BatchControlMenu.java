@@ -38,7 +38,8 @@ public class BatchControlMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                Intent i = new Intent(BatchControlMenu.this, BatchControlSearchActivity.class);
+                startActivity(i);
             }
         });
 

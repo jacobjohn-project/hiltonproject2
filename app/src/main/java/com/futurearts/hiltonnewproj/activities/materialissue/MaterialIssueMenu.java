@@ -16,7 +16,7 @@ import com.futurearts.hiltonnewproj.utils.Constants;
 
 public class MaterialIssueMenu extends AppCompatActivity {
 
-    LinearLayout layoutInsert, layoutSearchByPartNumber,laySearchByJobNumber;
+    LinearLayout layoutInsert, layoutSearchByPartNumber,laySearchByJobNumber,layFactoryData;
     ImageView btnBack;
 
 
@@ -55,6 +55,15 @@ public class MaterialIssueMenu extends AppCompatActivity {
             }
         });
 
+        layFactoryData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MaterialIssueMenu.this, FactoryDataActivity.class);
+                startActivity(i);
+
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,6 +78,7 @@ public class MaterialIssueMenu extends AppCompatActivity {
         layoutInsert = findViewById(R.id.laySearch);
         layoutSearchByPartNumber = findViewById(R.id.laySearch2);
         laySearchByJobNumber=findViewById(R.id.laySearch3);
+        layFactoryData=findViewById(R.id.layFactory);
         btnBack=findViewById(R.id.btnBack);
     }
 }

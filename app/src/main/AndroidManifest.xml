@@ -81,6 +81,12 @@
         <activity android:name=".activities.materialissue.MaterialIssueMenu"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activities.batchcontrol.BatchControlSearchActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".activities.materialissue.FactoryDataActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
