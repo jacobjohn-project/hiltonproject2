@@ -19,6 +19,8 @@ import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.SearchResultActivity;
 import com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,26 +47,66 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
     @Override
     public void onBindViewHolder(@NonNull final FactoryDataAdapter.ViewHolder holder, final int position) {
 
-        holder.imgProgBar.setVisibility(View.VISIBLE);
+
 
         holder.jobNumber.setText("Job Num: "+materialIssue.get(position).getJob_Num());
         holder.partNumber.setText("Part Num: "+materialIssue.get(position).getPart_Num());
         holder.qtyShort.setText("Quantity Short: "+materialIssue.get(position).getQty_shortage());
         holder.signedBy.setText(materialIssue.get(position).getWho());
 
-        Picasso.get().load(materialIssue.get(position).getMaterialJobImage()).placeholder(R.drawable.img_placeholder).into(holder.imgView, new com.squareup.picasso.Callback() {
-            @Override
-            public void onSuccess() {
-                //do smth when picture is loaded successfully
-                holder.imgProgBar.setVisibility(View.GONE);
-            }
+        if(materialIssue.get(position).getMaterialJobImage()!=null){
+            holder.imgProgBar.setVisibility(View.VISIBLE);
+            /*Picasso.get().load(materialIssue.get(position).getMaterialJobImage()).placeholder(R.drawable.img_placeholder).into(holder.imgView, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+                    //do smth when picture is loaded successfully
+                    holder.imgProgBar.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onError(Exception ex) {
-                //do smth when there is picture loading error
-                holder.imgProgBar.setVisibility(View.GONE);
-            }
-        });
+                @Override
+                public void onError(Exception ex) {
+                    //do smth when there is picture loading error
+                    holder.imgProgBar.setVisibility(View.GONE);
+                }
+            });*/
+
+            Picasso.get()
+                    .load(materialIssue.get(position).getMaterialJobImage())
+                    .placeholder(R.drawable.img_placeholder)
+                    .networkPolicy(NetworkPolicy.OFFLINE)//user this for offline support
+                    .into(holder.imgView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.imgProgBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Picasso.get()
+                                    .load(materialIssue.get(position).getMaterialJobImage())
+                                    .placeholder(R.drawable.img_placeholder)
+                                    .error(R.drawable.img_placeholder)//user this for offline support
+                                    .into(holder.imgView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            holder.imgProgBar.setVisibility(View.GONE);
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            holder.imgProgBar.setVisibility(View.GONE);
+                                        }
+
+
+                                    });
+                        }
+
+                    });
+
+        }else{
+            holder.imgProgBar.setVisibility(View.GONE);
+        }
+
 
         holder.imgLayout.setOnClickListener(new View.OnClickListener() {
             @Override

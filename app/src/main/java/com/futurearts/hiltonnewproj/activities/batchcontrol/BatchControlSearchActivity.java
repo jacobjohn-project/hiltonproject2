@@ -20,6 +20,7 @@ import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.BarcodeSearchActivity;
 import com.futurearts.hiltonnewproj.activities.ScannerActivity;
 import com.futurearts.hiltonnewproj.activities.SearchResultActivity;
+import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
 import com.futurearts.hiltonnewproj.modelclasses.JobCompletionDetails;
 import com.futurearts.hiltonnewproj.utils.Constants;
 import com.google.firebase.database.DataSnapshot;
@@ -103,18 +104,23 @@ public class BatchControlSearchActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         mDatabase.keepSynced(true);
-        mDatabase.orderByChild("job_Num").equalTo(scanCode).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.orderByChild("job_number").equalTo(scanCode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 progressBar.setVisibility(View.GONE);
                 scrollView.setVisibility(View.VISIBLE);
                 if (dataSnapshot.getChildrenCount() > 0) {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
-
+                        BatchContraolDetails productTable =  post.getValue(BatchContraolDetails.class);
                         imgProgBar.setVisibility(View.VISIBLE);
 
+                        txtJobNum.setText(productTable.getJob_number());
+                        txtPartNum.setText(productTable.getPart_number());
+                        txtBatchNum.setText(productTable.getBatch_number());
+                        txtQuantity.setText(productTable.getQuantity()+"");
 
-                        Picasso.get().load("/*Add image*/").placeholder(R.drawable.img_placeholder).into(imgProduct, new com.squareup.picasso.Callback() {
+
+                        Picasso.get().load(productTable.getImage_url()).placeholder(R.drawable.img_placeholder).into(imgProduct, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
                                 //do smth when picture is loaded successfully
