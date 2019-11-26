@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:id="@+id/etSearch"
-            android:hint="Job Number"
+            android:hint="Chassis Number"
             android:textColor="@color/white"
             android:fontFamily="@font/montserrat"
             android:textColorHint="@color/white"
@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/montserrat"
-                    android:text="Job Num : "
+                    android:text="Chassis Num : "
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 

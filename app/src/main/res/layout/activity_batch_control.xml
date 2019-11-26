@@ -29,12 +29,24 @@
             android:textSize="18sp" />
 
         <ImageView
+            android:id="@+id/hilton_logo"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@mipmap/ic_hilton"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_alignParentEnd="true"
+            />
+
+        <ImageView
+            android:id="@+id/imgUndo"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_undo"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:padding="5dp"
+            android:layout_toStartOf="@+id/hilton_logo"
             />
 
         <ImageView
@@ -101,32 +113,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
+        app:layout_constraintTop_toBottomOf="@+id/etWorkcenter"
         app:layout_constraintVertical_bias="0.0" />
 
 
-    <EditText
-        android:id="@+id/etPartNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Part Number"
-        android:inputType="text"
-        android:padding="7dp"
-        android:nextFocusDown="@id/etBatchNumber"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo"
-        app:layout_constraintVertical_bias="0.0" />
+
 
     <EditText
         android:id="@+id/etBatchNumber"
@@ -148,9 +139,115 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPartNumber"
+        app:layout_constraintTop_toBottomOf="@+id/partNum"
         app:layout_constraintVertical_bias="0.0" />
 
+
+    <EditText
+        android:id="@+id/etWorkcenter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@android:color/white"
+        android:ems="10"
+        android:fontFamily="@font/montserrat"
+        android:hint="Work Center"
+        android:inputType="text"
+        android:padding="7dp"
+        android:nextFocusDown="@id/etQuantity"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
+        app:layout_constraintVertical_bias="0.0" />
+<!--    <EditText-->
+<!--        android:id="@+id/etPartNumber"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="8dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:backgroundTint="@android:color/white"-->
+<!--        android:ems="10"-->
+<!--        android:fontFamily="@font/montserrat"-->
+<!--        android:hint="Part Number"-->
+<!--        android:inputType="text"-->
+<!--        android:padding="7dp"-->
+<!--        android:nextFocusDown="@id/etBatchNumber"-->
+<!--        android:textColor="@android:color/white"-->
+<!--        android:textColorHint="@android:color/white"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/orderNo"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+
+
+    <LinearLayout
+        android:id="@+id/partNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/orderNo"
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+        <EditText
+            android:id="@+id/etPartNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:fontFamily="@font/montserrat"
+            android:hint="Part Number"
+            android:inputType="textPersonName"
+            android:nextFocusDown="@id/etPartNumber"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:layout_weight="4"
+            android:focusedByDefault="true"
+
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnScanPartNo"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -175,7 +272,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
             android:fontFamily="@font/montserrat"
-            android:hint="Job Number"
+            android:hint="Chassis Number"
             android:inputType="textPersonName"
             android:nextFocusDown="@id/etPartNumber"
             android:textColor="@android:color/white"
@@ -211,8 +308,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
 
     <Button
         android:id="@+id/btnSubmit"

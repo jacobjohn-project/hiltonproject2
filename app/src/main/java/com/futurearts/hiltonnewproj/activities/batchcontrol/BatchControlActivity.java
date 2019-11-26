@@ -55,10 +55,10 @@ import java.util.Calendar;
 public class BatchControlActivity extends AppCompatActivity {
 
 
-    LinearLayout mCameraLayout, btnScanOrderNo;
-    EditText etJobNumber, etPartNumber, etBatchNumber, etQty;
+    LinearLayout mCameraLayout, btnScanOrderNo,btnScanPartNo;
+    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter;
     Button btnSubmit;
-    ImageView imageView, btnBack;
+    ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
     String jobNumber, partNumber, batchNumber, quantity;
@@ -102,6 +102,15 @@ public class BatchControlActivity extends AppCompatActivity {
             }
         });
 
+        btnScanPartNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 4);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +125,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
                 if (!isValidationFailed()) {
                     BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(),Integer.parseInt(etQty.getText().toString()));
+
                     uploadImage(filePathNew, fileName, productTable);
                 }
 
@@ -123,6 +133,29 @@ public class BatchControlActivity extends AppCompatActivity {
             }
         });
 
+        imgUndo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                clearAll();
+
+            }
+        });
+
+
+    }
+
+    private void clearAll() {
+
+
+        etJobNumber.setText("");
+        etPartNumber.setText("");
+        etWorkcenter.setText("");
+        etBatchNumber.setText("");
+        etQty.setText("");
+        fileName="";
+        filePathNew="";
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
 
     }
 
@@ -135,22 +168,27 @@ public class BatchControlActivity extends AppCompatActivity {
             failFlag = true;
             Toast.makeText(activity, "Enter Batch Number", Toast.LENGTH_SHORT).show();
         } else if (etQty.getText().toString().length() == 0) {
+//            failFlag = true;
+//            Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
+            etQty.setText("1");
+        } else if (etWorkcenter.getText().toString().length() == 0) {
             failFlag = true;
-            Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
-        } else if (etQty.getText().toString().length() != 0) {
+            Toast.makeText(activity, "Enter Work Center", Toast.LENGTH_SHORT).show();
+        }else if (etQty.getText().toString().length() != 0) {
             try {
                 int num = Integer.parseInt(etQty.getText().toString());
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-                failFlag = true;
-                Toast.makeText(activity, "Enter valid Quantity", Toast.LENGTH_SHORT).show();
+//                failFlag = true;
+//                Toast.makeText(activity, "Enter valid Quantity", Toast.LENGTH_SHORT).show();
+                etQty.setText("1");
             }
-            if (!failFlag) {
-                if (fileName.equals("") && filePathNew.equals("")) {
-                    failFlag = true;
-                    Toast.makeText(activity, "Add image", Toast.LENGTH_SHORT).show();
-                }
-            }
+//            if (!failFlag) {
+//                if (fileName.equals("") && filePathNew.equals("")) {
+//                    failFlag = true;
+//                    Toast.makeText(activity, "Add image", Toast.LENGTH_SHORT).show();
+//                }
+//            }
         }
 
 
@@ -161,14 +199,17 @@ public class BatchControlActivity extends AppCompatActivity {
 
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
+        btnScanPartNo = findViewById(R.id.btnScanPartNo);
         etJobNumber = findViewById(R.id.etJobNumber);
         etPartNumber = findViewById(R.id.etPartNumber);
         etBatchNumber = findViewById(R.id.etBatchNumber);
+        etWorkcenter = findViewById(R.id.etWorkcenter);
         etQty = findViewById(R.id.etQuantity);
         btnSubmit = findViewById(R.id.btnSubmit);
         imageView = findViewById(R.id.imageView);
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
+        imgUndo = findViewById(R.id.imgUndo);
 
 
         pref = new SharedPref(this);
@@ -362,6 +403,11 @@ public class BatchControlActivity extends AppCompatActivity {
                 etJobNumber.setText(message);
 
                 etPartNumber.requestFocus();
+            }else if (requestCode == 4) {
+                String message = data.getStringExtra("MESSAGE");
+                etPartNumber.setText(message);
+
+                etBatchNumber.requestFocus();
             }
         }
 
