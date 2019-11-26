@@ -34,7 +34,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity;
+    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity,txtAddedBy,txtAddedDate,txtWorkCenter;
     EditText etSearch;
     ImageButton btnSearch,btnBarscan;
     ProgressBar progressBar,imgProgBar;
@@ -96,6 +96,10 @@ public class BatchControlSearchActivity extends AppCompatActivity {
         txtJobNum = findViewById(R.id.txtJobNum);
         txtBatchNum = findViewById(R.id.txtBatchNum);
         txtQuantity = findViewById(R.id.txtQuantity);
+        txtAddedDate=findViewById(R.id.txtAddedDate);
+        txtAddedBy=findViewById(R.id.txtAddedBy);
+        txtWorkCenter=findViewById(R.id.txtWorkCenter);
+
 
     }
 
@@ -109,6 +113,10 @@ public class BatchControlSearchActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 progressBar.setVisibility(View.GONE);
                 scrollView.setVisibility(View.VISIBLE);
+                txtBatchNum.setText("");
+                txtPartNum.setText("");
+                txtJobNum.setText("");
+
                 if (dataSnapshot.getChildrenCount() > 0) {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
                         BatchContraolDetails productTable =  post.getValue(BatchContraolDetails.class);
@@ -118,6 +126,9 @@ public class BatchControlSearchActivity extends AppCompatActivity {
                         txtPartNum.setText(productTable.getPart_number());
                         txtBatchNum.setText(productTable.getBatch_number());
                         txtQuantity.setText(productTable.getQuantity()+"");
+                        txtAddedBy.setText(productTable.getAdded_by());
+                        txtAddedDate.setText(productTable.getDate_time());
+                        txtWorkCenter.setText(productTable.getWork_center());
 
 
                         Picasso.get().load(productTable.getImage_url()).placeholder(R.drawable.img_placeholder).into(imgProduct, new com.squareup.picasso.Callback() {

@@ -33,6 +33,7 @@ import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.ScannerActivity;
 import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
+import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -55,7 +56,7 @@ import java.util.Calendar;
 public class BatchControlActivity extends AppCompatActivity {
 
 
-    LinearLayout mCameraLayout, btnScanOrderNo,btnScanPartNo;
+    LinearLayout mCameraLayout, btnScanOrderNo, btnScanPartNo;
     EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter;
     Button btnSubmit;
     ImageView imageView, btnBack, imgUndo;
@@ -124,9 +125,15 @@ public class BatchControlActivity extends AppCompatActivity {
 
 
                 if (!isValidationFailed()) {
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(),Integer.parseInt(etQty.getText().toString()));
 
-                    uploadImage(filePathNew, fileName, productTable);
+
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName());
+                    if (!fileName.equals("") && !filePathNew.equals("")) {
+                        uploadImage(filePathNew, fileName, productTable);
+                    }else{
+                        updateDb(productTable);
+                    }
+
                 }
 
 
@@ -153,8 +160,8 @@ public class BatchControlActivity extends AppCompatActivity {
         etWorkcenter.setText("");
         etBatchNumber.setText("");
         etQty.setText("");
-        fileName="";
-        filePathNew="";
+        fileName = "";
+        filePathNew = "";
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
 
     }
@@ -174,7 +181,7 @@ public class BatchControlActivity extends AppCompatActivity {
         } else if (etWorkcenter.getText().toString().length() == 0) {
             failFlag = true;
             Toast.makeText(activity, "Enter Work Center", Toast.LENGTH_SHORT).show();
-        }else if (etQty.getText().toString().length() != 0) {
+        } else if (etQty.getText().toString().length() != 0) {
             try {
                 int num = Integer.parseInt(etQty.getText().toString());
             } catch (NumberFormatException e) {
@@ -196,6 +203,7 @@ public class BatchControlActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+
 
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
@@ -403,7 +411,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 etJobNumber.setText(message);
 
                 etPartNumber.requestFocus();
-            }else if (requestCode == 4) {
+            } else if (requestCode == 4) {
                 String message = data.getStringExtra("MESSAGE");
                 etPartNumber.setText(message);
 
