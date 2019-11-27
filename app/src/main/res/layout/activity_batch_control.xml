@@ -105,6 +105,7 @@
         android:ems="10"
         android:fontFamily="@font/montserrat"
         android:hint="Quantity"
+        android:nextFocusDown="@id/etBatchNumber"
         android:inputType="numberDecimal"
         android:padding="7dp"
         android:textColor="@android:color/white"
@@ -132,14 +133,13 @@
         android:hint="Batch Number"
         android:inputType="text"
         android:padding="7dp"
-        android:nextFocusDown="@id/etWorkcenter"
         android:textColor="@android:color/white"
         android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/partNum"
+        app:layout_constraintTop_toBottomOf="@+id/etQuantity"
         app:layout_constraintVertical_bias="0.0" />
 
 
@@ -163,7 +163,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
+        app:layout_constraintTop_toBottomOf="@+id/partNum"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -238,11 +238,10 @@
             android:fontFamily="@font/montserrat"
             android:hint="Part Number"
             android:inputType="textPersonName"
-            android:nextFocusDown="@id/etBatchNumber"
+            android:nextFocusDown="@id/etWorkcenter"
             android:textColor="@android:color/white"
             android:textColorHint="@color/grey"
             android:layout_weight="4"
-            android:focusedByDefault="true"
 
             />
 
@@ -296,7 +295,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/white"
             android:fontFamily="@font/montserrat"
-            android:hint="Chassis Number"
+            android:hint="Job/Chassis Number"
             android:inputType="textPersonName"
             android:nextFocusDown="@id/etPartNumber"
             android:textColor="@android:color/white"
@@ -363,7 +362,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etQuantity"
+        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
