@@ -57,7 +57,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
 
     LinearLayout mCameraLayout, btnScanOrderNo, btnScanPartNo;
-    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter;
+    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator;
     Button btnSubmit;
     ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
@@ -159,6 +159,7 @@ public class BatchControlActivity extends AppCompatActivity {
         etPartNumber.setText("");
         etWorkcenter.setText("");
         etBatchNumber.setText("");
+        etOperator.setText("");
         etQty.setText("");
         fileName = "";
         filePathNew = "";
@@ -181,6 +182,9 @@ public class BatchControlActivity extends AppCompatActivity {
         } else if (etWorkcenter.getText().toString().length() == 0) {
             failFlag = true;
             Toast.makeText(activity, "Enter Work Center", Toast.LENGTH_SHORT).show();
+        }else if (etOperator.getText().toString().length() == 0) {
+            failFlag = true;
+            Toast.makeText(activity, "Enter Operator", Toast.LENGTH_SHORT).show();
         } else if (etQty.getText().toString().length() != 0) {
             try {
                 int num = Integer.parseInt(etQty.getText().toString());
@@ -218,6 +222,7 @@ public class BatchControlActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnBack = findViewById(R.id.btnBack);
         imgUndo = findViewById(R.id.imgUndo);
+        etOperator = findViewById(R.id.etOperator);
 
 
         pref = new SharedPref(this);

@@ -61,7 +61,7 @@
         android:orientation="horizontal"
         android:fontFamily="@font/montserrat"
         android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
+        android:textColorHint="@color/grey"
         android:layout_below="@id/view2">
 
         <TextView

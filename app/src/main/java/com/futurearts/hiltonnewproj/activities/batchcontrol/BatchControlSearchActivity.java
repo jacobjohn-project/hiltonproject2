@@ -165,4 +165,25 @@ public class BatchControlSearchActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 3) {
+
+
+                String message = data.getStringExtra("MESSAGE");
+                etSearch.setText(message);
+
+                checkDb(message);
+
+
+            }
+        }
+
+    }
 }
