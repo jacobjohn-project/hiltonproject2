@@ -34,7 +34,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity,txtAddedBy,txtAddedDate,txtWorkCenter;
+    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity,txtAddedBy,txtAddedDate,txtWorkCenter,txtOperator;
     EditText etSearch;
     ImageButton btnSearch,btnBarscan;
     ProgressBar progressBar,imgProgBar;
@@ -99,6 +99,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
         txtAddedDate=findViewById(R.id.txtAddedDate);
         txtAddedBy=findViewById(R.id.txtAddedBy);
         txtWorkCenter=findViewById(R.id.txtWorkCenter);
+        txtOperator=findViewById(R.id.txtOperator);
 
 
     }
@@ -116,6 +117,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
                 txtBatchNum.setText("");
                 txtPartNum.setText("");
                 txtJobNum.setText("");
+                txtOperator.setText("");
 
                 if (dataSnapshot.getChildrenCount() > 0) {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
@@ -129,6 +131,9 @@ public class BatchControlSearchActivity extends AppCompatActivity {
                         txtAddedBy.setText(productTable.getAdded_by());
                         txtAddedDate.setText(productTable.getDate_time());
                         txtWorkCenter.setText(productTable.getWork_center());
+                        if(productTable.getOperator()!=null){
+                            txtOperator.setText(productTable.getOperator());
+                        }
 
 
                         Picasso.get().load(productTable.getImage_url()).placeholder(R.drawable.img_placeholder).into(imgProduct, new com.squareup.picasso.Callback() {

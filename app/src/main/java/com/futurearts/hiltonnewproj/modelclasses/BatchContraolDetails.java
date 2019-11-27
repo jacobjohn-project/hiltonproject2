@@ -5,6 +5,7 @@ public class BatchContraolDetails {
     int quantity;
     String image_url;
     String work_center,date_time,added_by;
+    String operator;
 
     public BatchContraolDetails() {
     }
@@ -17,7 +18,7 @@ public class BatchContraolDetails {
         this.image_url = image_url;
     }
 
-    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by) {
+    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator) {
         this.job_number = job_number;
         this.part_number = part_number;
         this.batch_number = batch_number;
@@ -25,6 +26,7 @@ public class BatchContraolDetails {
         this.work_center=work_center;
         this.date_time=date_time;
         this.added_by=added_by;
+        this.operator=operator;
 
     }
 
@@ -90,5 +92,13 @@ public class BatchContraolDetails {
 
     public void setAdded_by(String added_by) {
         this.added_by = added_by;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }
