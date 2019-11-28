@@ -56,8 +56,8 @@ import java.util.Calendar;
 public class BatchControlActivity extends AppCompatActivity {
 
 
-    LinearLayout mCameraLayout, btnScanOrderNo, btnScanPartNo;
-    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator;
+    LinearLayout mCameraLayout, btnScanOrderNo, btnScanPartNo,btnScanWorkCenter,btnScanOperator,btnScanBatch,btnPOnum;
+    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator,etPOnumber;
     Button btnSubmit;
     ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
@@ -112,6 +112,42 @@ public class BatchControlActivity extends AppCompatActivity {
             }
         });
 
+        btnScanWorkCenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 5);
+            }
+        });
+
+        btnScanOperator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 6);
+            }
+        });
+
+        btnScanBatch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 7);
+            }
+        });
+
+        btnPOnum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 8);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -160,6 +196,7 @@ public class BatchControlActivity extends AppCompatActivity {
         etWorkcenter.setText("");
         etBatchNumber.setText("");
         etOperator.setText("");
+        etPOnumber.setText("");
         etQty.setText("");
         fileName = "";
         filePathNew = "";
@@ -212,6 +249,10 @@ public class BatchControlActivity extends AppCompatActivity {
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
         btnScanPartNo = findViewById(R.id.btnScanPartNo);
+        btnScanWorkCenter = findViewById(R.id.btnScanWorkCenter);
+        btnScanBatch = findViewById(R.id.btnScanBatch);
+        btnScanOperator = findViewById(R.id.btnScanOperator);
+        btnPOnum = findViewById(R.id.btnPOnum);
         etJobNumber = findViewById(R.id.etJobNumber);
         etPartNumber = findViewById(R.id.etPartNumber);
         etBatchNumber = findViewById(R.id.etBatchNumber);
@@ -223,6 +264,8 @@ public class BatchControlActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         imgUndo = findViewById(R.id.imgUndo);
         etOperator = findViewById(R.id.etOperator);
+        etPOnumber = findViewById(R.id.etPOnumber);
+
 
 
         pref = new SharedPref(this);
@@ -420,7 +463,26 @@ public class BatchControlActivity extends AppCompatActivity {
                 String message = data.getStringExtra("MESSAGE");
                 etPartNumber.setText(message);
 
-                etBatchNumber.requestFocus();
+                etWorkcenter.requestFocus();
+            }else if (requestCode == 5) {
+                String message = data.getStringExtra("MESSAGE");
+                etWorkcenter.setText(message);
+
+                etOperator.requestFocus();
+            }else if (requestCode == 6) {
+                String message = data.getStringExtra("MESSAGE");
+                etOperator.setText(message);
+
+                etQty.requestFocus();
+            }else if (requestCode == 7) {
+                String message = data.getStringExtra("MESSAGE");
+                etBatchNumber.setText(message);
+
+                etPOnumber.requestFocus();
+            }else if (requestCode == 8) {
+                String message = data.getStringExtra("MESSAGE");
+                etPOnumber.setText(message);
+
             }
         }
 

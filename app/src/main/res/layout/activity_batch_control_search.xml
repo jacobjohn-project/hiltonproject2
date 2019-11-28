@@ -121,7 +121,7 @@
         android:layout_below="@+id/searchView"
         android:id="@+id/scrollView"
         android:scrollbars="none"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"

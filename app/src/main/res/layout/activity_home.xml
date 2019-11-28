@@ -179,7 +179,7 @@
                     android:layout_height="24sp"
                     android:layout_marginTop="25dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="BATCH CONTROL"
+                    android:text="PRODUCTION DATA"
                     android:textSize="12sp"
                     android:textAlignment="center"
                     android:textColor="@color/white" />

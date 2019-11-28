@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="Batch Control"
+            android:text="PRODUCTION DATA"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -114,80 +114,136 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etOperator"
+        app:layout_constraintTop_toBottomOf="@+id/operatorLay"
         app:layout_constraintVertical_bias="0.0" />
 
 
 
 
-    <EditText
-        android:id="@+id/etBatchNumber"
-        android:layout_width="0dp"
+
+
+
+    <LinearLayout
+        android:id="@+id/batchNumLay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Batch Number"
-        android:inputType="text"
-        android:padding="7dp"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etQuantity"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+        <EditText
+            android:id="@+id/etBatchNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Batch Number"
+            android:inputType="text"
+            android:nextFocusDown="@id/etPOnumber"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/grey"
+            android:layout_weight="4"
+             />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnScanBatch"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/etWorkcenter"
-        android:layout_width="0dp"
+
+
+
+    <LinearLayout
+        android:id="@+id/poNumLay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Work Center"
-        android:inputType="text"
-        android:padding="7dp"
-        android:nextFocusDown="@id/etOperator"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/partNum"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/batchNumLay"
+        app:layout_constraintVertical_bias="0.0"
+        >
+        <EditText
+            android:id="@+id/etPOnumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="PO Number"
+            android:inputType="text"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/grey"
+            android:layout_weight="4"
+           />
 
-    <EditText
-        android:id="@+id/etOperator"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Operator"
-        android:inputType="text"
-        android:padding="7dp"
-        android:nextFocusDown="@id/etQuantity"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etWorkcenter"
-        app:layout_constraintVertical_bias="0.0" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnPOnum"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
 
 <!--    <EditText-->
 <!--        android:id="@+id/etPartNumber"-->
@@ -332,6 +388,123 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:id="@+id/workCenterLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partNum"
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+        <EditText
+            android:id="@+id/etWorkcenter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Work Center"
+            android:inputType="text"
+            android:nextFocusDown="@id/etOperator"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/grey"
+            android:layout_weight="4"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnScanWorkCenter"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/operatorLay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workCenterLay"
+        app:layout_constraintVertical_bias="0.0"
+        >
+
+        <EditText
+            android:id="@+id/etOperator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Operator"
+            android:inputType="text"
+            android:nextFocusDown="@id/etQuantity"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/grey"
+            android:layout_weight="4"
+         />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnScanOperator"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/btnSubmit"
         android:layout_width="0dp"
@@ -362,7 +535,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etBatchNumber"
+        app:layout_constraintTop_toBottomOf="@+id/poNumLay"
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView

@@ -44,7 +44,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="BATCH CONTROL"
+            android:text="PRODUCTION DATA"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
