@@ -414,9 +414,10 @@ public class BatchControlActivity extends AppCompatActivity {
 //        signedBy = "";
 
         imageView.setImageDrawable(null);
+        clearAll();
         Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
-        finish();
+//        finish();
 
     }
 
