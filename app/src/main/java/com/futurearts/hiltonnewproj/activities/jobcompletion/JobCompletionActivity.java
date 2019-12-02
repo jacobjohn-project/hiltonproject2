@@ -152,6 +152,17 @@ public class JobCompletionActivity extends AppCompatActivity {
 
     }
 
+    private void clearAll() {
+
+
+        etOrderNum.setText("");
+        etLocFrom.setText("");
+        fileName = "";
+        filePathNew = "";
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
+
+    }
+
     private void initViews() {
 
         mCameraLayout = findViewById(R.id.linearLayout);
@@ -309,8 +320,9 @@ public class JobCompletionActivity extends AppCompatActivity {
 
         imageView.setImageDrawable(null);
         Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+        clearAll();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
-        finish();
+//        finish();
 
     }
 

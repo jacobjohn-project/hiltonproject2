@@ -34,7 +34,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
 
     ScrollView scrollView;
     ImageView imgProduct,btnBack;
-    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity,txtAddedBy,txtAddedDate,txtWorkCenter,txtOperator;
+    TextView txtPartNum,txtJobNum,txtBatchNum,txtQuantity,txtAddedBy,txtAddedDate,txtWorkCenter,txtOperator,txtPoNumber;
     EditText etSearch;
     ImageButton btnSearch,btnBarscan;
     ProgressBar progressBar,imgProgBar;
@@ -100,6 +100,7 @@ public class BatchControlSearchActivity extends AppCompatActivity {
         txtAddedBy=findViewById(R.id.txtAddedBy);
         txtWorkCenter=findViewById(R.id.txtWorkCenter);
         txtOperator=findViewById(R.id.txtOperator);
+        txtPoNumber=findViewById(R.id.txtPoNumber);
 
 
     }
@@ -133,6 +134,9 @@ public class BatchControlSearchActivity extends AppCompatActivity {
                         txtWorkCenter.setText(productTable.getWork_center());
                         if(productTable.getOperator()!=null){
                             txtOperator.setText(productTable.getOperator());
+                        }
+                        if(productTable.getPo_number()!=null){
+                            txtPoNumber.setText(productTable.getOperator());
                         }
 
 

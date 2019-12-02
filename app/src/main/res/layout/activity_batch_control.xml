@@ -69,30 +69,30 @@
     </RelativeLayout>
 
 
-<!--    <EditText-->
-<!--        android:id="@+id/orderNo8"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:backgroundTint="@android:color/white"-->
-<!--        android:ems="10"-->
-<!--        android:fontFamily="@font/montserrat"-->
-<!--        android:hint="Signed By"-->
-<!--        android:inputType="none"-->
-<!--        android:focusable="false"-->
-<!--        android:clickable="false"-->
-<!--        android:editable="false"-->
-<!--        android:padding="7dp"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textColorHint="@android:color/white"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/etQuantity"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
+    <!--    <EditText-->
+    <!--        android:id="@+id/orderNo8"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:backgroundTint="@android:color/white"-->
+    <!--        android:ems="10"-->
+    <!--        android:fontFamily="@font/montserrat"-->
+    <!--        android:hint="Signed By"-->
+    <!--        android:inputType="none"-->
+    <!--        android:focusable="false"-->
+    <!--        android:clickable="false"-->
+    <!--        android:editable="false"-->
+    <!--        android:padding="7dp"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        android:textColorHint="@android:color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/etQuantity"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
     <EditText
         android:id="@+id/etQuantity"
@@ -152,7 +152,7 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/grey"
             android:layout_weight="4"
-             />
+            />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -212,7 +212,7 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/grey"
             android:layout_weight="4"
-           />
+            />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -245,28 +245,28 @@
 
 
 
-<!--    <EditText-->
-<!--        android:id="@+id/etPartNumber"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginTop="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:backgroundTint="@android:color/white"-->
-<!--        android:ems="10"-->
-<!--        android:fontFamily="@font/montserrat"-->
-<!--        android:hint="Part Number"-->
-<!--        android:inputType="text"-->
-<!--        android:padding="7dp"-->
-<!--        android:nextFocusDown="@id/etBatchNumber"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textColorHint="@android:color/white"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/orderNo"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
+    <!--    <EditText-->
+    <!--        android:id="@+id/etPartNumber"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="8dp"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_marginEnd="8dp"-->
+    <!--        android:backgroundTint="@android:color/white"-->
+    <!--        android:ems="10"-->
+    <!--        android:fontFamily="@font/montserrat"-->
+    <!--        android:hint="Part Number"-->
+    <!--        android:inputType="text"-->
+    <!--        android:padding="7dp"-->
+    <!--        android:nextFocusDown="@id/etBatchNumber"-->
+    <!--        android:textColor="@android:color/white"-->
+    <!--        android:textColorHint="@android:color/white"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.0"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/orderNo"-->
+    <!--        app:layout_constraintVertical_bias="0.0" />-->
 
 
 
@@ -476,7 +476,7 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/grey"
             android:layout_weight="4"
-         />
+            />
 
         <LinearLayout
             android:layout_width="0dp"

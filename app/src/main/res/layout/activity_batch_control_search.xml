@@ -339,9 +339,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:id="@+id/layout7"
+                android:id="@+id/layout12"
                 android:layout_marginTop="10dp"
                 android:layout_below="@+id/layout6">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat"
+                    android:text="PO Number : "
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/txtPoNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:fontFamily="@font/montserrat"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/layout11"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/layout12">
 
                 <TextView
                     android:layout_width="0dp"
@@ -372,7 +403,7 @@
                 android:padding="5dp"
                 android:id="@+id/layout8"
                 android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout7">
+                android:layout_below="@+id/layout11">
 
                 <TextView
                     android:layout_width="0dp"
@@ -396,6 +427,8 @@
                     android:textStyle="bold"/>
 
             </LinearLayout>
+
+
 
 
             <ProgressBar

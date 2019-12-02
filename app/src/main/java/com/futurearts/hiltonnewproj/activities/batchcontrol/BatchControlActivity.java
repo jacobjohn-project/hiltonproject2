@@ -163,7 +163,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 if (!isValidationFailed()) {
 
 
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString());
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString());
                     if (!fileName.equals("") && !filePathNew.equals("")) {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{

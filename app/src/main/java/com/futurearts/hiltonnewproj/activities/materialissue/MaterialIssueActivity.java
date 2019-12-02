@@ -222,6 +222,21 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
     }
 
+    private void clearAll() {
+
+
+        etOrderNum.setText("");
+        etQtyShortage.setText("");
+        etQtyShortage.setText("");
+        etPartNum.setText("");
+        radioGroup.clearCheck();
+        checkBox.setChecked(false);
+        fileName = "";
+        filePathNew = "";
+        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
+
+    }
+
 
     private void initViews() {
 
@@ -393,7 +408,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
 //        imageView.setImageDrawable(null);
         Toast.makeText(activity, "Successfully Added", Toast.LENGTH_SHORT).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
-        finish();
+        clearAll();
+        //finish();
 
     }
 

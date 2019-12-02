@@ -2,6 +2,7 @@ package com.futurearts.hiltonnewproj.modelclasses;
 
 public class BatchContraolDetails {
     String job_number,part_number,batch_number;
+    String po_number;
     int quantity;
     String image_url;
     String work_center,date_time,added_by;
@@ -18,7 +19,7 @@ public class BatchContraolDetails {
         this.image_url = image_url;
     }
 
-    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator) {
+    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator,String po_number) {
         this.job_number = job_number;
         this.part_number = part_number;
         this.batch_number = batch_number;
@@ -27,6 +28,7 @@ public class BatchContraolDetails {
         this.date_time=date_time;
         this.added_by=added_by;
         this.operator=operator;
+        this.po_number = po_number;
 
     }
 
@@ -100,5 +102,13 @@ public class BatchContraolDetails {
 
     public void setOperator(String operator) {
         this.operator = operator;
+    }
+
+    public String getPo_number() {
+        return po_number;
+    }
+
+    public void setPo_number(String po_number) {
+        this.po_number = po_number;
     }
 }
