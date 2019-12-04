@@ -1,6 +1,8 @@
 package com.futurearts.hiltonnewproj.activities.materialissue;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,20 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.activities.batchcontrol.BatchControlSearchActivity;
-import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
+import com.futurearts.hiltonnewproj.activities.CompletedListener;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactoryDataActivity extends AppCompatActivity {
+public class FactoryDataActivity extends AppCompatActivity implements CompletedListener {
 
     RadioGroup radioGroup;
     ImageView btnBack;
@@ -106,7 +106,7 @@ public class FactoryDataActivity extends AppCompatActivity {
 
     private void recyclerViewDisp(List<MaterialIssueDetails> materialIssueDetails){
 
-        factoryDataAdapter = new FactoryDataAdapter(activity,materialIssueDetails);
+        factoryDataAdapter = new FactoryDataAdapter(activity,materialIssueDetails,this);
         recyclerView.setAdapter(factoryDataAdapter);
 
 
@@ -144,4 +144,34 @@ public class FactoryDataActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onCompleted(int position, String job_num) {
+
+        showConfirmDialog(this,position,job_num);
+
+    }
+
+
+    public void showConfirmDialog(final FactoryDataActivity factoryDataActivity, final int position, String job_num) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FactoryDataActivity.this);
+        builder.setMessage(getString(R.string.completed_confirm))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.ok_text), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        materialIssueDetails.remove(position);
+                        factoryDataAdapter.notifyItemRemoved(position);
+                        factoryDataAdapter.notifyItemRangeChanged(position,materialIssueDetails.size());
+
+
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel_text), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
