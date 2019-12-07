@@ -415,7 +415,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
         imageView.setImageDrawable(null);
         clearAll();
-        Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        finish();
 

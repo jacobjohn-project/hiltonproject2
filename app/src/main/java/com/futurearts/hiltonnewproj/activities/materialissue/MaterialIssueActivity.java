@@ -394,6 +394,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
 
     public void updateDb(MaterialIssueDetails productTable) {
+
         mDatabase.push().setValue(productTable);
 
         fileName = "";
@@ -406,7 +407,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         signedBy = "";
 
 //        imageView.setImageDrawable(null);
-        Toast.makeText(activity, "Successfully Added", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Job Number Successfully Uploaded at "+productTable.saved_date, Toast.LENGTH_SHORT).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
         clearAll();
         //finish();

@@ -319,7 +319,7 @@ public class JobCompletionActivity extends AppCompatActivity {
         signedBy = "";
 
         imageView.setImageDrawable(null);
-        Toast.makeText(activity, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.saved_date, Toast.LENGTH_SHORT).show();
         clearAll();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        finish();
