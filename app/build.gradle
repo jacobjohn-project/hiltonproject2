@@ -25,6 +25,9 @@ android {
             buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
             buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
             buildConfigField "String", "BATCH_CONTROL_TABLE", "\"BATCH_CONTROL\""
+            buildConfigField "String", "COMPLETED_TABLE", "\"MATERIAL_ISSUE_COMPLETED\""
+            buildConfigField "String", "EMAIL_TABLE", "\"EMAILS\""
+            buildConfigField "String", "EMAIL_JOBS_TABLE", "\"EMAIL_JOBS\""
         }
 
         product {
@@ -33,6 +36,9 @@ android {
             buildConfigField "String", "JOB_COMPLETION_TABLE", "\"JOB_COMPLETION\""
             buildConfigField "String", "MATERIAL_ISSUE_TABLE", "\"MATERIAL_ISSUE\""
             buildConfigField "String", "BATCH_CONTROL_TABLE", "\"BATCH_CONTROL\""
+            buildConfigField "String", "COMPLETED_TABLE", "\"MATERIAL_ISSUE_COMPLETED\""
+            buildConfigField "String", "EMAIL_TABLE", "\"EMAILS\""
+            buildConfigField "String", "EMAIL_JOBS_TABLE", "\"EMAIL_JOBS\""
         }
     }
 }
@@ -53,4 +59,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation files('libs/jtds-1.2.5.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
 }

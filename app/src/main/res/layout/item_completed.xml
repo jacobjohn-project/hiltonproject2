@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical"
+    android:background="@drawable/bg_border"
+    android:layout_marginTop="5dp">
+
+
+    <RelativeLayout
+        android:id="@+id/layoutOne"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_centerVertical="true">
+
+        <RelativeLayout
+            android:id="@+id/imgLayout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            >
+
+
+
+            <ImageView
+                android:id="@+id/imgView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/img_placeholder" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progBar"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/jobNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/imgLayout"
+            android:textColor="@color/colorAccent"
+            android:fontFamily="@font/montserrat"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/partNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/imgLayout"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@+id/jobNumber"
+            android:fontFamily="@font/montserrat"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/qtyShort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/imgLayout"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@+id/partNumber"
+            android:fontFamily="@font/montserrat"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/signedBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_toEndOf="@+id/imgLayout"
+            android:textColor="@color/colorAccent"
+            android:layout_below="@+id/qtyShort"
+            android:fontFamily="@font/montserrat"
+            android:textSize="14sp" />
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+
+
+
+
+
+
+

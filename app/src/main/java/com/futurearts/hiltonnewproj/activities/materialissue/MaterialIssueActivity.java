@@ -36,13 +36,18 @@ import com.afollestad.materialcamera.MaterialCamera;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.ScannerActivity;
+import com.futurearts.hiltonnewproj.functions.SendMail;
+import com.futurearts.hiltonnewproj.modelclasses.EmailDetails;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -145,7 +150,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                 if (!fileName.equals("") && !filePathNew.equals("")) {
                                     uploadImage(filePathNew, fileName, productTable);
                                 } else {
-                                    updateDb(productTable);
+                                    checkDbforPartNumber(productTable);
                                 }
                             } else {
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
@@ -169,7 +174,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                 if (!fileName.equals("") && !filePathNew.equals("")) {
                                     uploadImage(filePathNew, fileName, productTable);
                                 } else {
-                                    updateDb(productTable);
+                                    updateMaterialDb(productTable);
                                 }
 
                             } else {
@@ -196,7 +201,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                 if (!fileName.equals("") && !filePathNew.equals("")) {
                                     uploadImage(filePathNew, fileName, productTable);
                                 } else {
-                                    updateDb(productTable);
+                                    checkDbforPartNumber(productTable);
                                 }
                             } else {
                                 Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
@@ -356,7 +361,12 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                     Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
                                     productTable.setMaterialJobImage(outputurl);
-                                    updateDb(productTable);
+                                    if(!productTable.getPart_Num().equals("")){
+                                        checkDbforPartNumber(productTable);
+                                    }else{
+                                        updateMaterialDb(productTable);
+                                    }
+
                                 }
                             });
 
@@ -393,7 +403,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     }
 
 
-    public void updateDb(MaterialIssueDetails productTable) {
+    public void updateMaterialDb(MaterialIssueDetails productTable) {
 
         mDatabase.push().setValue(productTable);
 
@@ -411,7 +421,57 @@ public class MaterialIssueActivity extends AppCompatActivity {
         //pref.setLastUpdatedTime(System.currentTimeMillis());
         clearAll();
         //finish();
+    }
 
+    public void updateMailJobDb(MaterialIssueDetails productTable) {
+        DatabaseReference mailJobDb=FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.EMAIL_JOBS_TABLE);
+        mailJobDb.push().setValue(productTable);
+
+        fileName = "";
+        filePathNew = "";
+        locFrom = "";
+        locTo = "";
+        movDate = "";
+        recDate = "";
+        orderNum = "";
+        signedBy = "";
+
+//        imageView.setImageDrawable(null);
+        Toast.makeText(activity, "Job Added to Mail Jobs", Toast.LENGTH_LONG).show();
+        //pref.setLastUpdatedTime(System.currentTimeMillis());
+        clearAll();
+        //finish();
+    }
+
+    public void checkDbforPartNumber(final MaterialIssueDetails productTable){
+        DatabaseReference mMaiDatabase=FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.EMAIL_TABLE);
+        mMaiDatabase.keepSynced(true);
+        mMaiDatabase.orderByChild("part_number").equalTo(productTable.getPart_Num()).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount()>0){
+                    for(DataSnapshot post:dataSnapshot.getChildren()){
+                        EmailDetails emailDetails = post.getValue(EmailDetails.class);
+                        sendMailtoEmailId(productTable,emailDetails.getEmail_id());
+                    }
+                }else{
+                    updateMaterialDb(productTable);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void sendMailtoEmailId(MaterialIssueDetails materialIssueDetails,String emailId){
+        SendMail sm = new SendMail(MaterialIssueActivity.this, emailId, "New Job Added", "Job Matching part number "+materialIssueDetails.getPart_Num()+" added to Db...");
+        sm.execute();
+        updateMailJobDb(materialIssueDetails);
     }
 
 

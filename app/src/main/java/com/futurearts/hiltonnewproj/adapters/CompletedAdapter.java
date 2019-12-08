@@ -1,13 +1,10 @@
-package com.futurearts.hiltonnewproj.activities.materialissue;
+package com.futurearts.hiltonnewproj.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -17,9 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.activities.CompletedListener;
-import com.futurearts.hiltonnewproj.activities.SearchResultActivity;
 import com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity;
+import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -28,28 +24,26 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.ViewHolder> {
+public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.ViewHolder> {
 
     List<MaterialIssueDetails> materialIssue = new ArrayList<MaterialIssueDetails>();
     Context activity;
-    CompletedListener completedListener;
 
-    public FactoryDataAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails, CompletedListener completedListener) {
+    public CompletedAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails) {
 
         this.materialIssue =  materialIssueDetails;
         this.activity = activity;
-        this.completedListener = completedListener;
     }
 
     @NonNull
     @Override
-    public FactoryDataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_factory_data, parent, false);
-        return new FactoryDataAdapter.ViewHolder(v);
+    public CompletedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_completed, parent, false);
+        return new CompletedAdapter.ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final FactoryDataAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
 
 
@@ -126,14 +120,7 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
             }
         });
 
-        holder.btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                completedListener.onCompleted(position,materialIssue.get(position).getJob_Num());
-
-            }
-        });
 
 
 
@@ -149,7 +136,6 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
         ImageView imgView;
         ProgressBar imgProgBar;
         RelativeLayout imgLayout;
-        RelativeLayout btnComplete;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -160,8 +146,8 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
             imgView=itemView.findViewById(R.id.imgView);
             imgProgBar=itemView.findViewById(R.id.progBar);
             imgLayout=itemView.findViewById(R.id.imgLayout);
-            btnComplete=itemView.findViewById(R.id.btnComplete);
 
         }
     }
 }
+

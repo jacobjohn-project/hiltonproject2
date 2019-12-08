@@ -19,8 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
-import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
-import com.futurearts.hiltonnewproj.adapters.FactoryDataAdapter;
+import com.futurearts.hiltonnewproj.adapters.CompletedAdapter;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,16 +30,15 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactoryDataActivity extends AppCompatActivity implements CompletedListener {
+public class CompletedActivity extends AppCompatActivity {
 
     RadioGroup radioGroup;
     ImageView btnBack;
     ProgressBar progressBar;
     RecyclerView recyclerView;
-    FactoryDataAdapter factoryDataAdapter;
+    CompletedAdapter factoryDataAdapter;
     Activity activity;
     DatabaseReference mDatabase;
-    DatabaseReference mDatabaseCompleted;
     List<MaterialIssueDetails> materialIssueDetails;
     List<String> materialKeys;
 
@@ -49,31 +47,29 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_factory_data);
-        activity =this;
-        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.MATERIAL_ISSUE_TABLE);
-        mDatabaseCompleted = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.COMPLETED_TABLE);
+        activity = this;
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(BuildConfig.BASE_TABLE).child(BuildConfig.COMPLETED_TABLE);
         initViews();
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                if(checkedId == R.id.one_set){
+                if (checkedId == R.id.one_set) {
                     /*Call DB function
-                    * &
-                    * Call recyclerViewDisp()*/
+                     * &
+                     * Call recyclerViewDisp()*/
                     searchDbWithFacility("F1");
 
 
-
-                }else if(checkedId == R.id.two_sets){
+                } else if (checkedId == R.id.two_sets) {
                     /*Call DB function
                      * &
                      * Call recyclerViewDisp()*/
                     searchDbWithFacility("F2");
 
 
-                } else if(checkedId == R.id.three_sets){
+                } else if (checkedId == R.id.three_sets) {
                     /*Call DB function
                      * &
                      * Call recyclerViewDisp()*/
@@ -97,8 +93,8 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
 
     private void initViews() {
 
-        materialIssueDetails=new ArrayList<>();
-        materialKeys=new ArrayList<>();
+        materialIssueDetails = new ArrayList<>();
+        materialKeys = new ArrayList<>();
         radioGroup = findViewById(R.id.radioGrpLoc);
         btnBack = findViewById(R.id.btnBack);
         progressBar = findViewById(R.id.progressBar);
@@ -109,15 +105,15 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
 
     }
 
-    private void recyclerViewDisp(List<MaterialIssueDetails> materialIssueDetails,List<String> materialKeys){
+    private void recyclerViewDisp(List<MaterialIssueDetails> materialIssueDetails, List<String> materialKeys) {
 
-        factoryDataAdapter = new FactoryDataAdapter(activity,materialIssueDetails,materialKeys,this);
+        factoryDataAdapter = new CompletedAdapter(activity, materialIssueDetails);
         recyclerView.setAdapter(factoryDataAdapter);
 
 
     }
 
-    public void searchDbWithFacility(String searchParam){
+    public void searchDbWithFacility(String searchParam) {
         materialIssueDetails.clear();
         progressBar.setVisibility(View.VISIBLE);
         mDatabase.keepSynced(true);
@@ -127,14 +123,14 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
                 progressBar.setVisibility(View.GONE);
                 if (dataSnapshot.getChildrenCount() > 0) {
                     for (DataSnapshot post : dataSnapshot.getChildren()) {
-                        MaterialIssueDetails productTable =  post.getValue(MaterialIssueDetails.class);
+                        MaterialIssueDetails productTable = post.getValue(MaterialIssueDetails.class);
                         materialIssueDetails.add(productTable);
                         materialKeys.add(post.getKey());
                     }
-                    recyclerViewDisp(materialIssueDetails,materialKeys);
+                    recyclerViewDisp(materialIssueDetails, materialKeys);
                 } else {
-                    recyclerViewDisp(materialIssueDetails,materialKeys);
-                    Toast.makeText(FactoryDataActivity.this, "No data found.", Toast.LENGTH_SHORT).show();
+                    recyclerViewDisp(materialIssueDetails, materialKeys);
+                    Toast.makeText(CompletedActivity.this, "No data found.", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -143,7 +139,7 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(FactoryDataActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CompletedActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -151,45 +147,7 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
 
 
 
-    @Override
-    public void onCompleted(int position, MaterialIssueDetails materialIssue, String key) {
-        showConfirmDialog(this,position,materialIssue,key);
-    }
 
-
-    public void showConfirmDialog(final FactoryDataActivity factoryDataActivity, final int position, final MaterialIssueDetails materialIssue, final String key) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FactoryDataActivity.this);
-        builder.setMessage(getString(R.string.completed_confirm))
-                .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok_text), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        setCompleted(position,materialIssue,key);
-
-
-
-                    }
-                })
-                .setNegativeButton(getString(R.string.cancel_text), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
-    public void setCompleted(int position,MaterialIssueDetails materialIssue, String key){
-
-        mDatabaseCompleted.push().setValue(materialIssue);
-        mDatabase.child(key).setValue(null);
-        materialIssueDetails.remove(position);
-        materialKeys.remove(position);
-        factoryDataAdapter.notifyItemRemoved(position);
-        factoryDataAdapter.notifyItemRangeChanged(position,materialIssueDetails.size());
-
-
-    }
 
 
 }
