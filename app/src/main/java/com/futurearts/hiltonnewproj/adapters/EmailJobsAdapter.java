@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity;
-import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -24,12 +23,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.ViewHolder> {
+public class EmailJobsAdapter extends RecyclerView.Adapter<EmailJobsAdapter.ViewHolder> {
 
     List<MaterialIssueDetails> materialIssue = new ArrayList<MaterialIssueDetails>();
     Context activity;
 
-    public CompletedAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails) {
+    public EmailJobsAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails) {
 
         this.materialIssue =  materialIssueDetails;
         this.activity = activity;
@@ -37,9 +36,9 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
 
     @NonNull
     @Override
-    public CompletedAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_completed, parent, false);
-        return new CompletedAdapter.ViewHolder(v);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mail_jobs, parent, false);
+        return new ViewHolder(v);
     }
 
     @Override
@@ -51,16 +50,11 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
         holder.partNumber.setText("Part Num: "+materialIssue.get(position).getPart_Num());
         holder.qtyShort.setText("Quantity Short: "+materialIssue.get(position).getQty_shortage());
         holder.signedBy.setText(materialIssue.get(position).getWho());
-
-        if(materialIssue.get(position).getPackOrEach()!=null){
-            holder.qtyShort.setText("Quantity Short: "+materialIssue.get(position).getQty_shortage()+"("+materialIssue.get(position).getPackOrEach().toLowerCase()+")");
-        }
-
-        if(materialIssue.get(position).getDoneBy()!=null){
-            holder.tvDoneBy.setVisibility(View.VISIBLE);
-            holder.tvDoneBy.setText("Done By : "+materialIssue.get(position).getDoneBy());
+        if(materialIssue.get(position).getEmailed_To()!=null){
+            holder.tvEmailedTo.setVisibility(View.VISIBLE);
+            holder.tvEmailedTo.setText("Mailed To : "+materialIssue.get(position).getEmailed_To());
         }else{
-            holder.tvDoneBy.setVisibility(View.GONE);
+            holder.tvEmailedTo.setVisibility(View.GONE);
         }
 
         if(materialIssue.get(position).getMaterialJobImage()!=null){
@@ -143,7 +137,7 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView jobNumber,partNumber,qtyShort,signedBy,tvDoneBy;
+        TextView jobNumber,partNumber,qtyShort,signedBy,tvEmailedTo;
         ImageView imgView;
         ProgressBar imgProgBar;
         RelativeLayout imgLayout;
@@ -156,10 +150,9 @@ public class CompletedAdapter extends RecyclerView.Adapter<CompletedAdapter.View
             signedBy=itemView.findViewById(R.id.signedBy);
             imgView=itemView.findViewById(R.id.imgView);
             imgProgBar=itemView.findViewById(R.id.progBar);
-            tvDoneBy=itemView.findViewById(R.id.tvDoneBy);
             imgLayout=itemView.findViewById(R.id.imgLayout);
+            tvEmailedTo=itemView.findViewById(R.id.tvEmailedTo);
 
         }
     }
 }
-

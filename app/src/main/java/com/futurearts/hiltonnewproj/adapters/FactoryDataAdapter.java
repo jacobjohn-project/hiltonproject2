@@ -52,6 +52,9 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
         holder.partNumber.setText("Part Num: "+materialIssue.get(position).getPart_Num());
         holder.qtyShort.setText("Quantity Short: "+materialIssue.get(position).getQty_shortage());
         holder.signedBy.setText(materialIssue.get(position).getWho());
+        if(materialIssue.get(position).getPackOrEach()!=null){
+            holder.qtyShort.setText("Quantity Short: "+materialIssue.get(position).getQty_shortage()+"("+materialIssue.get(position).getPackOrEach().toLowerCase()+")");
+        }
 
         if(materialIssue.get(position).getMaterialJobImage()!=null){
             holder.imgProgBar.setVisibility(View.VISIBLE);

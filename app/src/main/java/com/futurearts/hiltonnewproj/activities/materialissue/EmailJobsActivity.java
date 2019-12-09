@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.adapters.CompletedAdapter;
+import com.futurearts.hiltonnewproj.adapters.EmailJobsAdapter;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,7 +35,7 @@ public class EmailJobsActivity extends AppCompatActivity {
     ImageView btnBack;
     ProgressBar progressBar;
     RecyclerView recyclerView;
-    CompletedAdapter factoryDataAdapter;
+    EmailJobsAdapter factoryDataAdapter;
     Activity activity;
     DatabaseReference mDatabase;
     List<MaterialIssueDetails> materialIssueDetails;
@@ -105,7 +106,7 @@ public class EmailJobsActivity extends AppCompatActivity {
 
     private void recyclerViewDisp(List<MaterialIssueDetails> materialIssueDetails, List<String> materialKeys) {
 
-        factoryDataAdapter = new CompletedAdapter(activity, materialIssueDetails);
+        factoryDataAdapter = new EmailJobsAdapter(activity, materialIssueDetails);
         recyclerView.setAdapter(factoryDataAdapter);
 
 
