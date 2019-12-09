@@ -70,7 +70,7 @@ public class SendMail extends AsyncTask<Void, Void, Void> {
 
         //Configuring properties for gmail
         //If you are not using gmail you may need to change the values
-        props.put("mail.smtp.host", "smtp-mail.outlook.com");
+        props.put("mail.smtp.host", "mail.hiltonmfg.com.au");
         props.put("mail.smtp.port", "25");
         props.put("mail.smtp.starttls.enable","true");
         props.put("mail.smtp.auth", "true");
