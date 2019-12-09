@@ -5,6 +5,6 @@ package com.futurearts.hiltonnewproj.functions;
  */
 
 public class Config {
-    public static final String EMAIL ="purchasing_info@hiltonmfg.com.au";
-    public static final String PASSWORD ="meg@Flag60";
+    public static final String EMAIL ="Purchasing@hiltonmfg.com.au";
+    public static final String PASSWORD ="swiftB@ll82";
 }

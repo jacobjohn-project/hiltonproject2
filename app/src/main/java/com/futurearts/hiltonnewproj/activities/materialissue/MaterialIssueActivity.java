@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,7 +65,7 @@ import java.util.Calendar;
 public class MaterialIssueActivity extends AppCompatActivity {
 
 
-    LinearLayout /*mCameraLayout,*/btnScanOrderNo;
+    LinearLayout /*mCameraLayout,*/btnScanOrderNo,btnScanPartNo;
     EditText etSignedBy, etQtyShortage,/*etLocTo,*/
             etPartName, etOrderNum, etPartNum/*,recieveDate,movingDate*/;
     Button btnSubmit;
@@ -76,6 +77,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     RadioGroup radioGroup;
     CheckBox checkBox;
     LinearLayout mCameraLayout;
+    TextView resultTxt;
 
     Activity activity;
     Calendar myCalendar;
@@ -110,6 +112,16 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MaterialIssueActivity.this, ScannerActivity.class);
                 startActivityForResult(intent, 3);
+            }
+        });
+
+
+        btnScanPartNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MaterialIssueActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 4);
             }
         });
 
@@ -229,7 +241,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
     private void clearAll() {
 
-
+//        resultTxt.setText("");
         etOrderNum.setText("");
         etQtyShortage.setText("");
         etQtyShortage.setText("");
@@ -248,6 +260,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
+        btnScanPartNo = findViewById(R.id.btnScanPartNo);
         etOrderNum = findViewById(R.id.etOrderNo);
         etSignedBy = findViewById(R.id.orderNo8);
         etQtyShortage = findViewById(R.id.orderNo7);
@@ -258,6 +271,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         radioGroup = findViewById(R.id.radioGrpLoc);
         checkBox = findViewById(R.id.checkBox);
+        resultTxt = findViewById(R.id.resultTxt);
 
 
 
@@ -417,9 +431,10 @@ public class MaterialIssueActivity extends AppCompatActivity {
         signedBy = "";
 
 //        imageView.setImageDrawable(null);
-        Toast.makeText(activity, "Job Number Successfully Uploaded at "+productTable.saved_date, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(activity, "Job Number Successfully Uploaded at "+productTable.saved_date, Toast.LENGTH_LONG).show();
+        resultTxt.setText("Job Number Successfully Uploaded at "+productTable.saved_date);
         //pref.setLastUpdatedTime(System.currentTimeMillis());
-        clearAll();
+//        clearAll();
         //finish();
     }
 
@@ -437,9 +452,10 @@ public class MaterialIssueActivity extends AppCompatActivity {
         signedBy = "";
 
 //        imageView.setImageDrawable(null);
-        Toast.makeText(activity, "Job Added to Mail Jobs", Toast.LENGTH_LONG).show();
+//        Toast.makeText(activity, "Job Added to Mail Jobs", Toast.LENGTH_LONG).show();
+        resultTxt.setText("Job Added to Mail Jobs");
         //pref.setLastUpdatedTime(System.currentTimeMillis());
-        clearAll();
+//        clearAll();
         //finish();
     }
 
@@ -469,9 +485,22 @@ public class MaterialIssueActivity extends AppCompatActivity {
     }
 
     public void sendMailtoEmailId(MaterialIssueDetails materialIssueDetails,String emailId){
-        SendMail sm = new SendMail(MaterialIssueActivity.this, emailId, "New Job Added", "Job Matching part number "+materialIssueDetails.getPart_Num()+" added to Db...");
+        SendMail sm = new SendMail(MaterialIssueActivity.this, emailId, "MATERIAL REQUEST", emailContent(materialIssueDetails));
         sm.execute();
         updateMailJobDb(materialIssueDetails);
+    }
+
+
+
+    public String emailContent(MaterialIssueDetails materialIssueDetails){
+        return "Job Number:"+materialIssueDetails.getJob_Num()+"\n" +
+                "Part Number:"+materialIssueDetails.getPart_Num()+"\n" +
+                "Quantity:"+materialIssueDetails.getQty_shortage()+"\n" +
+                "Pack/Each:"+"Each"+"\n" +
+                "Request Location:"+materialIssueDetails.getRequiredLocation()+"\n" +
+                "User:"+materialIssueDetails.getWho()+"\n" +
+                "\n" +
+                "Kindly do not reply to this email for the above mentioned matter. Thanks";
     }
 
 
@@ -510,6 +539,11 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 etOrderNum.setText(message);
 
                 etPartNum.requestFocus();
+            } else if (requestCode == 4) {
+                String message = data.getStringExtra("MESSAGE");
+                etPartNum.setText(message);
+
+                etQtyShortage.requestFocus();
             }
         }
 

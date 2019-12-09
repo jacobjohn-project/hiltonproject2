@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="Material Issue"
+            android:text="REQUEST MATERIAL"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -139,7 +139,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -168,28 +168,68 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBox"
         app:layout_constraintVertical_bias="0.0" />
 
-    <EditText
-        android:id="@+id/partNumber"
-        android:layout_width="0dp"
+
+    <LinearLayout
+        android:id="@+id/partNoLay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Part Number"
-        android:inputType="text"
-        android:padding="7dp"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/orderNo"
         app:layout_constraintVertical_bias="0.0"
-        android:nextFocusDown="@id/orderNo7"/>
+
+        >
+
+
+        <EditText
+            android:id="@+id/partNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:backgroundTint="@android:color/white"
+            android:ems="10"
+            android:fontFamily="@font/montserrat"
+            android:hint="Part Number"
+            android:inputType="text"
+            android:textColor="@android:color/white"
+            android:textColorHint="@color/grey"
+            android:nextFocusDown="@id/orderNo7"/>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/btnScanPartNo"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_barcode" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SCAN"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 
     <EditText
@@ -212,12 +252,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/partNumber"
+        app:layout_constraintTop_toBottomOf="@+id/partNoLay"
         app:layout_constraintVertical_bias="0.0" />
 
 
 
 
+
+    <RadioGroup
+        android:id="@+id/radioGrpPack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
+        app:layout_constraintVertical_bias="0.0" >
+
+
+        <RadioButton
+            android:id="@+id/pack_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PACK"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@android:color/white"
+            android:buttonTint="@color/white"
+            />
+
+        <RadioButton
+            android:id="@+id/each_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EACH"
+            android:buttonTint="@color/white"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="5dp"
+            />
+
+
+
+    </RadioGroup>
 
 
 
@@ -316,6 +400,7 @@
 
 
 
+
     <Button
         android:id="@+id/button2"
         android:layout_width="0dp"
@@ -336,7 +421,19 @@
         app:layout_constraintVertical_bias="1.0" />
 
 
-
+    <TextView
+        android:id="@+id/resultTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <ProgressBar
         android:layout_width="wrap_content"
