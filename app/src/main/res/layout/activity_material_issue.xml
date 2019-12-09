@@ -71,7 +71,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo7"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
         app:layout_constraintVertical_bias="0.0" >
 
         <TextView
@@ -139,7 +139,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
@@ -274,7 +274,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
+        app:layout_constraintTop_toBottomOf="@+id/orderNo7"
         app:layout_constraintVertical_bias="0.0" >
 
 
