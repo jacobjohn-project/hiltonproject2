@@ -32,7 +32,6 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
     CompletedListener completedListener;
 
     public FactoryDataAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails,List<String> materialKeys, CompletedListener completedListener) {
-
         this.materialIssue =  materialIssueDetails;
         this.activity = activity;
         this.completedListener = completedListener;
@@ -48,8 +47,6 @@ public class FactoryDataAdapter extends RecyclerView.Adapter<FactoryDataAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final FactoryDataAdapter.ViewHolder holder, final int position) {
-
-
 
         holder.jobNumber.setText("Job Num: "+materialIssue.get(position).getJob_Num());
         holder.partNumber.setText("Part Num: "+materialIssue.get(position).getPart_Num());

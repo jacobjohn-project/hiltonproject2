@@ -22,6 +22,7 @@ import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
 import com.futurearts.hiltonnewproj.adapters.FactoryDataAdapter;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
+import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,8 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
     DatabaseReference mDatabaseCompleted;
     List<MaterialIssueDetails> materialIssueDetails;
     List<String> materialKeys;
+
+    SharedPref pref;
 
 
     @Override
@@ -97,6 +100,7 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
 
     private void initViews() {
 
+        pref = new SharedPref(this);
         materialIssueDetails=new ArrayList<>();
         materialKeys=new ArrayList<>();
         radioGroup = findViewById(R.id.radioGrpLoc);
@@ -164,6 +168,7 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
                 .setPositiveButton(getString(R.string.ok_text), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
+                        materialIssue.setDoneBy(pref.getUserName());
                         setCompleted(position,materialIssue,key);
 
 

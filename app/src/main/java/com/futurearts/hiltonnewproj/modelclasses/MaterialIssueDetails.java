@@ -9,8 +9,11 @@ public class MaterialIssueDetails {
     public String requiredLocation;
     public boolean urgent;
     public String materialJobImage;
+    public String emailed_To;
+    public String doneBy;
+    public String packOrEach;
 
-    public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent) {
+    public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent,String packOrEach) {
         this.job_Num = job_Num;
         this.part_Num = part_Num;
         this.qty_shortage = qty_shortage;
@@ -18,6 +21,7 @@ public class MaterialIssueDetails {
         this.saved_date = saved_date;
         this.requiredLocation=requiredLocation;
         this.urgent=urgent;
+        this.packOrEach=packOrEach;
     }
 
     public MaterialIssueDetails() {
@@ -85,5 +89,29 @@ public class MaterialIssueDetails {
 
     public void setMaterialJobImage(String materialJobImage) {
         this.materialJobImage = materialJobImage;
+    }
+
+    public String getEmailed_To() {
+        return emailed_To;
+    }
+
+    public void setEmailed_To(String emailed_To) {
+        this.emailed_To = emailed_To;
+    }
+
+    public String getDoneBy() {
+        return doneBy;
+    }
+
+    public void setDoneBy(String doneBy) {
+        this.doneBy = doneBy;
+    }
+
+    public String getPackOrEach() {
+        return packOrEach;
+    }
+
+    public void setPackOrEach(String packOrEach) {
+        this.packOrEach = packOrEach;
     }
 }
