@@ -18,15 +18,27 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.futurearts.hiltonnewproj.AppClass;
 import com.futurearts.hiltonnewproj.BuildConfig;
+import com.futurearts.hiltonnewproj.Constants;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.modelclasses.LoginDetails;
+import com.futurearts.hiltonnewproj.models.login.Data;
+import com.futurearts.hiltonnewproj.models.login.Loginapi;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 
 import java.io.IOError;
@@ -36,6 +48,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -85,7 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                     String userNamePassword = userName + "_" + password;
 
                     progressBar.setVisibility(View.VISIBLE);
-                    checkDb(userNamePassword);
+//                    checkDb(userNamePassword);
+                    LoginPHP(userName,password);
 
 //                    SQLServerConnect();
 //                    new UploadImage(userName,password).execute();
@@ -261,6 +277,81 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
         return connection;
+    }
+
+    private void LoginPHP(final String userName, final String password) {
+
+        String URL;
+        URL = Constants.BASE_URL + "login.php";
+        //System.out.println("CHECK---> URL " + URL);
+        StringRequest jsonObjectRequestLogin = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonObject) {
+                //System.out.println("CHECK---> Response " + jsonObject);
+                progressBar.setVisibility(View.GONE);
+
+
+
+                AppClass.getInstance().cancelPendingRequests("login");
+                Gson gson = new Gson();
+                Loginapi loginapi =gson.fromJson(jsonObject, Loginapi.class);
+
+                int errorCode = loginapi.getErrorCode();
+                String message = loginapi.getMessage();
+                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                if (errorCode == 0) {
+
+                    Data  data = loginapi.getData();
+
+                    String userID = data.getId();
+
+                    pref.setUserId(userID);
+                    pref.setUserName(userName);
+
+                    //pref.setLastUpdatedTime(System.currentTimeMillis());
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                    finish();
+
+                }else  if (errorCode == 1) {
+
+
+
+                }
+
+
+
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                progressBar.setVisibility(View.GONE);
+                AppClass.getInstance().cancelPendingRequests("login");
+                VolleyLog.d("Object Error : ", volleyError.getMessage());
+
+                Toast.makeText(LoginActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", userName);
+                params.put("password", password);
+                //System.out.println("CHECK---> " + prefManager.getStudentUserId() + " , " +
+//                        prefManager.getSChoolID()+ " ,\n " +realOrderID);
+
+                return params;
+            }
+        };
+
+        jsonObjectRequestLogin.setRetryPolicy(new DefaultRetryPolicy(50000, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(this, commonSSLConnection.getHulkstack(CartListActivity.this));
+        AppClass.getInstance().addToRequestQueue(jsonObjectRequestLogin, "login");
+//        requestQueue.add(jsonObjectRequestLogin);
+
     }
 
 

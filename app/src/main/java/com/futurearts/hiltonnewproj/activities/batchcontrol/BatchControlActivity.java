@@ -29,10 +29,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialcamera.MaterialCamera;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.futurearts.hiltonnewproj.AppClass;
 import com.futurearts.hiltonnewproj.BuildConfig;
+import com.futurearts.hiltonnewproj.Constants;
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.LoginActivity;
+import com.futurearts.hiltonnewproj.activities.MainActivity;
 import com.futurearts.hiltonnewproj.activities.ScannerActivity;
 import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
+import com.futurearts.hiltonnewproj.models.login.Loginapi;
+import com.futurearts.hiltonnewproj.models.productiondata.Data;
+import com.futurearts.hiltonnewproj.models.productiondata.ProdInsert;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +57,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -51,18 +66,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class BatchControlActivity extends AppCompatActivity {
 
 
-    LinearLayout mCameraLayout, btnScanOrderNo, btnScanPartNo,btnScanWorkCenter,btnScanOperator,btnScanBatch,btnPOnum;
+    LinearLayout mCameraLayout,mTypeLayout, btnScanOrderNo, btnScanPartNo,btnScanWorkCenter,btnScanOperator,btnScanBatch,btnPOnum;
     EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator,etPOnumber;
     Button btnSubmit;
     ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
-    String jobNumber, partNumber, batchNumber, quantity;
+    String jobNumber, partNumber, batchNumber, quantity, type;
 //    int locFrom;
 
     Activity activity;
@@ -148,6 +165,16 @@ public class BatchControlActivity extends AppCompatActivity {
             }
         });
 
+
+        mTypeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(BatchControlActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 9);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,7 +186,7 @@ public class BatchControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
+                progressBar.setVisibility(View.VISIBLE);
                 if (!isValidationFailed()) {
 
 
@@ -168,6 +195,7 @@ public class BatchControlActivity extends AppCompatActivity {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{
                         updateDb(productTable);
+                        uploadToDB(productTable);
                     }
 
                 }
@@ -265,6 +293,7 @@ public class BatchControlActivity extends AppCompatActivity {
         imgUndo = findViewById(R.id.imgUndo);
         etOperator = findViewById(R.id.etOperator);
         etPOnumber = findViewById(R.id.etPOnumber);
+        mTypeLayout = findViewById(R.id.linearLayout1);
 
 
 
@@ -362,6 +391,7 @@ public class BatchControlActivity extends AppCompatActivity {
                                     String outputurl = uri.toString();
                                     productTable.setImage_url(outputurl);
                                     updateDb(productTable);
+                                    uploadToDB(productTable);
                                 }
                             });
 
@@ -397,6 +427,100 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
+    private void uploadToDB(final BatchContraolDetails productTable) {
+
+        String URL;
+        URL = Constants.BASE_URL + "production_insert.php";
+        //System.out.println("CHECK---> URL " + URL);
+        StringRequest jsonObjectRequestLogin = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonObject) {
+                //System.out.println("CHECK---> Response " + jsonObject);
+                progressBar.setVisibility(View.GONE);
+
+//                Toast.makeText(activity, "Response--> "+jsonObject, Toast.LENGTH_SHORT).show();
+                Log.e("production_insert.php",jsonObject);
+
+                AppClass.getInstance().cancelPendingRequests("insert_prod");
+                Gson gson = new Gson();
+                ProdInsert prodInsert =gson.fromJson(jsonObject, ProdInsert.class);
+
+                String errorCode = prodInsert.getErrorCode();
+                String message = prodInsert.getMessage();
+                Toast.makeText(BatchControlActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                if (errorCode .equals( "0")) {
+
+                    Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
+
+                }else  if (errorCode .equals( "1")) {
+
+                    Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                progressBar.setVisibility(View.GONE);
+                AppClass.getInstance().cancelPendingRequests("login");
+                VolleyLog.d("Object Error : ", volleyError.getMessage());
+
+                Toast.makeText(BatchControlActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                Log.e("job_or_chassis_number",productTable.getJob_number());
+                Log.e("part_number",productTable.getPart_number());
+                Log.e("work_center",productTable.getWork_center());
+                Log.e("operator",productTable.getOperator());
+                Log.e("quantity", String.valueOf(productTable.getQuantity()));
+                Log.e("batch_number",productTable.getBatch_number());
+                Log.e("po_number",productTable.getPo_number());
+                if(productTable.getImage_url()!=null){
+                    Log.e("image_url",productTable.getImage_url());
+                }
+
+
+                params.put("job_or_chassis_number", productTable.getJob_number());
+                params.put("part_number", productTable.getPart_number());
+                params.put("work_center", productTable.getWork_center());
+                params.put("operator", productTable.getOperator());
+                params.put("quantity", String.valueOf(productTable.getQuantity()));
+                params.put("batch_number", productTable.getBatch_number());
+                params.put("po_number", productTable.getPo_number());
+                params.put("added_by", pref.getUserName());
+                params.put("type", type);
+                if(productTable.getImage_url()!=null){
+                    params.put("image_url", productTable.getImage_url());
+                }else{
+                    params.put("image_url", "");
+                }
+
+                //System.out.println("CHECK---> " + prefManager.getStudentUserId() + " , " +
+//                        prefManager.getSChoolID()+ " ,\n " +realOrderID);
+
+                return params;
+            }
+        };
+
+        jsonObjectRequestLogin.setRetryPolicy(new DefaultRetryPolicy(50000, 3, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(this, commonSSLConnection.getHulkstack(CartListActivity.this));
+        AppClass.getInstance().addToRequestQueue(jsonObjectRequestLogin, "login");
+//        requestQueue.add(jsonObjectRequestLogin);
+
+
+    }
+
     public void updateDb(BatchContraolDetails productTable) {
         mDatabase.push().setValue(productTable);
 
@@ -415,7 +539,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
         imageView.setImageDrawable(null);
         clearAll();
-        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
+//        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        finish();
 
@@ -484,11 +608,16 @@ public class BatchControlActivity extends AppCompatActivity {
                 String message = data.getStringExtra("MESSAGE");
                 etPOnumber.setText(message);
 
+            }else if (requestCode == 9) {
+                String message = data.getStringExtra("MESSAGE");
+
+                type = message;
             }
         }
 
 
     }
+
 
 
     public void saveFile(Bitmap bmp) {
