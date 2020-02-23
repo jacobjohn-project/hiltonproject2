@@ -114,7 +114,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/operatorLay"
+        app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
         app:layout_constraintVertical_bias="0.0" />
 
 
@@ -391,14 +391,14 @@
 
     <LinearLayout
         android:id="@+id/workCenterLay"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/operatorLay"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/partNum"
@@ -449,17 +449,17 @@
 
     <LinearLayout
         android:id="@+id/operatorLay"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginStart="8dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/workCenterLay"
+        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/workCenterLay"
+        app:layout_constraintTop_toBottomOf="@+id/partNum"
         app:layout_constraintVertical_bias="0.0"
         >
 
@@ -504,6 +504,50 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGrpPack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        android:fontFamily="@font/montserrat"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/operatorLay"
+        app:layout_constraintVertical_bias="0.0" >
+
+
+        <RadioButton
+            android:id="@+id/pack_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="START"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@android:color/white"
+            android:buttonTint="@color/white"
+            />
+
+        <RadioButton
+            android:id="@+id/each_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FINISH"
+            android:buttonTint="@color/white"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="5dp"
+            />
+
+
+
+    </RadioGroup>
 
     <Button
         android:id="@+id/btnSubmit"

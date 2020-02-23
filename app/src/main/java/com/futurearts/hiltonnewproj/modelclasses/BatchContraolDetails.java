@@ -7,6 +7,8 @@ public class BatchContraolDetails {
     String image_url;
     String work_center,date_time,added_by;
     String operator;
+    String startOrFinish;
+    String type;
 
     public BatchContraolDetails() {
     }
@@ -19,7 +21,7 @@ public class BatchContraolDetails {
         this.image_url = image_url;
     }
 
-    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator,String po_number) {
+    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator,String po_number,String type,String startOrFinish) {
         this.job_number = job_number;
         this.part_number = part_number;
         this.batch_number = batch_number;
@@ -29,6 +31,8 @@ public class BatchContraolDetails {
         this.added_by=added_by;
         this.operator=operator;
         this.po_number = po_number;
+        this.type=type;
+        this.startOrFinish=startOrFinish;
 
     }
 
@@ -110,5 +114,21 @@ public class BatchContraolDetails {
 
     public void setPo_number(String po_number) {
         this.po_number = po_number;
+    }
+
+    public String getStartOrFinish() {
+        return startOrFinish;
+    }
+
+    public void setStartOrFinish(String startOrFinish) {
+        this.startOrFinish = startOrFinish;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
