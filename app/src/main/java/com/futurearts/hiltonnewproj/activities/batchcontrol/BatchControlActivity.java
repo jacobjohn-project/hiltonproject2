@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -80,6 +82,8 @@ public class BatchControlActivity extends AppCompatActivity {
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
     String jobNumber, partNumber, batchNumber, quantity, type="";
+    String startOrFinish="";
+    RadioGroup  radioGrpPack;
 //    int locFrom;
 
     Activity activity;
@@ -186,17 +190,27 @@ public class BatchControlActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                progressBar.setVisibility(View.VISIBLE);
+
+                int selectedPackOrEach = radioGrpPack.getCheckedRadioButtonId();
+
+                RadioButton radioPackOrEachButton = (RadioButton) radioGrpPack.findViewById(selectedPackOrEach);
+                startOrFinish = "";
+                if (selectedPackOrEach != -1) {
+                    startOrFinish = radioPackOrEachButton.getText().toString();
+                }
+
+
+
                 if (!isValidationFailed()) {
+                    progressBar.setVisibility(View.VISIBLE);
 
-
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString());
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString(),type,startOrFinish);
                     if (!fileName.equals("") && !filePathNew.equals("")) {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{
-
                         uploadToDB(productTable);
                         updateDb(productTable);
+
                     }
 
                 }
@@ -229,7 +243,10 @@ public class BatchControlActivity extends AppCompatActivity {
         etQty.setText("");
         fileName = "";
         filePathNew = "";
+        type="";
+        startOrFinish="";
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
+        radioGrpPack.clearCheck();
 
     }
 
@@ -251,7 +268,12 @@ public class BatchControlActivity extends AppCompatActivity {
         }else if (etOperator.getText().toString().length() == 0) {
             failFlag = true;
             Toast.makeText(activity, "Enter Operator", Toast.LENGTH_SHORT).show();
-        }*/ else if (etQty.getText().toString().length() != 0) {
+        }*/
+        else if(startOrFinish.equals("")){
+            failFlag=true;
+            Toast.makeText(activity, "Select START of FINISH", Toast.LENGTH_SHORT).show();
+        }
+        else if (etQty.getText().toString().length() != 0) {
             try {
                 int num = Integer.parseInt(etQty.getText().toString());
             } catch (NumberFormatException e) {
@@ -295,6 +317,7 @@ public class BatchControlActivity extends AppCompatActivity {
         etOperator = findViewById(R.id.etOperator);
         etPOnumber = findViewById(R.id.etPOnumber);
         mTypeLayout = findViewById(R.id.linearLayout1);
+        radioGrpPack = findViewById(R.id.radioGrpPack);
 
 
 
@@ -393,6 +416,7 @@ public class BatchControlActivity extends AppCompatActivity {
                                     productTable.setImage_url(outputurl);
                                     uploadToDB(productTable);
                                     updateDb(productTable);
+
                                 }
                             });
 
@@ -453,6 +477,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 if (errorCode .equals( "0")) {
 
                     Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
+                    clearAll();
 
                 }else  if (errorCode .equals( "1")) {
 
@@ -487,10 +512,6 @@ public class BatchControlActivity extends AppCompatActivity {
                 Log.e("quantity", String.valueOf(productTable.getQuantity()));
                 Log.e("batch_number",productTable.getBatch_number());
                 Log.e("po_number",productTable.getPo_number());
-                Log.e("added_by",pref.getUserName());
-                if(!type.equals("")) {
-                    Log.e("type", type);
-                }
                 if(productTable.getImage_url()!=null){
                     Log.e("image_url",productTable.getImage_url());
                 }
@@ -505,6 +526,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 params.put("po_number", productTable.getPo_number());
                 params.put("added_by", pref.getUserName());
                 params.put("type", type);
+                params.put("start_or_finish",startOrFinish);
                 if(productTable.getImage_url()!=null){
                     params.put("image_url", productTable.getImage_url());
                 }else{
@@ -535,7 +557,6 @@ public class BatchControlActivity extends AppCompatActivity {
         partNumber = "";
         batchNumber = "";
         quantity = "";
-        type="";
 //        locFrom = 0;
 //        locTo = "";
 //        movDate = "";
@@ -544,7 +565,6 @@ public class BatchControlActivity extends AppCompatActivity {
 //        signedBy = "";
 
         imageView.setImageDrawable(null);
-        clearAll();
 //        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        finish();

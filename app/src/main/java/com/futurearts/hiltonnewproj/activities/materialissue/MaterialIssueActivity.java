@@ -34,12 +34,24 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.afollestad.materialcamera.MaterialCamera;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
+import com.futurearts.hiltonnewproj.AppClass;
 import com.futurearts.hiltonnewproj.BuildConfig;
+import com.futurearts.hiltonnewproj.Constants;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.ScannerActivity;
+import com.futurearts.hiltonnewproj.activities.batchcontrol.BatchControlActivity;
 import com.futurearts.hiltonnewproj.functions.SendMail;
+import com.futurearts.hiltonnewproj.modelclasses.BatchContraolDetails;
 import com.futurearts.hiltonnewproj.modelclasses.EmailDetails;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
+import com.futurearts.hiltonnewproj.models.productiondata.ProdInsert;
 import com.futurearts.hiltonnewproj.utils.DateUtils;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -53,6 +65,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -61,13 +74,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MaterialIssueActivity extends AppCompatActivity {
 
 
     LinearLayout /*mCameraLayout,*/btnScanOrderNo, btnScanPartNo;
-    EditText etSignedBy, etQtyShortage,/*etLocTo,*/
-            etPartName, etOrderNum, etPartNum/*,recieveDate,movingDate*/;
+    EditText etSignedBy, etQtyShortage,etOrderNum, etPartNum;
+    EditText editWhereTo,editWhereFrom;
     Button btnSubmit;
     ImageView imageView, btnBack;
     ProgressBar progressBar;
@@ -137,6 +152,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
             public void onClick(View view) {
 
 
+
                 signedBy = etSignedBy.getText().toString();
                 locFrom = etQtyShortage.getText().toString();
                 orderNum = etOrderNum.getText().toString();
@@ -166,7 +182,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
                                             etSignedBy.getText().toString(), DateUtils.getSystemDate(),
-                                            reqLoc, checkBox.isChecked(),reqPackorEach);
+                                            reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
                                     } else {
@@ -195,11 +211,12 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
                                             etSignedBy.getText().toString(), DateUtils.getSystemDate(),
-                                            reqLoc, checkBox.isChecked(),reqPackorEach);
+                                            reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
                                     } else {
                                         updateMaterialDb(productTable);
+                                        uploadToDB(productTable);
                                     }
 
                                 } else {
@@ -227,7 +244,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
                                             etSignedBy.getText().toString(), DateUtils.getSystemDate(),
-                                            reqLoc, checkBox.isChecked(),reqPackorEach);
+                                            reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
                                     } else {
@@ -268,6 +285,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
         etOrderNum.setText("");
         etQtyShortage.setText("");
         etQtyShortage.setText("");
+        editWhereFrom.setText("");
+        editWhereTo.setText("");
         etPartNum.setText("");
         radioGroup.clearCheck();
         radioGrpPack.clearCheck();
@@ -275,6 +294,14 @@ public class MaterialIssueActivity extends AppCompatActivity {
         fileName = "";
         filePathNew = "";
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
+        fileName = "";
+        filePathNew = "";
+        locFrom = "";
+        locTo = "";
+        movDate = "";
+        recDate = "";
+        orderNum = "";
+        signedBy = "";
 
     }
 
@@ -297,6 +324,8 @@ public class MaterialIssueActivity extends AppCompatActivity {
         radioGrpPack = findViewById(R.id.radioGrpPack);
         checkBox = findViewById(R.id.checkBox);
         resultTxt = findViewById(R.id.resultTxt);
+        editWhereFrom=findViewById(R.id.editWhereFrom);
+        editWhereTo=findViewById(R.id.editWhereTo);
 
 
 
@@ -317,19 +346,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
     }
 
-   /* private void updateLabel1() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
-        recieveDate.setText(sdf.format(myCalendar.getTime()));
-    }
-
-    private void updateLabel2() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        movingDate.setText(sdf.format(myCalendar.getTime()));
-    }*/
 
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
@@ -339,19 +356,6 @@ public class MaterialIssueActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
-                    //Default android camera
-
-                    /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(intent, 1);*/
-
-                    //Custom Camera
-
-                    /*Intent i = new Intent(JobCompletionActivity.this,CameraActivity.class);
-                    startActivity(i);*/
-
-                    //Material Camera Library
 
                     File mFile = new File(getExternalFilesDir(null), "uploads");
                     if (!mFile.exists())
@@ -404,6 +408,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                         checkDbforPartNumber(productTable);
                                     } else {
                                         updateMaterialDb(productTable);
+                                        uploadToDB(productTable);
                                     }
 
                                 }
@@ -446,21 +451,114 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         mDatabase.push().setValue(productTable);
 
-        fileName = "";
-        filePathNew = "";
-        locFrom = "";
-        locTo = "";
-        movDate = "";
-        recDate = "";
-        orderNum = "";
-        signedBy = "";
 
 //        imageView.setImageDrawable(null);
 //        Toast.makeText(activity, "Job Number Successfully Uploaded at "+productTable.saved_date, Toast.LENGTH_LONG).show();
-        resultTxt.setText("Job Number Successfully Uploaded at " + productTable.saved_date);
+        //resultTxt.setText("Job Number Successfully Uploaded at " + productTable.saved_date);
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        clearAll();
         //finish();
+    }
+
+    private void uploadToDB(final MaterialIssueDetails productTable) {
+
+        progressBar.setVisibility(View.VISIBLE);
+        String URL;
+        URL = Constants.BASE_URL + "material_issue.php";
+        //System.out.println("CHECK---> URL " + URL);
+        StringRequest jsonObjectRequestLogin = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String jsonObject) {
+                //System.out.println("CHECK---> Response " + jsonObject);
+                progressBar.setVisibility(View.GONE);
+
+//                Toast.makeText(activity, "Response--> "+jsonObject, Toast.LENGTH_SHORT).show();
+                Log.e("material_issue.php",jsonObject);
+
+                AppClass.getInstance().cancelPendingRequests("insert_prod");
+                Gson gson = new Gson();
+                ProdInsert prodInsert =gson.fromJson(jsonObject, ProdInsert.class);
+
+                String errorCode = prodInsert.getErrorCode();
+                String message = prodInsert.getMessage();
+                Toast.makeText(MaterialIssueActivity.this, message, Toast.LENGTH_SHORT).show();
+
+                if (errorCode .equals( "0")) {
+
+                    Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
+                    resultTxt.setText("Job Number Successfully Uploaded at " + productTable.saved_date);
+                    clearAll();
+
+                }else  if (errorCode .equals( "1")) {
+
+                    Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
+
+
+                }
+
+
+
+            }
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                progressBar.setVisibility(View.GONE);
+                AppClass.getInstance().cancelPendingRequests("login");
+                VolleyLog.d("Object Error : ", volleyError.getMessage());
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(MaterialIssueActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                //job_number, packOrEach, part_Num, qty_shortage, requiredLocation, urgent, who, where_to, job_image, where_from
+
+                Log.e("job_number",productTable.getJob_Num());
+                Log.e("packOrEach",productTable.getPackOrEach());
+                Log.e("part_Num",productTable.getPart_Num());
+                Log.e("qty_shortage",productTable.getQty_shortage()+"");
+                Log.e("requiredLocation", String.valueOf(productTable.getRequiredLocation()));
+                Log.e("urgent",String.valueOf(productTable.isUrgent()));
+                Log.e("who", pref.getUserName());
+                Log.e("where_to",productTable.getWhereTo());
+                if(productTable.getMaterialJobImage()!=null){
+                    Log.e("job_image",productTable.getMaterialJobImage());
+                }else{
+                    Log.e("job_image","");
+                }
+                Log.e("where_from",productTable.getWhereFrom());
+
+                params.put("job_number",productTable.getJob_Num());
+                params.put("packOrEach",productTable.getPackOrEach());
+                params.put("part_Num",productTable.getPart_Num());
+                params.put("qty_shortage",productTable.getQty_shortage()+"");
+                params.put("requiredLocation", String.valueOf(productTable.getRequiredLocation()));
+                params.put("urgent",String.valueOf(productTable.isUrgent()));
+                params.put("who", pref.getUserName());
+                params.put("where_to",productTable.getWhereTo());
+                if(productTable.getMaterialJobImage()!=null){
+                    params.put("job_image",productTable.getMaterialJobImage());
+                }else{
+                    params.put("job_image","");
+                }
+
+                params.put("where_from",productTable.getWhereFrom());
+
+
+
+                return params;
+            }
+        };
+
+        jsonObjectRequestLogin.setRetryPolicy(new DefaultRetryPolicy(50000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//        RequestQueue requestQueue = Volley.newRequestQueue(this, commonSSLConnection.getHulkstack(CartListActivity.this));
+        AppClass.getInstance().addToRequestQueue(jsonObjectRequestLogin, "login");
+//        requestQueue.add(jsonObjectRequestLogin);
+
+
     }
 
     public void updateMailJobDb(MaterialIssueDetails productTable) {
@@ -498,6 +596,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     }
                 } else {
                     updateMaterialDb(productTable);
+                    uploadToDB(productTable);
                 }
 
             }

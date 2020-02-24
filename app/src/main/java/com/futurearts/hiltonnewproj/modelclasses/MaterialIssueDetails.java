@@ -12,8 +12,9 @@ public class MaterialIssueDetails {
     public String emailed_To;
     public String doneBy;
     public String packOrEach;
+    public String whereTo,whereFrom;
 
-    public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent,String packOrEach) {
+    public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent,String packOrEach,String editWhereFrom,String editWhereTo) {
         this.job_Num = job_Num;
         this.part_Num = part_Num;
         this.qty_shortage = qty_shortage;
@@ -22,6 +23,8 @@ public class MaterialIssueDetails {
         this.requiredLocation=requiredLocation;
         this.urgent=urgent;
         this.packOrEach=packOrEach;
+        this.whereFrom=editWhereFrom;
+        this.whereTo=editWhereTo;
     }
 
     public MaterialIssueDetails() {
@@ -113,5 +116,21 @@ public class MaterialIssueDetails {
 
     public void setPackOrEach(String packOrEach) {
         this.packOrEach = packOrEach;
+    }
+
+    public String getWhereTo() {
+        return whereTo;
+    }
+
+    public void setWhereTo(String editWhereTo) {
+        this.whereTo = editWhereTo;
+    }
+
+    public String getWhereFrom() {
+        return whereFrom;
+    }
+
+    public void setWhereFrom(String editWhereFrom) {
+        this.whereFrom = editWhereFrom;
     }
 }

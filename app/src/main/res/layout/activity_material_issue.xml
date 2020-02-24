@@ -56,347 +56,408 @@
 
     </RelativeLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGrpLoc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
-        app:layout_constraintVertical_bias="0.0" >
 
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Required Location"
-            android:textSize="17sp"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            />
-
-        <RadioButton
-            android:id="@+id/onse_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="F1"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:buttonTint="@color/white"
-            android:layout_marginStart="5dp"
-            />
-
-        <RadioButton
-            android:id="@+id/two_sets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="F2"
-            android:buttonTint="@color/white"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="5dp"
-            />
-
-        <RadioButton
-            android:id="@+id/three_sets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="F3"
-            android:buttonTint="@color/white"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="5dp"
-            />
-
-
-    </RadioGroup>
-
-
-    <CheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:buttonTint="@color/white"
-        android:textSize="15sp"
-        android:fontFamily="@font/montserrat"
-        android:text="Flag Urgent"
-        android:inputType="none"
-        android:padding="7dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/orderNo8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Signed By"
-        android:inputType="none"
-        android:focusable="false"
-        android:editable="false"
-        android:clickable="false"
-        android:padding="7dp"
-
-        android:backgroundTint="@android:color/white"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-    <LinearLayout
-        android:id="@+id/partNoLay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo"
-        app:layout_constraintVertical_bias="0.0"
-
-        >
-
-
-        <EditText
-            android:id="@+id/partNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:backgroundTint="@android:color/white"
-            android:ems="10"
-            android:fontFamily="@font/montserrat"
-            android:hint="Part Number"
-            android:inputType="text"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/grey"
-            android:nextFocusDown="@id/orderNo7"/>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:id="@+id/btnScanPartNo"
-            android:layout_gravity="center"
-            android:gravity="center"
-            >
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_barcode" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="SCAN"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="12sp"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-
-    <EditText
-        android:id="@+id/orderNo7"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:backgroundTint="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:hint="Quantity Shortage"
-        android:inputType="numberDecimal"
-        android:padding="7dp"
-        android:imeOptions="actionDone"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/partNoLay"
-        app:layout_constraintVertical_bias="0.0" />
-
-
-
-
-
-    <RadioGroup
-        android:id="@+id/radioGrpPack"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        android:orientation="horizontal"
-        android:fontFamily="@font/montserrat"
-        android:textColor="@android:color/white"
-        android:textColorHint="@color/grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo7"
-        app:layout_constraintVertical_bias="0.0" >
-
-
-        <RadioButton
-            android:id="@+id/pack_set"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PACK"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:buttonTint="@color/white"
-            />
-
-        <RadioButton
-            android:id="@+id/each_sets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="EACH"
-            android:buttonTint="@color/white"
-            android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="5dp"
-            />
-
-
-
-    </RadioGroup>
-
-
-
-
-
-
-    <LinearLayout
-        android:id="@+id/orderNo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+    <ScrollView
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.0"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false">
 
-        <EditText
-            android:id="@+id/etOrderNo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/white"
-            android:fontFamily="@font/montserrat"
-            android:hint="Job Number"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/white"
-            android:textColorHint="@color/grey"
-            android:layout_weight="4"
-            android:nextFocusDown="@id/partNumber"
-            android:focusedByDefault="true"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:id="@+id/btnScanOrderNo"
-            android:layout_gravity="center"
-            android:gravity="center"
-            >
+            <RadioGroup
+                android:id="@+id/radioGrpLoc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGrpPack"
+                app:layout_constraintVertical_bias="0.0" >
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_barcode" />
+                <TextView
+                    android:id="@+id/header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Required Location"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    />
 
-            <TextView
+                <RadioButton
+                    android:id="@+id/onse_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F1"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/white"
+                    android:layout_marginStart="5dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/two_sets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F2"
+                    android:buttonTint="@color/white"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="5dp"
+                    />
+
+                <RadioButton
+                    android:id="@+id/three_sets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="F3"
+                    android:buttonTint="@color/white"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="5dp"
+                    />
+
+
+            </RadioGroup>
+
+
+            <CheckBox
+                android:id="@+id/checkBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SCAN"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="12sp"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:buttonTint="@color/white"
+                android:textSize="15sp"
+                android:fontFamily="@font/montserrat"
+                android:text="Flag Urgent"
+                android:inputType="none"
+                android:padding="7dp"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radioGrpLoc"
+                app:layout_constraintVertical_bias="0.0" />
 
-        </LinearLayout>
+            <EditText
+                android:id="@+id/orderNo8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:hint="Signed By"
+                android:inputType="none"
+                android:focusable="false"
+                android:editable="false"
+                android:clickable="false"
+                android:padding="7dp"
 
-    </LinearLayout>
+                android:backgroundTint="@android:color/white"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/bg_textfields"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo8"
-        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_camera" />
+            <LinearLayout
+                android:id="@+id/partNoLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orderNo"
+                app:layout_constraintVertical_bias="0.0"
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="Add Image"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+                >
 
-    </LinearLayout>
+
+                <EditText
+                    android:id="@+id/partNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:backgroundTint="@android:color/white"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Part Number"
+                    android:inputType="text"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/grey"
+                    android:nextFocusDown="@id/orderNo7"/>
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/btnScanPartNo"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_barcode" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SCAN"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+            <EditText
+                android:id="@+id/orderNo7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:hint="Quantity Shortage"
+                android:inputType="numberDecimal"
+                android:padding="7dp"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/partNoLay"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/editWhereFrom"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:hint="Where From"
+                android:padding="7dp"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orderNo7"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/editWhereTo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:hint="Where To"
+                android:padding="7dp"
+                android:imeOptions="actionDone"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editWhereFrom"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+
+            <RadioGroup
+                android:id="@+id/radioGrpPack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="horizontal"
+                android:fontFamily="@font/montserrat"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/grey"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editWhereTo"
+                app:layout_constraintVertical_bias="0.0" >
+
+
+                <RadioButton
+                    android:id="@+id/pack_set"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PACK"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    android:buttonTint="@color/white"
+                    />
+
+                <RadioButton
+                    android:id="@+id/each_sets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EACH"
+                    android:buttonTint="@color/white"
+                    android:fontFamily="@font/montserrat"
+                    android:textColor="@android:color/white"
+                    android:layout_marginStart="5dp"
+                    />
+
+
+
+            </RadioGroup>
+
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/orderNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                >
+
+                <EditText
+                    android:id="@+id/etOrderNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@android:color/white"
+                    android:fontFamily="@font/montserrat"
+                    android:hint="Job Number"
+                    android:inputType="textPersonName"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="@color/grey"
+                    android:layout_weight="4"
+                    android:nextFocusDown="@id/partNumber"
+                    android:focusedByDefault="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/btnScanOrderNo"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/ic_barcode" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SCAN"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_textfields"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginBottom="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/orderNo8"
+                app:layout_constraintVertical_bias="0.0">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_camera" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat"
+                    android:text="Add Image"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+
 
 
 
@@ -417,7 +478,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/orderNo8"
         app:layout_constraintVertical_bias="1.0" />
 
 
@@ -432,8 +492,7 @@
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ProgressBar
         android:layout_width="wrap_content"
