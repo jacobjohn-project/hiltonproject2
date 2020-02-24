@@ -79,7 +79,7 @@ public class BatchControlActivity extends AppCompatActivity {
     ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
-    String jobNumber, partNumber, batchNumber, quantity, type;
+    String jobNumber, partNumber, batchNumber, quantity, type="";
 //    int locFrom;
 
     Activity activity;
@@ -194,8 +194,9 @@ public class BatchControlActivity extends AppCompatActivity {
                     if (!fileName.equals("") && !filePathNew.equals("")) {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{
-                        updateDb(productTable);
+
                         uploadToDB(productTable);
+                        updateDb(productTable);
                     }
 
                 }
@@ -390,8 +391,8 @@ public class BatchControlActivity extends AppCompatActivity {
                                     Log.d("DOWNLOAD PATH", "onSuccess: uri= " + uri.toString());
                                     String outputurl = uri.toString();
                                     productTable.setImage_url(outputurl);
-                                    updateDb(productTable);
                                     uploadToDB(productTable);
+                                    updateDb(productTable);
                                 }
                             });
 
@@ -486,6 +487,10 @@ public class BatchControlActivity extends AppCompatActivity {
                 Log.e("quantity", String.valueOf(productTable.getQuantity()));
                 Log.e("batch_number",productTable.getBatch_number());
                 Log.e("po_number",productTable.getPo_number());
+                Log.e("added_by",pref.getUserName());
+                if(!type.equals("")) {
+                    Log.e("type", type);
+                }
                 if(productTable.getImage_url()!=null){
                     Log.e("image_url",productTable.getImage_url());
                 }
@@ -530,6 +535,7 @@ public class BatchControlActivity extends AppCompatActivity {
         partNumber = "";
         batchNumber = "";
         quantity = "";
+        type="";
 //        locFrom = 0;
 //        locTo = "";
 //        movDate = "";
