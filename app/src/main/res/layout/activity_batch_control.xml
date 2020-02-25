@@ -521,28 +521,33 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/operatorLay"
-        app:layout_constraintVertical_bias="0.0" >
+        app:layout_constraintVertical_bias="0.0"
+        android:gravity="center">
 
 
         <RadioButton
             android:id="@+id/pack_set"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="START"
             android:fontFamily="@font/montserrat"
-            android:textColor="@android:color/white"
-            android:buttonTint="@color/white"
+            android:textColor="@android:color/black"
+            android:buttonTint="@color/ui_grad_black"
+            android:background="@color/green"
+            android:padding="5dp"
             />
 
         <RadioButton
             android:id="@+id/each_sets"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="FINISH"
             android:buttonTint="@color/white"
             android:fontFamily="@font/montserrat"
             android:textColor="@android:color/white"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="15dp"
+            android:background="@color/button_color"
+            android:padding="5dp"
             />
 
 

@@ -324,7 +324,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         radioGrpPack = findViewById(R.id.radioGrpPack);
         checkBox = findViewById(R.id.checkBox);
         resultTxt = findViewById(R.id.resultTxt);
-        editWhereFrom=findViewById(R.id.editWhereFrom);
+        editWhereFrom = findViewById(R.id.editWhereFrom);
         editWhereTo=findViewById(R.id.editWhereTo);
 
 

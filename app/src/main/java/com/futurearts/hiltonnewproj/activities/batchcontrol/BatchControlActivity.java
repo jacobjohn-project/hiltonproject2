@@ -262,10 +262,10 @@ public class BatchControlActivity extends AppCompatActivity {
 //            failFlag = true;
 //            Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
             etQty.setText("1");
-        }/* else if (etWorkcenter.getText().toString().length() == 0) {
+        } else if (etWorkcenter.getText().toString().length() == 0) {
             failFlag = true;
             Toast.makeText(activity, "Enter Work Center", Toast.LENGTH_SHORT).show();
-        }else if (etOperator.getText().toString().length() == 0) {
+        }/*else if (etOperator.getText().toString().length() == 0) {
             failFlag = true;
             Toast.makeText(activity, "Enter Operator", Toast.LENGTH_SHORT).show();
         }*/
