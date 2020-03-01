@@ -193,7 +193,6 @@ public class FactoryDataActivity extends AppCompatActivity implements CompletedL
         factoryDataAdapter.notifyItemRemoved(position);
         factoryDataAdapter.notifyItemRangeChanged(position,materialIssueDetails.size());
 
-
     }
 
 
