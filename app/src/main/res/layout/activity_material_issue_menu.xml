@@ -44,7 +44,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="MATERIAL ISSUE"
+            android:text="TRANSFER REQUEST"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="REQUEST MATERIAL"
+                        android:text="TRANSFER REQUEST"
                         android:textSize="12sp"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
