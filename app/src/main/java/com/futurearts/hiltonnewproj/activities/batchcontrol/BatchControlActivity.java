@@ -76,7 +76,7 @@ public class BatchControlActivity extends AppCompatActivity {
 
 
     LinearLayout mCameraLayout,mTypeLayout, btnScanOrderNo, btnScanPartNo,btnScanWorkCenter,btnScanOperator,btnScanBatch,btnPOnum;
-    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator,etPOnumber;
+    EditText etJobNumber, etPartNumber, etBatchNumber, etQty, etWorkcenter, etOperator,etPOnumber,etNotes;
     Button btnSubmit;
     ImageView imageView, btnBack, imgUndo;
     ProgressBar progressBar;
@@ -203,8 +203,12 @@ public class BatchControlActivity extends AppCompatActivity {
 
                 if (!isValidationFailed()) {
                     progressBar.setVisibility(View.VISIBLE);
+                    String notes="";
+                    if(etNotes.getText().toString().length()>0){
+                        notes=etNotes.getText().toString();
+                    }
 
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString(),type,startOrFinish);
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString(),type,startOrFinish,notes);
                     if (!fileName.equals("") && !filePathNew.equals("")) {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{
@@ -241,12 +245,27 @@ public class BatchControlActivity extends AppCompatActivity {
         etOperator.setText("");
         etPOnumber.setText("");
         etQty.setText("");
+        etNotes.setText("");
         fileName = "";
         filePathNew = "";
         type="";
         startOrFinish="";
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
         radioGrpPack.clearCheck();
+        fileName = "";
+        filePathNew = "";
+        jobNumber = "";
+        partNumber = "";
+        batchNumber = "";
+        quantity = "";
+//        locFrom = 0;
+//        locTo = "";
+//        movDate = "";
+//        recDate = "";
+//        orderNum = "";
+//        signedBy = "";
+
+        //imageView.setImageDrawable(null);
 
     }
 
@@ -318,6 +337,7 @@ public class BatchControlActivity extends AppCompatActivity {
         etPOnumber = findViewById(R.id.etPOnumber);
         mTypeLayout = findViewById(R.id.linearLayout1);
         radioGrpPack = findViewById(R.id.radioGrpPack);
+        etNotes=findViewById(R.id.etNotes);
 
 
 
@@ -512,6 +532,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 Log.e("quantity", String.valueOf(productTable.getQuantity()));
                 Log.e("batch_number",productTable.getBatch_number());
                 Log.e("po_number",productTable.getPo_number());
+                Log.e("text",productTable.getNotes());
                 if(productTable.getImage_url()!=null){
                     Log.e("image_url",productTable.getImage_url());
                 }
@@ -532,6 +553,7 @@ public class BatchControlActivity extends AppCompatActivity {
                 }else{
                     params.put("image_url", "");
                 }
+                params.put("text",productTable.getNotes());
 
                 //System.out.println("CHECK---> " + prefManager.getStudentUserId() + " , " +
 //                        prefManager.getSChoolID()+ " ,\n " +realOrderID);
@@ -551,7 +573,7 @@ public class BatchControlActivity extends AppCompatActivity {
     public void updateDb(BatchContraolDetails productTable) {
         mDatabase.push().setValue(productTable);
 
-        fileName = "";
+        /*fileName = "";
         filePathNew = "";
         jobNumber = "";
         partNumber = "";
@@ -564,7 +586,7 @@ public class BatchControlActivity extends AppCompatActivity {
 //        orderNum = "";
 //        signedBy = "";
 
-        imageView.setImageDrawable(null);
+        imageView.setImageDrawable(null);*/
 //        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 //        finish();

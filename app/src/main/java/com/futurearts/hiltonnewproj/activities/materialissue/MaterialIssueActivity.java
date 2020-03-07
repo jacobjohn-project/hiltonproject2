@@ -232,7 +232,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
                     }
 
                 } else if (etPartNum.getText().toString().length() != 0) {
@@ -262,7 +262,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                         }
 
                     } else {
-                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(activity, "Enter Job Number/Part Number", Toast.LENGTH_SHORT).show();

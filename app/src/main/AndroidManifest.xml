@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.futurearts.hiltonnewproj.AppClass"
+        android:name=".AppClass"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_hilton"
@@ -24,9 +24,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity"/>
-        <activity android:name="com.futurearts.hiltonnewproj.activities.SearchResultActivity" />
-        <activity android:name="com.futurearts.hiltonnewproj.activities.SplashScreen">
+        <activity android:name=".activities.materialissue.TransferListActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".activities.ZoomImageViewActivity" />
+        <activity android:name=".activities.SearchResultActivity" />
+        <activity android:name=".activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,31 +36,31 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.jobcompletion.JobCompletionActivity"
+            android:name=".activities.jobcompletion.JobCompletionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.materialissue.MaterialIssueActivity"
+            android:name=".activities.materialissue.MaterialIssueActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.ScannerActivity"
+            android:name=".activities.ScannerActivity"
             android:screenOrientation="portrait"
             tools:replace="screenOrientation" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.PortraitCaptureActivity"
+            android:name=".activities.PortraitCaptureActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait" />
-        <activity android:name="com.futurearts.hiltonnewproj.activities.CameraActivity" />
+        <activity android:name=".activities.CameraActivity" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.PictureActivity"
+            android:name=".activities.PictureActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.futurearts.hiltonnewproj.activities.BarcodeSearchActivity"
+            android:name=".activities.BarcodeSearchActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity"
@@ -66,33 +68,34 @@
         <activity
             android:name="com.afollestad.materialcamera.CaptureActivity2"
             android:theme="@style/MaterialCamera.CaptureActivity" />
-
-        <activity android:name=".activities.PartNumberSearchActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.batchcontrol.BatchControlActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.jobcompletion.JobCompletionMenu"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.batchcontrol.BatchControlMenu"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.materialissue.MaterialIssueMenu"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.batchcontrol.BatchControlSearchActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.materialissue.FactoryDataActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.materialissue.CompletedActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.materialissue.EmailJobsActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.PartNumberSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.batchcontrol.BatchControlActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.jobcompletion.JobCompletionMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.batchcontrol.BatchControlMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.materialissue.MaterialIssueMenu"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.batchcontrol.BatchControlSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.materialissue.FactoryDataActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.materialissue.CompletedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.materialissue.EmailJobsActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="preloaded_fonts"

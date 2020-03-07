@@ -44,7 +44,7 @@
             android:layout_marginBottom="0dp"
             android:fontFamily="@font/montserrat"
             android:gravity="center"
-            android:text="MATERIAL ISSUE"
+            android:text="TRANSFER REQUEST"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -58,11 +58,13 @@
     </RelativeLayout>
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2">
 
@@ -102,7 +104,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="REQUEST MATERIAL"
+                        android:text="TRANSFER REQUEST"
                         android:textSize="12sp"
                         android:textAlignment="center"
                         android:textColor="@color/white" />
@@ -110,10 +112,49 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/laySearch2"
+                    android:id="@+id/layTransferList"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_home_items"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_factory" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/montserrat"
+                        android:text="TRANSFER LIST"
+                        android:textSize="12sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/laySearch2"
+                    android:layout_width="0dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/bg_home_items"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -137,24 +178,13 @@
 
                 </LinearLayout>
 
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="15dp"
-                >
-
                 <LinearLayout
                     android:id="@+id/laySearch3"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:background="@drawable/bg_home_items"
                     android:orientation="vertical"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1">
 
                     <ImageView
@@ -175,11 +205,24 @@
                         android:textColor="@color/white" />
 
                 </LinearLayout>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            >
+
                 <LinearLayout
                     android:id="@+id/layFactory"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
-                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_home_items"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -203,8 +246,38 @@
 
                 </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/layCompleted"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:background="@drawable/bg_home_items"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp">
+
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_factory" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="COMPLETED"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
+
+
+
+
+        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -215,38 +288,12 @@
                 android:layout_marginEnd="15dp"
                 >
 
-                <LinearLayout
-                    android:id="@+id/layCompleted"
-                    android:layout_width="0dp"
-                    android:layout_height="120dp"
-                    android:background="@drawable/bg_home_items"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
-                        android:src="@drawable/ic_factory" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:fontFamily="@font/montserrat"
-                        android:text="COMPLETED"
-                        android:textSize="12sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/white" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/layEmailJobs"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
-                    android:layout_marginStart="10dp"
                     android:background="@drawable/bg_home_items"
                     android:orientation="vertical"
                     android:layout_weight="1">
@@ -271,11 +318,10 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 
