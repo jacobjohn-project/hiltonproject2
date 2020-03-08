@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.futurearts.hiltonnewproj.R;
 import com.futurearts.hiltonnewproj.activities.ZoomImageViewActivity;
 import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
+import com.futurearts.hiltonnewproj.interfaces.RecyclerOperations;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
@@ -31,13 +32,18 @@ public class TransferListAdapter extends RecyclerView.Adapter<TransferListAdapte
     List<MaterialIssueDetails> materialIssue = new ArrayList<MaterialIssueDetails>();
     List<String> materialKeys = new ArrayList<String>();
     Context activity;
-    CompletedListener completedListener;
+    RecyclerOperations completedListener;
 
-    public TransferListAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails,List<String> materialKeys, CompletedListener completedListener) {
+    public TransferListAdapter(Context activity, List<MaterialIssueDetails> materialIssueDetails,List<String> materialKeys, RecyclerOperations completedListener) {
         this.materialIssue =  materialIssueDetails;
         this.activity = activity;
         this.completedListener = completedListener;
         this.materialKeys=materialKeys;
+    }
+
+    public void updateItem(String barCode,int position){
+        materialIssue.get(position).setWhereTo(barCode);
+        notifyItemChanged(position);
     }
 
     @NonNull
@@ -55,12 +61,19 @@ public class TransferListAdapter extends RecyclerView.Adapter<TransferListAdapte
         holder.qtyShort.setText("Quantity : " + materialIssue.get(position).getQty_shortage());
         holder.tvWhereFrom.setText("Where From : "+materialIssue.get(position).getWhereFrom());
 
+        if(materialIssue.get(position).getWhereTo().equals("")){
+            holder.etWhereTo.setText("");
+        }else{
+            holder.etWhereTo.setText(materialIssue.get(position).getWhereTo());
+        }
+
 
         holder.btnComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if(holder.etWhereTo.getText().toString().length()==0){
+                    materialIssue.get(position).setWhereTo("");
                     Toast.makeText(activity, "Enter Where To", Toast.LENGTH_SHORT).show();
                 }else{
                     materialIssue.get(position).setWhereTo(holder.etWhereTo.getText().toString());
@@ -68,6 +81,13 @@ public class TransferListAdapter extends RecyclerView.Adapter<TransferListAdapte
                     completedListener.onCompleted(position, materialIssue.get(position), materialKeys.get(position));
                 }
 
+            }
+        });
+
+        holder.imgScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                completedListener.onBarCodeScanClicked(position);
             }
         });
 
@@ -81,6 +101,7 @@ public class TransferListAdapter extends RecyclerView.Adapter<TransferListAdapte
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView jobNumber,partNumber,qtyShort,tvWhereFrom;
         EditText etWhereTo;
+        ImageView imgScan;
         RelativeLayout btnComplete;
         public ViewHolder(View itemView) {
             super(itemView);
@@ -91,6 +112,7 @@ public class TransferListAdapter extends RecyclerView.Adapter<TransferListAdapte
             tvWhereFrom=itemView.findViewById(R.id.tv_where_from);
             btnComplete=itemView.findViewById(R.id.btnComplete);
             etWhereTo=itemView.findViewById(R.id.etWhereTo);
+            imgScan=itemView.findViewById(R.id.imgScan);
 
         }
     }

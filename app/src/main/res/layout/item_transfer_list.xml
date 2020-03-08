@@ -60,7 +60,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -72,9 +72,20 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/etWhereTo"
                     android:hint="Where To"
-                    android:textAlignment="center"/>
+                    android:paddingStart="5dp"
+                    android:textAlignment="viewStart"/>
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/imgScan"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:tint="@color/button_color"
+                    android:src="@drawable/ic_barcode"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+
+            </RelativeLayout>
 
         </LinearLayout>
 

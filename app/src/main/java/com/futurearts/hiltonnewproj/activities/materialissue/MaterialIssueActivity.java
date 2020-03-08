@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -80,14 +81,14 @@ import java.util.Map;
 public class MaterialIssueActivity extends AppCompatActivity {
 
 
-    LinearLayout /*mCameraLayout,*/btnScanOrderNo, btnScanPartNo;
-    EditText etSignedBy, etQtyShortage,etOrderNum, etPartNum;
+    LinearLayout /*mCameraLayout,*/btnScanOrderNo, btnScanPartNo,btnScanhereFrom,btnScanWhereTo;
+    EditText /*etSignedBy,*/ etQtyShortage,etOrderNum, etPartNum,etNotes;
     EditText editWhereTo,editWhereFrom;
     Button btnSubmit;
     ImageView imageView, btnBack;
     ProgressBar progressBar;
     String filePathNew = "", fileName = "";
-    String signedBy, orderNum, locFrom, locTo, recDate, movDate;
+    String /*signedBy,*/ orderNum, locFrom, locTo, recDate, movDate;
     int partNum, qtyShortage;
     RadioGroup radioGroup, radioGrpPack;
     CheckBox checkBox;
@@ -101,6 +102,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
     DatabaseReference mDatabase;
     StorageReference mStorageRef;
 
+    Toast toast;
     SharedPref pref;
 
     @Override
@@ -140,6 +142,22 @@ public class MaterialIssueActivity extends AppCompatActivity {
             }
         });
 
+        btnScanhereFrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MaterialIssueActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 5);
+            }
+        });
+
+        btnScanWhereTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MaterialIssueActivity.this, ScannerActivity.class);
+                startActivityForResult(intent, 6);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,7 +171,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
 
 
-                signedBy = etSignedBy.getText().toString();
+                //signedBy = etSignedBy.getText().toString();
                 locFrom = etQtyShortage.getText().toString();
                 orderNum = etOrderNum.getText().toString();
                 int selectedId = radioGroup.getCheckedRadioButtonId();
@@ -175,13 +193,13 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
                 if (etPartNum.getText().toString().length() != 0 && etOrderNum.getText().toString().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
-                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                        /*if (etSignedBy.getText().toString().trim().length() != 0) {*/
                             if (!reqPackorEach.equals("")) {
                                 if (!reqLoc.equals("")) {
                                     MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
-                                            etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                            pref.getUserName(), DateUtils.getSystemDate(),
                                             reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
@@ -189,61 +207,78 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                         checkDbforPartNumber(productTable);
                                     }
                                 } else {
-                                    Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                                    toast=Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER,0,0);
+                                    toast.show();
                                 }
                             } else {
-                                Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT).show();
+                                toast=Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER,0,0);
+                                toast.show();
                             }
 
-                        } else {
+                        /*} else {
                             Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
 
                     } else {
-                        Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT).show();
+                        toast=Toast.makeText(activity, "Enter Quantity Shortage", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER,0,0);
+                        toast.show();
                     }
                 } else if (etOrderNum.getText().toString().trim().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
-                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                        /*if (etSignedBy.getText().toString().trim().length() != 0) {*/
                             if (!reqPackorEach.equals("")) {
                                 if (!reqLoc.equals("")) {
                                     MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
-                                            etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                            pref.getUserName(), DateUtils.getSystemDate(),
                                             reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
                                     } else {
+                                        String notes="";
+                                        if(etNotes.getText().toString().length()>0){
+                                            notes=etNotes.getText().toString();
+                                        }
+                                        productTable.setNotes(notes);
                                         updateMaterialDb(productTable);
                                         uploadToDB(productTable);
                                     }
 
                                 } else {
-                                    Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                                    toast=Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER,0,0);
+                                    toast.show();
                                 }
                             } else {
-                                Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT).show();
+                                toast=Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER,0,0);
+                                toast.show();
                             }
 
 
-                        } else {
+                        /*} else {
                             Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
 
                     } else {
-                        Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
+                        toast=Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER,0,0);
+                        toast.show();
                     }
 
                 } else if (etPartNum.getText().toString().length() != 0) {
                     if (etQtyShortage.getText().toString().length() != 0) {
-                        if (etSignedBy.getText().toString().trim().length() != 0) {
+                        /*if (etSignedBy.getText().toString().trim().length() != 0) {*/
                             if (!reqPackorEach.equals("")) {
                                 if (!reqLoc.equals("")) {
                                     MaterialIssueDetails productTable = new MaterialIssueDetails(etOrderNum.getText().toString(),
                                             etPartNum.getText().toString(),
                                             Integer.parseInt(etQtyShortage.getText().toString()),
-                                            etSignedBy.getText().toString(), DateUtils.getSystemDate(),
+                                            pref.getUserName(), DateUtils.getSystemDate(),
                                             reqLoc, checkBox.isChecked(),reqPackorEach,editWhereFrom.getText().toString(),editWhereTo.getText().toString());
                                     if (!fileName.equals("") && !filePathNew.equals("")) {
                                         uploadImage(filePathNew, fileName, productTable);
@@ -251,21 +286,29 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                         checkDbforPartNumber(productTable);
                                     }
                                 } else {
-                                    Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT).show();
+                                    toast=Toast.makeText(activity, "Enter Required Location", Toast.LENGTH_SHORT);
+                                    toast.setGravity(Gravity.CENTER,0,0);
+                                    toast.show();
                                 }
                             } else {
-                                Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT).show();
+                                toast=Toast.makeText(activity, "Select Pack or Each", Toast.LENGTH_SHORT);
+                                toast.setGravity(Gravity.CENTER,0,0);
+                                toast.show();
                             }
 
-                        } else {
-                            Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
-                        }
+                        /*} else {
+                            toast=Toast.makeText(activity, "Enter Signed By", Toast.LENGTH_SHORT).show();
+                        }*/
 
                     } else {
-                        Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT).show();
+                        toast=Toast.makeText(activity, "Enter Quantity", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER,0,0);
+                        toast.show();
                     }
                 } else {
-                    Toast.makeText(activity, "Enter Job Number/Part Number", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(activity, "Enter Job Number/Part Number", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
                 }
 
 
@@ -288,6 +331,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         editWhereFrom.setText("");
         editWhereTo.setText("");
         etPartNum.setText("");
+        etNotes.setText("");
         radioGroup.clearCheck();
         radioGrpPack.clearCheck();
         checkBox.setChecked(false);
@@ -301,7 +345,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         movDate = "";
         recDate = "";
         orderNum = "";
-        signedBy = "";
+        //signedBy = "";
 
     }
 
@@ -312,8 +356,10 @@ public class MaterialIssueActivity extends AppCompatActivity {
         mCameraLayout = findViewById(R.id.linearLayout);
         btnScanOrderNo = findViewById(R.id.btnScanOrderNo);
         btnScanPartNo = findViewById(R.id.btnScanPartNo);
+        btnScanWhereTo=findViewById(R.id.btnScanWhereTo);
+        btnScanhereFrom=findViewById(R.id.btnScanhereFrom);
         etOrderNum = findViewById(R.id.etOrderNo);
-        etSignedBy = findViewById(R.id.orderNo8);
+        //etSignedBy = findViewById(R.id.orderNo8);
         etQtyShortage = findViewById(R.id.orderNo7);
         etPartNum = findViewById(R.id.partNumber);
         btnSubmit = findViewById(R.id.button2);
@@ -326,6 +372,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         resultTxt = findViewById(R.id.resultTxt);
         editWhereFrom = findViewById(R.id.editWhereFrom);
         editWhereTo=findViewById(R.id.editWhereTo);
+        etNotes=findViewById(R.id.etNotes);
 
 
 
@@ -337,7 +384,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
         pref = new SharedPref(this);
 
-        etSignedBy.setText("Signed By: " + pref.getUserName());
+        //etSignedBy.setText("Signed By: " + pref.getUserName());
         etOrderNum.requestFocus();
         //pref.setLastUpdatedTime(System.currentTimeMillis());
 
@@ -407,6 +454,11 @@ public class MaterialIssueActivity extends AppCompatActivity {
                                     if (!productTable.getPart_Num().equals("")) {
                                         checkDbforPartNumber(productTable);
                                     } else {
+                                        String notes="";
+                                        if(etNotes.getText().toString().length()>0){
+                                            notes=etNotes.getText().toString();
+                                        }
+                                        productTable.setNotes(notes);
                                         updateMaterialDb(productTable);
                                         uploadToDB(productTable);
                                     }
@@ -425,7 +477,9 @@ public class MaterialIssueActivity extends AppCompatActivity {
                             progressDialog.dismiss();
 
                             //and displaying error message
-                            Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG).show();
+                            toast=Toast.makeText(getApplicationContext(), exception.getMessage(), Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER,0,0);
+                            toast.show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -481,17 +535,23 @@ public class MaterialIssueActivity extends AppCompatActivity {
 
                 String errorCode = prodInsert.getErrorCode();
                 String message = prodInsert.getMessage();
-                Toast.makeText(MaterialIssueActivity.this, message, Toast.LENGTH_SHORT).show();
+                toast=Toast.makeText(MaterialIssueActivity.this, message, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
 
                 if (errorCode .equals( "0")) {
 
-                    Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
                     resultTxt.setText("Job Number Successfully Uploaded at " + productTable.saved_date);
                     clearAll();
 
                 }else  if (errorCode .equals( "1")) {
 
-                    Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
 
 
                 }
@@ -508,7 +568,9 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 AppClass.getInstance().cancelPendingRequests("login");
                 VolleyLog.d("Object Error : ", volleyError.getMessage());
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(MaterialIssueActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                toast=Toast.makeText(MaterialIssueActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
             }
         }) {
             @Override
@@ -530,6 +592,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                     Log.e("job_image","");
                 }
                 Log.e("where_from",productTable.getWhereFrom());
+                Log.e("text",productTable.getNotes());
 
                 params.put("job_number",productTable.getJob_Num());
                 params.put("packOrEach",productTable.getPackOrEach());
@@ -546,6 +609,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
                 }
 
                 params.put("where_from",productTable.getWhereFrom());
+                params.put("text",productTable.getNotes());
 
 
 
@@ -553,7 +617,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
             }
         };
 
-        jsonObjectRequestLogin.setRetryPolicy(new DefaultRetryPolicy(50000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        jsonObjectRequestLogin.setRetryPolicy(new DefaultRetryPolicy(40000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 //        RequestQueue requestQueue = Volley.newRequestQueue(this, commonSSLConnection.getHulkstack(CartListActivity.this));
         AppClass.getInstance().addToRequestQueue(jsonObjectRequestLogin, "login");
 //        requestQueue.add(jsonObjectRequestLogin);
@@ -572,7 +636,7 @@ public class MaterialIssueActivity extends AppCompatActivity {
         movDate = "";
         recDate = "";
         orderNum = "";
-        signedBy = "";
+        //signedBy = "";
 
 //        imageView.setImageDrawable(null);
 //        Toast.makeText(activity, "Job Added to Mail Jobs", Toast.LENGTH_LONG).show();
@@ -595,6 +659,11 @@ public class MaterialIssueActivity extends AppCompatActivity {
                         sendMailtoEmailId(productTable, emailDetails.getEmail_id());
                     }
                 } else {
+                    String notes="";
+                    if(etNotes.getText().toString().length()>0){
+                        notes=etNotes.getText().toString();
+                    }
+                    productTable.setNotes(notes);
                     updateMaterialDb(productTable);
                     uploadToDB(productTable);
                 }
@@ -661,13 +730,18 @@ public class MaterialIssueActivity extends AppCompatActivity {
             } else if (requestCode == 3) {
                 String message = data.getStringExtra("MESSAGE");
                 etOrderNum.setText(message);
-
                 etPartNum.requestFocus();
             } else if (requestCode == 4) {
                 String message = data.getStringExtra("MESSAGE");
                 etPartNum.setText(message);
-
                 etQtyShortage.requestFocus();
+            }else if (requestCode == 5) {
+                String message = data.getStringExtra("MESSAGE");
+                editWhereFrom.setText(message);
+                editWhereTo.requestFocus();
+            }else if (requestCode == 6) {
+                String message = data.getStringExtra("MESSAGE");
+                editWhereTo.setText(message);
             }
         }
 

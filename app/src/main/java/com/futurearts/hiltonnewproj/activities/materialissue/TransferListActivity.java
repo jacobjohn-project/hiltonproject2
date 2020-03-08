@@ -7,8 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -27,9 +32,11 @@ import com.futurearts.hiltonnewproj.AppClass;
 import com.futurearts.hiltonnewproj.BuildConfig;
 import com.futurearts.hiltonnewproj.Constants;
 import com.futurearts.hiltonnewproj.R;
+import com.futurearts.hiltonnewproj.activities.ScannerActivity;
 import com.futurearts.hiltonnewproj.adapters.FactoryDataAdapter;
 import com.futurearts.hiltonnewproj.adapters.TransferListAdapter;
 import com.futurearts.hiltonnewproj.interfaces.CompletedListener;
+import com.futurearts.hiltonnewproj.interfaces.RecyclerOperations;
 import com.futurearts.hiltonnewproj.modelclasses.MaterialIssueDetails;
 import com.futurearts.hiltonnewproj.models.productiondata.ProdInsert;
 import com.futurearts.hiltonnewproj.utils.SharedPref;
@@ -39,13 +46,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TransferListActivity extends AppCompatActivity implements CompletedListener {
+public class TransferListActivity extends AppCompatActivity implements RecyclerOperations {
 
     TextView tvNoItems;
     RecyclerView recyclerTransferList;
@@ -54,6 +63,8 @@ public class TransferListActivity extends AppCompatActivity implements Completed
     List<String> materialKeys;
     TransferListAdapter transferListAdapter;
     ImageView btnBack;
+    int clickedPosition=-1;
+    Toast toast;
 
     Activity activity;
     SharedPref pref;
@@ -103,7 +114,9 @@ public class TransferListActivity extends AppCompatActivity implements Completed
                     recyclerViewDisp(materialIssueDetails,materialKeys);
                 } else {
                     recyclerViewDisp(materialIssueDetails,materialKeys);
-                    Toast.makeText(TransferListActivity.this, "No data found.", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(TransferListActivity.this, "No data found.", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
 
                 }
 
@@ -135,6 +148,28 @@ public class TransferListActivity extends AppCompatActivity implements Completed
         }
         transferListAdapter.notifyDataSetChanged();
         hideKeyboard(this);
+    }
+
+    @Override
+    public void onBarCodeScanClicked(int position) {
+        clickedPosition=position;
+        Intent intent = new Intent(TransferListActivity.this, ScannerActivity.class);
+        startActivityForResult(intent, 3);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        // This is important, otherwise the result will not be passed to the fragment
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+             if (requestCode == 3) {
+                String message = data.getStringExtra("MESSAGE");
+                transferListAdapter.updateItem(message,clickedPosition);
+                clickedPosition=-1;
+            }
+        }
     }
 
     public static void hideKeyboard(Activity activity) {
@@ -170,16 +205,22 @@ public class TransferListActivity extends AppCompatActivity implements Completed
 
                 String errorCode = prodInsert.getErrorCode();
                 String message = prodInsert.getMessage();
-                Toast.makeText(TransferListActivity.this, message, Toast.LENGTH_SHORT).show();
+                toast=Toast.makeText(TransferListActivity.this, message, Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
 
                 if (errorCode .equals( "0")) {
 
-                    Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(activity, "Data Inserted Successfully", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
 
 
                 }else  if (errorCode .equals( "1")) {
 
-                    Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT).show();
+                    toast=Toast.makeText(activity, "Data Insertion Failed", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,0);
+                    toast.show();
 
 
                 }
@@ -196,7 +237,9 @@ public class TransferListActivity extends AppCompatActivity implements Completed
                 AppClass.getInstance().cancelPendingRequests("login");
                 VolleyLog.d("Object Error : ", volleyError.getMessage());
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(TransferListActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                toast=Toast.makeText(TransferListActivity.this, volleyError.getLocalizedMessage(), Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
             }
         }) {
             @Override
@@ -248,4 +291,5 @@ public class TransferListActivity extends AppCompatActivity implements Completed
 
 
     }
+
 }

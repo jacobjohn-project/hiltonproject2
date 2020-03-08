@@ -13,6 +13,7 @@ public class MaterialIssueDetails {
     public String doneBy;
     public String packOrEach;
     public String whereTo,whereFrom;
+    public String notes;
 
     public MaterialIssueDetails(String job_Num, String part_Num, int qty_shortage, String who, String saved_date,String requiredLocation,boolean urgent,String packOrEach,String editWhereFrom,String editWhereTo) {
         this.job_Num = job_Num;
@@ -132,5 +133,13 @@ public class MaterialIssueDetails {
 
     public void setWhereFrom(String editWhereFrom) {
         this.whereFrom = editWhereFrom;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }
