@@ -13,7 +13,7 @@ import com.futurearts.hiltonnewproj.R;
 
 public class BatchControlMenu extends AppCompatActivity {
 
-    LinearLayout layoutInsert,layoutSearch;
+    LinearLayout layoutInsert,layoutSearch,layReportIssue;
     ImageView btnBack;
 
 
@@ -43,6 +43,14 @@ public class BatchControlMenu extends AppCompatActivity {
             }
         });
 
+        layReportIssue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(BatchControlMenu.this, ReportIssueActivity.class);
+                startActivity(i);
+            }
+        });
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,6 +63,7 @@ public class BatchControlMenu extends AppCompatActivity {
     private void initViews() {
         layoutInsert = findViewById(R.id.layBatch);
         layoutSearch = findViewById(R.id.laySearch1);
+        layReportIssue=findViewById(R.id.layReportIssue);
         btnBack=findViewById(R.id.btnBack);
     }
 }

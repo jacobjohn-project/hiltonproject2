@@ -207,8 +207,8 @@ public class BatchControlActivity extends AppCompatActivity {
                     if(etNotes.getText().toString().length()>0){
                         notes=etNotes.getText().toString();
                     }
-
-                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString(),type,startOrFinish,notes);
+                    String job_part_work_operator=etJobNumber.getText().toString()+"_"+etPartNumber.getText().toString()+"_"+etWorkcenter.getText().toString()+"_"+etOperator.getText().toString();
+                    BatchContraolDetails productTable = new BatchContraolDetails(etJobNumber.getText().toString(), etPartNumber.getText().toString(), etBatchNumber.getText().toString(), Integer.parseInt(etQty.getText().toString()),etWorkcenter.getText().toString(), DateUtils.getSystemDate(),pref.getUserName(),etOperator.getText().toString(),etPOnumber.getText().toString(),type,startOrFinish,notes,job_part_work_operator);
                     if (!fileName.equals("") && !filePathNew.equals("")) {
                         uploadImage(filePathNew, fileName, productTable);
                     }else{
@@ -352,20 +352,6 @@ public class BatchControlActivity extends AppCompatActivity {
 
     }
 
-   /* private void updateLabel1() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        recieveDate.setText(sdf.format(myCalendar.getTime()));
-    }
-
-    private void updateLabel2() {
-        String myFormat = "dd/MM/yyyy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        movingDate.setText(sdf.format(myCalendar.getTime()));
-    }*/
-
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(BatchControlActivity.this);
@@ -374,19 +360,6 @@ public class BatchControlActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
-                    //Default android camera
-
-                    /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(intent, 1);*/
-
-                    //Custom Camera
-
-                    /*Intent i = new Intent(BatchControlActivity.this,CameraActivity.class);
-                    startActivity(i);*/
-
-                    //Material Camera Library
 
                     File mFile = new File(getExternalFilesDir(null), "uploads");
                     if (!mFile.exists())
@@ -573,23 +546,6 @@ public class BatchControlActivity extends AppCompatActivity {
     public void updateDb(BatchContraolDetails productTable) {
         mDatabase.push().setValue(productTable);
 
-        /*fileName = "";
-        filePathNew = "";
-        jobNumber = "";
-        partNumber = "";
-        batchNumber = "";
-        quantity = "";
-//        locFrom = 0;
-//        locTo = "";
-//        movDate = "";
-//        recDate = "";
-//        orderNum = "";
-//        signedBy = "";
-
-        imageView.setImageDrawable(null);*/
-//        Toast.makeText(activity, "Job number Successfully Uploaded at "+productTable.getDate_time() , Toast.LENGTH_LONG).show();
-        //pref.setLastUpdatedTime(System.currentTimeMillis());
-//        finish();
 
     }
 

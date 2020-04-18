@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                     String userNamePassword = userName + "_" + password;
 
                     progressBar.setVisibility(View.VISIBLE);
-//                    checkDb(userNamePassword);
+                    //checkDb(userNamePassword);
                     LoginPHP(userName,password);
 
 //                    SQLServerConnect();

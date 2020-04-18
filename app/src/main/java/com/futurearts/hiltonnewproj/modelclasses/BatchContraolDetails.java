@@ -10,6 +10,8 @@ public class BatchContraolDetails {
     String startOrFinish;
     String type;
     String notes;
+    String job_part_work_operator;
+    String issue;
 
     public BatchContraolDetails() {
     }
@@ -22,7 +24,7 @@ public class BatchContraolDetails {
         this.image_url = image_url;
     }
 
-    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator,String po_number,String type,String startOrFinish,String notes) {
+    public BatchContraolDetails(String job_number, String part_number, String batch_number, int quantity, String work_center,String date_time,String added_by,String operator,String po_number,String type,String startOrFinish,String notes,String job_part_work_operator) {
         this.job_number = job_number;
         this.part_number = part_number;
         this.batch_number = batch_number;
@@ -35,6 +37,7 @@ public class BatchContraolDetails {
         this.type=type;
         this.startOrFinish=startOrFinish;
         this.notes=notes;
+        this.job_part_work_operator=job_part_work_operator;
     }
 
     public String getJob_number() {
@@ -139,5 +142,25 @@ public class BatchContraolDetails {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getJob_part_work_operator() {
+        return job_part_work_operator;
+    }
+
+    public void setJob_part_work_operator(String job_part_work_operator) {
+        this.job_part_work_operator = job_part_work_operator;
+    }
+
+    public String getIssue() {
+        return issue;
+    }
+
+    public void setIssue(String issue) {
+        this.issue = issue;
+    }
+
+    public void appendNote(String newNote){
+        this.notes=this.notes+"\n"+newNote;
     }
 }

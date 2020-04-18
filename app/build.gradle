@@ -28,6 +28,7 @@ android {
             buildConfigField "String", "COMPLETED_TABLE", "\"MATERIAL_ISSUE_COMPLETED\""
             buildConfigField "String", "EMAIL_TABLE", "\"EMAILS\""
             buildConfigField "String", "EMAIL_JOBS_TABLE", "\"EMAIL_JOBS\""
+            buildConfigField "String", "REPORT_ISSUE_TABLE", "\"REPORT_ISSUE\""
         }
 
         product {
@@ -39,6 +40,7 @@ android {
             buildConfigField "String", "COMPLETED_TABLE", "\"MATERIAL_ISSUE_COMPLETED\""
             buildConfigField "String", "EMAIL_TABLE", "\"EMAILS\""
             buildConfigField "String", "EMAIL_JOBS_TABLE", "\"EMAIL_JOBS\""
+            buildConfigField "String", "REPORT_ISSUE_TABLE", "\"REPORT_ISSUE\""
         }
     }
 }
